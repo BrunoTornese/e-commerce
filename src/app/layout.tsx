@@ -3,8 +3,8 @@ import { inter } from "@/config/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Inicio",
-  description: "Pagina principal de la tienda",
+  title: "Teslo | Shop",
+  description: "Tienda virtual de productos",
 };
 
 export default function RootLayout({
