@@ -1,4 +1,7 @@
-import { notFound } from "next/navigation";
+import { ProductGrid, Title } from "@/components";
+import { initialData } from "@/seed/seed";
+
+const seedProducts = initialData.products;
 
 interface Props {
   params: {
@@ -8,14 +11,20 @@ interface Props {
 
 export default function ({ params }: Props) {
   const { id } = params;
+  const products = seedProducts.filter((product) => product.gender === id);
 
-  if (id === "kids") {
-    notFound();
-  }
+  //if (id === "kids") {
+  //   notFound();
+  //}
 
   return (
-    <div>
-      <h1>Category Page {id}</h1>
-    </div>
+    <>
+      <Title
+        title={` ${id} products`}
+        subtitle="All Products in this category"
+        className="mb-2"
+      />
+      <ProductGrid products={products} />
+    </>
   );
 }
