@@ -4,3 +4,7 @@ export { Title } from "./ui/title/Title";
 export { ProductGrid } from "./products/product-grid/ProductGrid";
 export { ProductGridItem } from "./products/product-grid/ProductGridItem";
 export { Sidebar } from "./ui/sidebar/Sidebar";
+export { SizeSelector } from "./product/seze-selector/SizeSelector";
+export { QuiantitySelector } from "./product/quiantity-selector/QuiantitySelector";
+export { ProductSlideshow } from "./product/slideshow/ProductSlideshow";
+export { ProductMobileSlideshow } from "./product/slideshow/ProductMobileSlideshow copy";
