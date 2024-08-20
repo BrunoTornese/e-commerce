@@ -7,7 +7,7 @@ interface Props {
   quantity: number;
 }
 
-export const QuiantitySelector = ({ quantity }: Props) => {
+export const QuantitySelector = ({ quantity }: Props) => {
   const [count, setCount] = useState(quantity);
 
   const onQuiantityChange = (value: number) => {
