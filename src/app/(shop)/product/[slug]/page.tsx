@@ -1,7 +1,7 @@
 import {
   ProductMobileSlideshow,
   ProductSlideshow,
-  QuiantitySelector,
+  QuantitySelector,
   SizeSelector,
 } from "@/components";
 import { titleFont } from "@/config/fonts";
@@ -48,7 +48,7 @@ export default function ({ params }: Props) {
           availableSizes={product.sizes}
         />
 
-        <QuiantitySelector quantity={2} />
+        <QuantitySelector quantity={2} />
 
         <button className="btn-primary my-5">Agregar al carrito</button>
 
