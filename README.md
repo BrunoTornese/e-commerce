@@ -1,6 +1,15 @@
-Proyecto de un ecommerce con Next.js
+Project E commerce on Next.js
 
-## Iniciar proyecto
+## Start project on development
 
---- npm, yarn, pnpm --- install
---- npm, yarn, pnpm --- run dev
+1. Clone the repository
+2. Rename .env.template to .env and fill the variables
+3. Install dependencies
+   npm, yarn, pnpm install
+4. Start the database
+   docker-compose up -d
+5. Run the migrations of prisma
+   npx prisma migrate dev
+6. Create the database
+7. Execute the project
+   npm, yarn, pnpm run dev
