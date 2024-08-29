@@ -11,5 +11,6 @@ Project E commerce on Next.js
 5. Run the migrations of prisma
    npx prisma migrate dev
 6. Create the database
+   npm run seed
 7. Execute the project
    npm, yarn, pnpm run dev
