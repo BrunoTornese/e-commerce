@@ -9,3 +9,4 @@ export { QuantitySelector } from "./product/quiantity-selector/QuiantitySelector
 export { ProductSlideshow } from "./product/slideshow/ProductSlideshow";
 export { ProductMobileSlideshow } from "./product/slideshow/ProductMobileSlideshow copy";
 export { Footer } from "./ui/footer/Footer";
+export { Pagination } from "./ui/pagination/Pagination";

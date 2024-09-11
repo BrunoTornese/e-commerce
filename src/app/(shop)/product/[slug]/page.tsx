@@ -44,8 +44,8 @@ export default function ({ params }: Props) {
         <p className="text-lg mb-5">${product.price}</p>
 
         <SizeSelector
-          selectedSize={product.sizes[1]}
-          availableSizes={product.sizes}
+          selectedSize={product.size[1]}
+          availableSizes={product.size}
         />
 
         <QuantitySelector quantity={2} />
