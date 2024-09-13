@@ -12,9 +12,9 @@ export const Footer = () => {
         <span>© {new Date().getFullYear()}</span>
       </Link>
       <Link className="mx-3" href="/">
-        Privacidad & Legal
+        Privacy & Legal
       </Link>
-      <Link href="/">Ubicaciones</Link>
+      <Link href="/">Locations</Link>
     </div>
   );
 };
