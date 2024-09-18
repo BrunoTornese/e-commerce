@@ -1,16 +1,11 @@
 export const revalidate = 604800; //7 días
 
-import {
-  ProductMobileSlideshow,
-  ProductSlideshow,
-  QuantitySelector,
-  SizeSelector,
-  StockLabel,
-} from "@/components";
+import { ProductMobileSlideshow, ProductSlideshow } from "@/components";
 import { titleFont } from "@/config/fonts";
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/app/actions";
 import { Metadata, ResolvingMetadata } from "next";
+import { AddToCart } from "./ui/addToCart";
 
 interface Props {
   params: {
@@ -64,27 +59,8 @@ export default async function ProductBySlugPage({ params }: Props) {
         <h1 className={` ${titleFont.className} antialiased font-bold text-xl`}>
           {product.title}
         </h1>
-        <StockLabel slug={product.slug} />
 
-        <p className="text-lg mb-5">${product.price}</p>
-
-        <SizeSelector
-          selectedSize={product.size[1]}
-          availableSizes={product.size}
-        />
-
-        <QuantitySelector quantity={2} />
-
-        <button
-          className={`btn-primary my-5 ${
-            product.inStock
-              ? ""
-              : "!bg-gray-900 !text-gray-100 cursor-not-allowed"
-          }`}
-          disabled={!product.inStock}
-        >
-          {product.inStock ? "Add to cart" : "Out of Stock"}
-        </button>
+        <AddToCart product={product} />
 
         <h3 className="font-bold text-sm">Description</h3>
         <p className="font-light">{product.description}</p>
