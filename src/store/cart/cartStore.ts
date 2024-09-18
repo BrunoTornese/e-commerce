@@ -9,6 +9,7 @@ interface State {
 
   addProductToCart: (product: CartProduct) => void;
   updateProductQuiantity: (product: CartProduct, quantity: number) => void;
+  removeProduct: (product: CartProduct) => void;
 }
 
 export const useCartStore = create<State>()(
@@ -42,6 +43,7 @@ export const useCartStore = create<State>()(
         // 4 - Update the cart state
         set({ cart: updatedCart });
       },
+
       updateProductQuiantity: (product: CartProduct, quantity: number) => {
         const { cart } = get();
         // 1 - Check if the product with the selected size is already in the cart
@@ -51,6 +53,15 @@ export const useCartStore = create<State>()(
           }
           return item;
         });
+        // 2 - Update the cart state
+        set({ cart: updatedCartProducts });
+      },
+      removeProduct: (product: CartProduct) => {
+        const { cart } = get();
+        // 1 - Check if the product with the selected size is already in the cart
+        const updatedCartProducts = cart.filter(
+          (item) => item.id !== product.id || item.size !== product.size
+        );
         // 2 - Update the cart state
         set({ cart: updatedCartProducts });
       },
