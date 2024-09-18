@@ -56,7 +56,14 @@ export default async function ProductBySlugPage({ params }: Props) {
 
         <QuantitySelector quantity={2} />
 
-        <button className="btn-primary my-5" disabled={!product.inStock}>
+        <button
+          className={`btn-primary my-5 ${
+            product.inStock
+              ? ""
+              : "!bg-gray-900 !text-gray-100 cursor-not-allowed"
+          }`}
+          disabled={!product.inStock}
+        >
           {product.inStock ? "Add to cart" : "Out of Stock"}
         </button>
 
