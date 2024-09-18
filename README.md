@@ -3,7 +3,7 @@
 ## Start project on development
 
 1. Clone the repository
-   git clone [<repository-url>](https://github.com/BrunoTornese/e-commerce)
+   git clone https://github.com/BrunoTornese/e-commerce
 
 2. Rename .env.template to .env and fill the variables
 
