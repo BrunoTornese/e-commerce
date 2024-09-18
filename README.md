@@ -43,7 +43,8 @@
 
    pnpm dev
 
-   Dependencies:
+   # Dependencies:
+
    Production
    @prisma/client
    clsx
