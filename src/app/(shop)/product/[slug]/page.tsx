@@ -1,4 +1,5 @@
 export const revalidate = 604800; //7 días
+
 import {
   ProductMobileSlideshow,
   ProductSlideshow,
@@ -7,13 +8,31 @@ import {
   StockLabel,
 } from "@/components";
 import { titleFont } from "@/config/fonts";
-
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/app/actions";
+import { Metadata, ResolvingMetadata } from "next";
 
 interface Props {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const slug = params.slug;
+  const product = await getProductBySlug(slug);
+
+  return {
+    title: product?.title ?? "Title not found",
+    description: product?.description ?? "Description not found",
+    openGraph: {
+      title: product?.title ?? "Title not found",
+      description: product?.description ?? "Description not found",
+      images: [`/products/${product?.images[1]}`],
+    },
   };
 }
 

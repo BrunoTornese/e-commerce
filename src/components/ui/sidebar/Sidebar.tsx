@@ -21,7 +21,7 @@ export const Sidebar = () => {
   return (
     <div>
       {isSideMenuOpen && (
-        <div className="fixed top-0 left-0 w-screen z-10 bg-black opacity-30" />
+        <div className="fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30" />
       )}
 
       {isSideMenuOpen && (
@@ -30,14 +30,18 @@ export const Sidebar = () => {
 
       <nav
         className={clsx(
-          "fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
+          "fixed p-5 right-0 top-0 h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
           {
             "translate-x-full": !isSideMenuOpen,
+            "w-80": isSideMenuOpen, // Ancho del sidebar en móviles cuando está abierto
+            "md:w-96": isSideMenuOpen, // Ancho del sidebar en pantallas medianas y mayores cuando está abierto
+            "w-64": !isSideMenuOpen, // Ancho del sidebar en móviles cuando está cerrado
+            "md:w-72": !isSideMenuOpen, // Ancho del sidebar en pantallas medianas y mayores cuando está cerrado
           }
         )}
       >
         <IoCloseOutline
-          size={50}
+          size={30}
           className="absolute top-5 right-5 cursor-pointer"
           onClick={() => closeMenu()}
         />
@@ -50,6 +54,7 @@ export const Sidebar = () => {
             className="w-full bg-gray-50 pl-10 py-1 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-700"
           />
         </div>
+
         <Link
           href={"/"}
           className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
@@ -71,7 +76,7 @@ export const Sidebar = () => {
           className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
         >
           <IoLogInOutline size={30} />
-          <span className="ml-3 text-xl"> Login</span>
+          <span className="ml-3 text-xl">Login</span>
         </Link>
 
         <Link
