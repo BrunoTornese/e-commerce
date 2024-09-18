@@ -11,12 +11,25 @@ interface Props {
 export const AddToCart = ({ product }: Props) => {
   const [size, setSize] = useState<Sizes | undefined>();
   const [quantity, setQuantity] = useState<number>(1);
+  const [posted, setPosted] = useState<boolean>(false);
+
+  const addToCart = () => {
+    setPosted(true);
+    if (!size) return;
+    console.log(`size: ${size}, quantity: ${quantity}`);
+  };
 
   return (
     <>
       <StockLabel slug={product.slug} />
 
       <p className="text-lg mb-5">${product.price}</p>
+
+      {posted && !size && (
+        <span className="mt-2 text-red-500 fade-in">
+          You must select a size!
+        </span>
+      )}
 
       <SizeSelector
         selectedSize={size}
@@ -33,6 +46,7 @@ export const AddToCart = ({ product }: Props) => {
             : "!bg-gray-900 !text-gray-100 cursor-not-allowed"
         }`}
         disabled={!product.inStock}
+        onClick={addToCart}
       >
         {product.inStock ? "Add to cart" : "Out of Stock"}
       </button>
