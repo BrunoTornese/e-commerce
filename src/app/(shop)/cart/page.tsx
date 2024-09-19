@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Title } from "@/components";
 import { ProductInCart } from "./ui/poductsInCart";
 import { IoArrowForwardOutline } from "react-icons/io5";
+import { OrderSumary } from "./ui/orderSumary";
 
 export default function CartPage() {
   return (
@@ -28,25 +29,7 @@ export default function CartPage() {
             <h2 className="text-xl md:text-2xl font-semibold mb-4">
               Order Summary
             </h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2">
-              <span>Number of items</span>
-              <span className="text-right">3 items</span>
-
-              <span>Subtotal</span>
-              <span className="text-right">$100</span>
-
-              <span>Taxes (15%)</span>
-              <span className="text-right">$15</span>
-
-              <span className="mt-5 text-xl md:text-2xl font-semibold">
-                Total:
-              </span>
-              <span className="mt-5 text-xl md:text-2xl font-semibold text-right">
-                $115
-              </span>
-            </div>
-
+            <OrderSumary />
             <div className="mt-5 mb-2 w-full">
               <Link
                 className="flex items-center justify-center px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-900 transition-colors"

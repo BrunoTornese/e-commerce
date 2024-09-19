@@ -8,8 +8,17 @@ interface State {
   getTotalItems: () => number;
 
   addProductToCart: (product: CartProduct) => void;
+
   updateProductQuiantity: (product: CartProduct, quantity: number) => void;
+
   removeProduct: (product: CartProduct) => void;
+
+  getSumaryInformation: () => {
+    subTotal: number;
+    tax: number;
+    total: number;
+    itemsInCart: number;
+  };
 }
 
 export const useCartStore = create<State>()(
@@ -56,6 +65,7 @@ export const useCartStore = create<State>()(
         // 2 - Update the cart state
         set({ cart: updatedCartProducts });
       },
+
       removeProduct: (product: CartProduct) => {
         const { cart } = get();
         // 1 - Check if the product with the selected size is already in the cart
@@ -64,6 +74,23 @@ export const useCartStore = create<State>()(
         );
         // 2 - Update the cart state
         set({ cart: updatedCartProducts });
+      },
+
+      getSumaryInformation: () => {
+        const { cart } = get();
+        // 1 - Calculate the subtotal
+        const subTotal = cart.reduce((subTotal, product) => {
+          return product.price * product.quantity + subTotal;
+        }, 0);
+        // 2 - Calculate the taxes
+        const tax = subTotal * 0.15;
+        const total = subTotal + tax;
+        const itemsInCart = cart.reduce(
+          (total, item) => total + item.quantity,
+          0
+        );
+
+        return { subTotal, tax, total, itemsInCart };
       },
     }),
     {
