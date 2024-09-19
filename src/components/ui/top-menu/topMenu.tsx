@@ -10,12 +10,23 @@ export const TopMenu = () => {
   const openMenu = useUiStore((state) => state.openSideMenu);
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const totalItemsInCart = useCartStore((state) => state.getTotalItems());
-
-  const [loaded, setloaded] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
 
   useEffect(() => {
-    setloaded(true);
+    setLoaded(true);
   }, []);
+
+  useEffect(() => {
+    if (totalItemsInCart > 0) {
+      setShowAnimation(true);
+      const timer = setTimeout(() => {
+        setShowAnimation(false);
+      }, 600);
+
+      return () => clearTimeout(timer);
+    }
+  }, [totalItemsInCart]);
 
   const toggleCategoryMenu = () => setIsCategoryMenuOpen(!isCategoryMenuOpen);
 
@@ -38,6 +49,7 @@ export const TopMenu = () => {
           >
             Mens
           </Link>
+
           <Link
             href="/gender/women"
             className="p-2 rounded-md transition-all hover:bg-gray-100"
@@ -45,6 +57,7 @@ export const TopMenu = () => {
           >
             Womens
           </Link>
+
           <Link
             href="/gender/kid"
             className="p-2 rounded-md transition-all hover:bg-gray-100"
@@ -57,10 +70,15 @@ export const TopMenu = () => {
           <Link href="/search" aria-label="Search">
             <IoSearchOutline className="w-5 h-5" />
           </Link>
-          <Link href="/cart" aria-label="Cart">
+
+          <Link href={"/cart"} aria-label="Cart">
             <div className="relative">
               {loaded && totalItemsInCart > 0 && (
-                <span className="absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-blue-700 text-white">
+                <span
+                  className={`absolute text-xs px-1 rounded-full font-bold -top-2 -right-2 bg-blue-700 text-white ${
+                    showAnimation ? "animate-bounce" : ""
+                  }`}
+                >
                   {totalItemsInCart}
                 </span>
               )}
@@ -68,6 +86,7 @@ export const TopMenu = () => {
               <IoCartOutline className="w-5 h-5" />
             </div>
           </Link>
+
           <button
             onClick={() => openMenu()}
             className="p-2 rounded-md transition-all hover:bg-gray-100"

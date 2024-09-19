@@ -2,6 +2,7 @@
 
 import { useCartStore } from "@/store";
 import { CurrencyFormat } from "@/utils";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const OrderSumary = () => {
@@ -11,8 +12,11 @@ export const OrderSumary = () => {
   );
 
   useEffect(() => {
+    if (itemsInCart === 0 && loaded) {
+      redirect("/empty");
+    }
     setloaded(true);
-  }, []);
+  }, [itemsInCart, loaded]);
 
   if (!loaded) {
     return (
