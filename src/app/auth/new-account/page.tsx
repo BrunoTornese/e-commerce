@@ -11,23 +11,27 @@ export default function newAccountPage() {
         <input
           className="px-5 py-2 border bg-gray-200 rounded mb-5"
           type="text"
+          placeholder="Enter your name"
         />
 
         <label htmlFor="email">Email</label>
         <input
           className="px-5 py-2 border bg-gray-200 rounded mb-5"
           type="email"
+          placeholder="Enter your email"
         />
 
         <label htmlFor="email">Password</label>
         <input
           className="px-5 py-2 border bg-gray-200 rounded mb-5"
-          type="email"
+          type="password"
+          placeholder="Enter your password"
         />
         <label htmlFor="email">Repeat your password</label>
         <input
           className="px-5 py-2 border bg-gray-200 rounded mb-5"
-          type="email"
+          type="password"
+          placeholder="Enter your password again"
         />
 
         <button className="btn-primary">Create account</button>

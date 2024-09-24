@@ -53,3 +53,5 @@ model ProductImage {
   productId String
   product   Product @relation(fields: [productId], references: [id])
 }
+
+
