@@ -2,11 +2,20 @@
 
 import { authenticate } from "@/app/actions";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { IoInformationOutline } from "react-icons/io5";
 
 export const LoginForm = () => {
   const [state, dispach] = useFormState(authenticate, undefined);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state === "Success") {
+      router.replace("/");
+    }
+  }, [state]);
 
   return (
     <form action={dispach} className="flex flex-col">
