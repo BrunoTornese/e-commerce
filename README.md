@@ -59,3 +59,7 @@ and copy the key in the .env file
    swiper
    zustand
    next-auth
+   bcryptjs
+   react-dom
+   react-hook-form
+   zod

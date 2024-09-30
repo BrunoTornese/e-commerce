@@ -5,6 +5,7 @@ import { useUiStore } from "@/store";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { IoMdPersonAdd } from "react-icons/io";
 import {
   IoCloseOutline,
   IoLogInOutline,
@@ -60,14 +61,27 @@ export const Sidebar = () => {
           />
         </div>
 
-        <Link
-          href={"/profile"}
-          onClick={() => closeMenu()}
-          className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-        >
-          <IoPersonOutline size={30} />
-          <span className="ml-3 text-xl">Profile</span>
-        </Link>
+        {isAuthenticades && (
+          <Link
+            href={"/profile"}
+            onClick={() => closeMenu()}
+            className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
+          >
+            <IoPersonOutline size={30} />
+            <span className="ml-3 text-xl">Your Profile</span>
+          </Link>
+        )}
+
+        {!isAuthenticades && (
+          <Link
+            href={"/auth/new-account"}
+            onClick={() => closeMenu()}
+            className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
+          >
+            <IoMdPersonAdd size={30} />
+            <span className="ml-3 text-xl">Create Account</span>
+          </Link>
+        )}
 
         {isAuthenticades && (
           <Link
