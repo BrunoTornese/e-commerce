@@ -1,35 +1,75 @@
 "use client";
 
+import clsx from "clsx";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+
+type FormInputs = {
+  name: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+};
 
 const RegisterForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInputs>();
+
+  const comparePasswords = (password: string, repeatPassword: string) => {
+    if (password !== repeatPassword) {
+      return "Passwords do not match";
+    }
+    return true;
+  };
+
+  const onSubmit = async (data: FormInputs) => {
+    const { name, email, password, repeatPassword } = data;
+    if (comparePasswords(password, repeatPassword)) {
+    }
+  };
+
   return (
-    <div className="flex flex-col">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
       <label htmlFor="email">Name</label>
       <input
-        className="px-5 py-2 border bg-gray-200 rounded mb-5"
+        className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
+          "border-red-500": errors.name,
+        })}
         type="text"
         placeholder="Enter your name"
+        {...register("name", { required: true })}
       />
 
       <label htmlFor="email">Email</label>
       <input
-        className="px-5 py-2 border bg-gray-200 rounded mb-5"
+        className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
+          "border-red-500": errors.email,
+        })}
         type="email"
         placeholder="Enter your email"
+        {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
       />
 
       <label htmlFor="email">Password</label>
       <input
-        className="px-5 py-2 border bg-gray-200 rounded mb-5"
+        className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
+          "border-red-500": errors.password,
+        })}
         type="password"
         placeholder="Enter your password"
+        {...register("password", { required: true })}
       />
       <label htmlFor="email">Repeat your password</label>
       <input
-        className="px-5 py-2 border bg-gray-200 rounded mb-5"
+        className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
+          "border-red-500": errors.repeatPassword,
+        })}
         type="password"
         placeholder="Enter your password again"
+        {...register("repeatPassword", { required: true })}
       />
 
       <button className="btn-primary">Create account</button>
@@ -44,7 +84,7 @@ const RegisterForm = () => {
       <Link href="/auth/login" className="btn-secondary text-center">
         Login
       </Link>
-    </div>
+    </form>
   );
 };
 
