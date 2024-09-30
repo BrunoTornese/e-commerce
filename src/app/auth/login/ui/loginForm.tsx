@@ -2,18 +2,17 @@
 
 import { authenticate } from "@/app/actions";
 import clsx from "clsx";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { IoInformationOutline } from "react-icons/io5";
 
 export const LoginForm = () => {
   const [state, dispach] = useFormState(authenticate, undefined);
-  const router = useRouter();
 
   useEffect(() => {
     if (state === "Success") {
-      router.replace("/");
+      // Use the window.location.replace object to reload the page
+      window.location.replace("/");
     }
   }, [state]);
 

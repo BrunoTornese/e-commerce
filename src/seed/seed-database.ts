@@ -49,8 +49,6 @@ async function main() {
       data: imagesData,
     });
   });
-
-  console.log("🚀 Seed executed");
 }
 
 (async () => {

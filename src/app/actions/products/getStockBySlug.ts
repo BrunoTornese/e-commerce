@@ -11,7 +11,7 @@ export const getStockBySlug = async (slug: string): Promise<number> => {
 
     return stock?.inStock ?? 0;
   } catch (error) {
-    console.log(error);
+    
     return 0;
   }
 };
