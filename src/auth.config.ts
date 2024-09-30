@@ -19,8 +19,7 @@ export const authConfig: NextAuthConfig = {
       return token;
     },
 
-    session({ session, token, user }) {
-     
+    session({ session, token }) {
       session.user = token.data as any;
       return session;
     },
@@ -58,11 +57,16 @@ export const authConfig: NextAuthConfig = {
         // Return user
         const { password: _, ...rest } = user;
 
-        
         return rest;
       },
     }),
   ],
+
+  session: {
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+
+    updateAge: 24 * 60 * 60, // 24 hs
+  },
 };
 
 export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);

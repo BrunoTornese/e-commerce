@@ -1,7 +1,10 @@
 "use client";
 
+import { login, registerUser } from "@/app/actions";
 import clsx from "clsx";
 import Link from "next/link";
+
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 type FormInputs = {
@@ -12,6 +15,7 @@ type FormInputs = {
 };
 
 const RegisterForm = () => {
+  const [errorMessage, setErrorMessage] = useState("");
   const {
     register,
     handleSubmit,
@@ -19,22 +23,34 @@ const RegisterForm = () => {
   } = useForm<FormInputs>();
 
   const comparePasswords = (password: string, repeatPassword: string) => {
-    if (password !== repeatPassword) {
-      return "Passwords do not match";
-    }
-    return true;
+    return password === repeatPassword || "Passwords do not match";
   };
 
   const onSubmit = async (data: FormInputs) => {
+    setErrorMessage("");
     const { name, email, password, repeatPassword } = data;
-    if (comparePasswords(password, repeatPassword)) {
+
+    const passwordValidation = comparePasswords(password, repeatPassword);
+    if (passwordValidation !== true) {
+      setErrorMessage(passwordValidation);
+      return;
     }
+
+    const resp = await registerUser(name, email, password, repeatPassword);
+    if (!resp.ok) {
+      setErrorMessage(resp.message);
+      return;
+    }
+    await login(email.toLowerCase(), password);
+    // Use the window.location.replace object to reload the page
+    window.location.replace("/");
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
-      <label htmlFor="email">Name</label>
+      <label htmlFor="name">Name</label>
       <input
+        id="name"
         className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
           "border-red-500": errors.name,
         })}
@@ -45,6 +61,7 @@ const RegisterForm = () => {
 
       <label htmlFor="email">Email</label>
       <input
+        id="email"
         className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
           "border-red-500": errors.email,
         })}
@@ -53,8 +70,9 @@ const RegisterForm = () => {
         {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
       />
 
-      <label htmlFor="email">Password</label>
+      <label htmlFor="password">Password</label>
       <input
+        id="password"
         className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
           "border-red-500": errors.password,
         })}
@@ -62,8 +80,10 @@ const RegisterForm = () => {
         placeholder="Enter your password"
         {...register("password", { required: true })}
       />
-      <label htmlFor="email">Repeat your password</label>
+
+      <label htmlFor="repeatPassword">Repeat your password</label>
       <input
+        id="repeatPassword"
         className={clsx("px-5 py-2 border bg-gray-200 rounded mb-5", {
           "border-red-500": errors.repeatPassword,
         })}
@@ -72,9 +92,13 @@ const RegisterForm = () => {
         {...register("repeatPassword", { required: true })}
       />
 
+      {errorMessage && (
+        <span className="text-red-500 mb-5">{errorMessage}</span>
+      )}
+
       <button className="btn-primary">Create account</button>
 
-      {/* divisor l ine */}
+      {/* divisor line */}
       <div className="flex items-center my-5">
         <div className="flex-1 border-t border-gray-900"></div>
         <div className="px-2 text-gray-800">Or</div>
