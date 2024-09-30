@@ -3,6 +3,7 @@
 import { logout } from "@/app/actions";
 import { useUiStore } from "@/store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import {
   IoCloseOutline,
@@ -18,6 +19,9 @@ import {
 export const Sidebar = () => {
   const isSideMenuOpen = useUiStore((state) => state.isSidebarOpen);
   const closeMenu = useUiStore((state) => state.closeSideMenu);
+  const { data: session } = useSession();
+
+  
 
   return (
     <div>
@@ -34,10 +38,10 @@ export const Sidebar = () => {
           "fixed p-5 right-0 top-0 h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
           {
             "translate-x-full": !isSideMenuOpen,
-            "w-80": isSideMenuOpen, // Ancho del sidebar en móviles cuando está abierto
-            "md:w-96": isSideMenuOpen, // Ancho del sidebar en pantallas medianas y mayores cuando está abierto
-            "w-64": !isSideMenuOpen, // Ancho del sidebar en móviles cuando está cerrado
-            "md:w-72": !isSideMenuOpen, // Ancho del sidebar en pantallas medianas y mayores cuando está cerrado
+            "w-80": isSideMenuOpen,
+            "md:w-96": isSideMenuOpen,
+            "w-64": !isSideMenuOpen,
+            "md:w-72": !isSideMenuOpen,
           }
         )}
       >
