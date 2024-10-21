@@ -2,10 +2,8 @@ import { Title } from "@/components";
 import { AdressForm } from "./ui/AdressForm";
 import { getCounties } from "@/app/actions";
 
-
 export default async function Address() {
   const countries = await getCounties();
-
 
   return (
     <div className="flex flex-col items-center justify-center mb-72 px-10 sm:px-0">
