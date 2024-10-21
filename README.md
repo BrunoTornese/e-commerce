@@ -31,13 +31,7 @@
 
    npm run seed
 
-7. Execute your key of next-auth
-
-   openssl rand -base64 32
-
-and copy the key in the .env file
-
-8. Execute the project
+7. Execute the project
 
    npm run dev
 
