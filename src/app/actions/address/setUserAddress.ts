@@ -32,6 +32,7 @@ const createOrReplaceAddress = async (address: Address, userId: string) => {
       address: address.address,
       address2: address.address2,
       countryId: address.country,
+      city: address.city,
       firstName: address.firstName,
       lastName: address.lastName,
       phone: address.phone,

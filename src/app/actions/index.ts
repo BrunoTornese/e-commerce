@@ -7,3 +7,4 @@ export * from "./auth/register";
 export * from "./county/getCounties";
 export * from "./address/setUserAddress";
 export * from "./address/deleteUserAddress";
+export * from "./address/getUserAddress";
