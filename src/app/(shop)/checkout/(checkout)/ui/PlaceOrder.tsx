@@ -5,6 +5,7 @@ import { CurrencyFormat } from "@/utils";
 import clsx from "clsx";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { placeOrder } from "@/app/actions";
 
 export const PlaceOrder = () => {
   const [loaded, setloaded] = useState(false);
@@ -21,7 +22,7 @@ export const PlaceOrder = () => {
     setloaded(true);
   }, []);
 
-  const placeOrder = async () => {
+  const onPlaceOrder = async () => {
     setPlacingOrder(true);
 
     const productsToOrder = cart.map((item) => ({
@@ -29,6 +30,8 @@ export const PlaceOrder = () => {
       quantity: item.quantity,
       size: item.size,
     }));
+
+    const resp = await placeOrder(productsToOrder, address);
 
     setPlacingOrder(false);
   };
@@ -134,7 +137,7 @@ export const PlaceOrder = () => {
           </span>
         </p>
         <button
-          onClick={placeOrder}
+          onClick={onPlaceOrder}
           className={clsx({
             "btn-primary": !isPlacingOrder,
             "btn-disabled": isPlacingOrder,
