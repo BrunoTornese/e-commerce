@@ -46,26 +46,43 @@
 ## Users
 
 email: Teslo@gmail.com,
+
 name: Teslo
+
 password: 123456
+
 role: admin
 
 email: Bruno@gmail.com
+
 name: Bruno
+
 password: 123456
+
 role: user
 
 # Dependencies (Production):
 
 @prisma/client
+
 clsx
+
 next
+
 react
+
 react-icons
+
 swiper
+
 zustand
+
 next-auth
+
 bcryptjs
+
 react-dom
+
 react-hook-form
+
 zod
