@@ -7,11 +7,11 @@ export const Footer = () => {
       className={`${titleFont.className} antialiased font-bold flex w-full justify-center text-xs mb-10`}
     >
       <Link href="/">
-        <span>Teslo</span>
-        <span>| shop</span>
+        <span>Teslo </span>
+        <span>| Shop</span>
         <span>© {new Date().getFullYear()}</span>
       </Link>
-      <Link className="mx-3" href="/">
+      <Link className="mx-3" href="/termsAndServices">
         Privacy & Legal
       </Link>
       <Link href="/">Locations</Link>
