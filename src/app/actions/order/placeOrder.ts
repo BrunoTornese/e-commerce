@@ -50,4 +50,43 @@ export const placeOrder = async (
     },
     { subTotal: 0, tax: 0, total: 0 }
   );
+
+  const prismaTx = await prisma.$transaction(async (tx) => {
+    const order = await tx.order.create({
+      data: {
+        userId: userId,
+        itemsInCart: itemsInOrder,
+        subTotal: subTotal,
+        tax: tax,
+        total: total,
+
+        OrderItem: {
+          createMany: {
+            data: productId.map((p) => ({
+              quantity: p.quantity,
+              size: p.size,
+              productId: p.productId,
+              price:
+                products.find((product) => product.id === p.productId)?.price ??
+                0,
+            })),
+          },
+        },
+      },
+    });
+
+    const { country, ...restAddress } = address;
+    const orderAddress = await tx.orderAddress.create({
+      data: {
+        ...restAddress,
+        countryId: country,
+        orderId: order.id,
+      },
+    });
+
+    return {
+      order: order,
+      orderAddress: orderAddress,
+    };
+  });
 };
