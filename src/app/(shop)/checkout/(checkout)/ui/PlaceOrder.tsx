@@ -2,21 +2,36 @@
 
 import { addressStore, useCartStore } from "@/store";
 import { CurrencyFormat } from "@/utils";
+import clsx from "clsx";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
 export const PlaceOrder = () => {
   const [loaded, setloaded] = useState(false);
+  const [isPlacingOrder, setPlacingOrder] = useState(false);
 
   const address = addressStore((state) => state.address);
 
   const { itemsInCart, subTotal, tax, total } = useCartStore((state) =>
     state.getSumaryInformation()
   );
+  const cart = useCartStore((state) => state.cart);
 
   useEffect(() => {
     setloaded(true);
   }, []);
+
+  const placeOrder = async () => {
+    setPlacingOrder(true);
+
+    const productsToOrder = cart.map((item) => ({
+      productId: item.id,
+      quantity: item.quantity,
+      size: item.size,
+    }));
+
+    setPlacingOrder(false);
+  };
 
   if (!loaded) {
     return (
@@ -118,9 +133,16 @@ export const PlaceOrder = () => {
             .
           </span>
         </p>
-
-        <button className="flex btn-primary justify-center">
-          Finalize Order
+        <button
+          onClick={placeOrder}
+          className={clsx({
+            "btn-primary": !isPlacingOrder,
+            "btn-disabled": isPlacingOrder,
+          })}
+          aria-busy={isPlacingOrder}
+          disabled={isPlacingOrder}
+        >
+          {isPlacingOrder ? "Placing Order..." : "Finalize Order"}
         </button>
       </div>
     </div>
