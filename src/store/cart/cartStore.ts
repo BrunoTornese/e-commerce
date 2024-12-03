@@ -19,6 +19,7 @@ interface State {
     total: number;
     itemsInCart: number;
   };
+  cleaCart: () => void;
 }
 
 export const useCartStore = create<State>()(
@@ -91,6 +92,9 @@ export const useCartStore = create<State>()(
         );
 
         return { subTotal, tax, total, itemsInCart };
+      },
+      cleaCart: () => {
+        set({ cart: [] });
       },
     }),
     {

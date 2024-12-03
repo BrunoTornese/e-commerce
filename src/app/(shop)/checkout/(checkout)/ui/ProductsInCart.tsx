@@ -2,14 +2,19 @@
 
 import { useCartStore } from "@/store";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useState } from "react";
 
 export const ProductInCart = () => {
   const [loaded, setloaded] = useState(false);
   const productsInCart = useCartStore((state) => state.cart);
+  const router = useRouter();
 
   useEffect(() => {
+    if (productsInCart.length === 0) {
+      router.replace("/");
+    }
     setloaded(true);
   }, []);
 

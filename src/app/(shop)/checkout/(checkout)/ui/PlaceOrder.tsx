@@ -6,10 +6,13 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { placeOrder } from "@/app/actions";
+import { useRouter } from "next/navigation";
 
 export const PlaceOrder = () => {
+  const router = useRouter();
   const [loaded, setloaded] = useState(false);
   const [isPlacingOrder, setPlacingOrder] = useState(false);
+  const [eroMessage, setErrorMessage] = useState("");
 
   const address = addressStore((state) => state.address);
 
@@ -17,6 +20,7 @@ export const PlaceOrder = () => {
     state.getSumaryInformation()
   );
   const cart = useCartStore((state) => state.cart);
+  const cleaCart = useCartStore((state) => state.cleaCart);
 
   useEffect(() => {
     setloaded(true);
@@ -33,7 +37,13 @@ export const PlaceOrder = () => {
 
     const resp = await placeOrder(productsToOrder, address);
 
-    setPlacingOrder(false);
+    if (!resp.ok) {
+      setPlacingOrder(false);
+      setErrorMessage(resp.message);
+      return;
+    }
+    cleaCart();
+    router.replace("/orders");
   };
 
   if (!loaded) {
@@ -136,6 +146,7 @@ export const PlaceOrder = () => {
             .
           </span>
         </p>
+        <p className="text-red-500 text-sm">{eroMessage}</p>
         <button
           onClick={onPlaceOrder}
           className={clsx({
