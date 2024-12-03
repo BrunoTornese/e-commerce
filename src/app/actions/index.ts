@@ -9,3 +9,4 @@ export * from "./address/setUserAddress";
 export * from "./address/deleteUserAddress";
 export * from "./address/getUserAddress";
 export * from "./order/placeOrder";
+export * from "./order/getOrdersByUser";
