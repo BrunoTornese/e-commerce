@@ -16,7 +16,7 @@ export default async function OrdersPage() {
       <Title title="Orders" />
 
       <div className="mb-10">
-        <table className="min-w-full">
+        <table className="hidden sm:table min-w-full">
           <thead className="bg-gray-200 border-b">
             <tr>
               <th
@@ -100,6 +100,50 @@ export default async function OrdersPage() {
             )}
           </tbody>
         </table>
+
+        {/* Responsive View for Small Screens */}
+        <div className="sm:hidden">
+          {orders?.length ? (
+            orders.map((order, index) => (
+              <div
+                key={index}
+                className="bg-white border-b p-4 mb-4 rounded-lg shadow-md"
+              >
+                <div className="mb-2">
+                  <span className="font-semibold">ID:</span> {order.id}
+                </div>
+                <div className="mb-2">
+                  <span className="font-semibold">Name:</span>{" "}
+                  {order.OrderAddress?.firstName}
+                </div>
+                <div className="mb-2 flex items-center">
+                  <IoCardOutline
+                    className={`${
+                      order.isPaid ? "text-green-500" : "text-red-500"
+                    }`}
+                  />
+                  <span
+                    className={`ml-2 ${
+                      order.isPaid ? "text-green-500" : "text-red-500"
+                    }`}
+                  >
+                    {order.isPaid ? "Payment Completed" : "Payment Incomplete"}
+                  </span>
+                </div>
+                <div>
+                  <Link
+                    href={`/orders/${order.id}`}
+                    className="text-blue-500 hover:underline"
+                  >
+                    View order
+                  </Link>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center text-gray-500">No orders found!</div>
+          )}
+        </div>
       </div>
     </>
   );
