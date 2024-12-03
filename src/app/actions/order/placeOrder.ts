@@ -37,15 +37,16 @@ export const placeOrder = async (
   );
   const { subTotal, tax, total } = productId.reduce(
     (totals, item) => {
-      const productQuiantity = item.quantity;
-      const product = products.find((poduct) => poduct.id === item.productId);
+      const productQuantity = item.quantity;
+      const product = products.find((product) => product.id === item.productId);
       if (!product) {
         throw new Error(`${item.productId} not found -500`);
       }
 
-      const subTotal = product.price * productQuiantity;
-      totals.subTotal += subTotal * 0.15;
-      totals.tax += subTotal * 1.15;
+      const productSubTotal = product.price * productQuantity;
+      totals.subTotal += productSubTotal;
+      totals.tax += productSubTotal * 0.15;
+      totals.total = totals.subTotal + totals.tax;
       return totals;
     },
     { subTotal: 0, tax: 0, total: 0 }
