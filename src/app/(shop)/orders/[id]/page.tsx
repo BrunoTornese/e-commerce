@@ -1,4 +1,4 @@
-import { Title } from "@/components";
+import { PayPalButton, Title } from "@/components";
 import clsx from "clsx";
 import Image from "next/image";
 import { IoCardOutline } from "react-icons/io5";
@@ -70,7 +70,6 @@ export default async function ProductBySlugPage({ params }: Props) {
             ))}
           </div>
 
-          {/* Right Section */}
           <div className="bg-white rounded-xl shadow-xl p-5 sm:p-7">
             <h2 className="text-xl sm:text-2xl mb-3">Delivery Address</h2>
             <div className="mb-5">
@@ -87,7 +86,6 @@ export default async function ProductBySlugPage({ params }: Props) {
             </div>
             <div className="w-full h-0.5 rounded bg-gray-300 mb-5 sm:mb-10" />
 
-            {/* Order Summary */}
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span>Products</span>
@@ -117,21 +115,7 @@ export default async function ProductBySlugPage({ params }: Props) {
                 </span>
               </div>
             </div>
-
-            <div
-              className={clsx(
-                "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mt-5",
-                { "bg-red-500": order!.isPaid === false },
-                { "bg-green-500": order!.isPaid === true }
-              )}
-            >
-              <IoCardOutline size={30} />
-              <span className="mx-2">
-                {order!.isPaid === false
-                  ? "Payment Incomplete"
-                  : "Payment Completed"}
-              </span>
-            </div>
+            <PayPalButton />
           </div>
         </div>
       </div>

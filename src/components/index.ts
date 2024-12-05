@@ -11,4 +11,5 @@ export { ProductMobileSlideshow } from "./product/slideshow/ProductMobileSlidesh
 export { Footer } from "./ui/footer/Footer";
 export { Pagination } from "./ui/pagination/Pagination";
 export { StockLabel } from "./product/stock-label/stockLabel";
-export { Provider } from "./providers/provider";
+export { Providers } from "./providers/providers";
+export { PayPalButton } from "./paypal/PayPalButton";
