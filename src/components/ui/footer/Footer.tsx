@@ -14,7 +14,9 @@ export const Footer = () => {
       <Link className="mx-3" href="/termsAndServices">
         Privacy & Legal
       </Link>
-      <Link href="/">Locations</Link>
+      <Link href="https://github.com/BrunoTornese" target="_blank">
+        Locations
+      </Link>
     </div>
   );
 };
