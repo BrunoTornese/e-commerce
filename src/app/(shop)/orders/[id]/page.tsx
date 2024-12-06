@@ -1,10 +1,9 @@
 import { PayPalButton, Title } from "@/components";
-import clsx from "clsx";
 import Image from "next/image";
-import { IoCardOutline } from "react-icons/io5";
 import { getOrderById } from "../getOrderById";
 import { redirect } from "next/navigation";
 import { CurrencyFormat } from "@/utils";
+import { OrderStatus } from "@/components/orders/orderStatus";
 
 interface Props {
   params: {
@@ -28,21 +27,7 @@ export default async function ProductBySlugPage({ params }: Props) {
         <Title title={`Order ${id}`} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10">
           <div className="flex flex-col mt-5">
-            <div
-              className={clsx(
-                "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
-                { "bg-red-500": order!.isPaid === false },
-                { "bg-green-500": order!.isPaid === true }
-              )}
-            >
-              <IoCardOutline size={30} />
-              <span className="mx-2">
-                {order!.isPaid === false
-                  ? "Payment Incomplete"
-                  : "Payment Completed"}
-              </span>
-            </div>
-
+            <OrderStatus isPaid={order!.isPaid} />
             {order!.OrderItem.map((item) => (
               <div
                 key={item.product.slug + "-" + item.size}
@@ -115,7 +100,11 @@ export default async function ProductBySlugPage({ params }: Props) {
                 </span>
               </div>
             </div>
-            <PayPalButton amount={order!.total} orderId={order!.id} />
+            {order?.isPaid ? (
+              <OrderStatus isPaid={order!.isPaid} />
+            ) : (
+              <PayPalButton amount={order!.total} orderId={order!.id} />
+            )}
           </div>
         </div>
       </div>

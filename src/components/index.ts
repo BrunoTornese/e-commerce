@@ -13,3 +13,4 @@ export { Pagination } from "./ui/pagination/Pagination";
 export { StockLabel } from "./product/stock-label/stockLabel";
 export { Providers } from "./providers/providers";
 export { PayPalButton } from "./paypal/PayPalButton";
+export { orderStatus } from "./orders/orderStatus";
