@@ -10,3 +10,5 @@ export * from "./address/deleteUserAddress";
 export * from "./address/getUserAddress";
 export * from "./order/placeOrder";
 export * from "./order/getOrdersByUser";
+export * from "./payments/setTransactionId";
+export * from "./payments/paypalPayments";
