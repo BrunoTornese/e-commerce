@@ -27,7 +27,6 @@ export default async function ProductBySlugPage({ params }: Props) {
       <div className="flex flex-col w-full max-w-4xl">
         <Title title={`Order ${id}`} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10">
-          {/* Left Section */}
           <div className="flex flex-col mt-5">
             <div
               className={clsx(
@@ -55,6 +54,7 @@ export default async function ProductBySlugPage({ params }: Props) {
                   height={100}
                   alt={item.product.title}
                   className="mb-3 sm:mb-0 sm:mr-5 rounded w-full sm:w-auto"
+                  priority
                 />
 
                 <div className="flex flex-col flex-grow text-center sm:text-left">
@@ -115,7 +115,7 @@ export default async function ProductBySlugPage({ params }: Props) {
                 </span>
               </div>
             </div>
-            <PayPalButton />
+            <PayPalButton amount={order!.total} orderId={order!.id} />
           </div>
         </div>
       </div>

@@ -101,7 +101,6 @@ export default async function OrdersPage() {
           </tbody>
         </table>
 
-        {/* Responsive View for Small Screens */}
         <div className="sm:hidden">
           {orders?.length ? (
             orders.map((order, index) => (
