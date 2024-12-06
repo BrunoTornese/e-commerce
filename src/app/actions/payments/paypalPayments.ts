@@ -1,12 +1,54 @@
 "use server";
 
-export const paypalCheckPayment = async (setTransactionIdId: string) => {
+import { PayPalOrderStatusResponse } from "@/interfaces";
+import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
+
+export const paypalCheckPayment = async (TransactionIdId: string) => {
   const authToken = await getPayPalBearerToken();
-  console.log(authToken);
   if (!authToken) {
     return {
       ok: false,
       message: "Error getting auth token",
+    };
+  }
+
+  const resp = await verifyPayPalPayment(TransactionIdId, authToken);
+  if (!resp) {
+    return {
+      ok: false,
+      message: "Error verifying payment",
+    };
+  }
+
+  const { status, purchase_units } = resp;
+  const { invoice_id: orderId } = purchase_units[0];
+
+  if (status !== "COMPLETED") {
+    return {
+      ok: false,
+      message: "Payment not completed",
+    };
+  }
+  try {
+    await prisma.order.update({
+      where: {
+        id: orderId,
+      },
+      data: {
+        isPaid: true,
+        paidAt: new Date(),
+      },
+    });
+    revalidatePath(`/orders/${orderId}`);
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      ok: false,
+      message: "Error in realizing the pay",
     };
   }
 };
@@ -40,6 +82,32 @@ const getPayPalBearerToken = async (): Promise<string | null> => {
       cache: "no-store",
     }).then((r) => r.json());
     return result.access_token;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+const verifyPayPalPayment = async (
+  paypalTransactionId: string,
+  bearerToken: string
+): Promise<PayPalOrderStatusResponse | null> => {
+  const paypalOrderUrl = `${process.env.PAYPAL_ORDERS_URL}/${paypalTransactionId}`;
+
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", `Bearer ${bearerToken}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+  };
+
+  try {
+    const resp = await fetch(paypalOrderUrl, {
+      ...requestOptions,
+      cache: "no-store",
+    }).then((r) => r.json());
+    return resp;
   } catch (error) {
     console.log(error);
     return null;
