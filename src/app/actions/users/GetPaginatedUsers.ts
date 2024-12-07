@@ -15,6 +15,11 @@ export const getPaginatedUsers = async (page: number = 1) => {
   }
 
   const users = await prisma.user.findMany({
+    where: {
+      email: {
+        not: "Teslo@gmail.com",
+      },
+    },
     orderBy: {
       name: "desc",
     },
@@ -22,7 +27,13 @@ export const getPaginatedUsers = async (page: number = 1) => {
     take: usersPerPage,
   });
 
-  const totalUsers = (await prisma.user.count()) || 0;
+  const totalUsers = await prisma.user.count({
+    where: {
+      email: {
+        not: "Teslo@gmail.com",
+      },
+    },
+  });
 
   return {
     ok: true,
