@@ -49,7 +49,7 @@ export const Sidebar = () => {
         <IoCloseOutline
           size={30}
           className="absolute top-5 right-5 cursor-pointer"
-          onClick={() => closeMenu()}
+          onClick={closeMenu}
         />
 
         <div className="relative mt-14">
@@ -63,8 +63,8 @@ export const Sidebar = () => {
 
         {isAuthenticades && (
           <Link
-            href={"/profile"}
-            onClick={() => closeMenu()}
+            href="/profile"
+            onClick={closeMenu}
             className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
           >
             <IoPersonOutline size={30} />
@@ -74,8 +74,8 @@ export const Sidebar = () => {
 
         {!isAuthenticades && (
           <Link
-            href={"/auth/new-account"}
-            onClick={() => closeMenu()}
+            href="/auth/new-account"
+            onClick={closeMenu}
             className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
           >
             <IoMdPersonAdd size={30} />
@@ -85,8 +85,9 @@ export const Sidebar = () => {
 
         {isAuthenticades && (
           <Link
-            href={"/orders"}
+            href="/orders"
             className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
+            onClick={closeMenu}
           >
             <IoTicketOutline size={30} />
             <span className="ml-3 text-xl">Your Orders</span>
@@ -95,7 +96,10 @@ export const Sidebar = () => {
 
         {isAuthenticades && (
           <button
-            onClick={() => logout()}
+            onClick={() => {
+              logout();
+              closeMenu();
+            }}
             className="flex w-full items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
           >
             <IoLogOutOutline size={30} />
@@ -105,9 +109,9 @@ export const Sidebar = () => {
 
         {!isAuthenticades && (
           <Link
-            href={"/auth/login"}
+            href="/auth/login"
+            onClick={closeMenu}
             className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-            onClick={() => closeMenu()}
           >
             <IoLogInOutline size={30} />
             <span className="ml-3 text-xl">Login</span>
@@ -118,7 +122,8 @@ export const Sidebar = () => {
 
         {roleUser === "admin" && (
           <Link
-            href={"/"}
+            href="/"
+            onClick={closeMenu}
             className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
           >
             <IoShirtOutline size={30} />
@@ -128,8 +133,8 @@ export const Sidebar = () => {
 
         {roleUser === "admin" && (
           <Link
-            href={"/orders"}
-            onClick={() => closeMenu()}
+            href="/admin/orders"
+            onClick={closeMenu}
             className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
           >
             <IoTicketOutline size={30} />
@@ -139,7 +144,8 @@ export const Sidebar = () => {
 
         {roleUser === "admin" && (
           <Link
-            href={"/"}
+            href="/"
+            onClick={closeMenu}
             className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
           >
             <IoPeopleOutline size={30} />
