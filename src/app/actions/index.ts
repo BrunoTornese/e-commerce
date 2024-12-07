@@ -13,3 +13,4 @@ export * from "./order/getOrdersByUser";
 export * from "./payments/setTransactionId";
 export * from "./payments/paypalPayments";
 export * from "./order/getPaginatedOrders";
+export * from "./users/GetPaginatedUsers";

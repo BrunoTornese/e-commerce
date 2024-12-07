@@ -144,7 +144,7 @@ export const Sidebar = () => {
 
         {roleUser === "admin" && (
           <Link
-            href="/"
+            href="/admin/users"
             onClick={closeMenu}
             className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
           >
