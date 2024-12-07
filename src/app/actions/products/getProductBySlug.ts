@@ -9,6 +9,7 @@ export const getProductBySlug = async (slug: string) => {
         ProductImage: {
           select: {
             url: true,
+            id: true,
           },
         },
       },
@@ -24,7 +25,6 @@ export const getProductBySlug = async (slug: string) => {
       images: product.ProductImage.map((image) => image.url),
     };
   } catch (error) {
-    
-    throw new Error("Error al obtener producto por slug");
+    throw new Error("Error at get product by slug");
   }
 };
