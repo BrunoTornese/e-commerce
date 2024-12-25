@@ -109,6 +109,7 @@ export const placeOrder = async (
           ...restAddress,
           countryId: country,
           orderId: order.id,
+          rememberAddress: false, 
         },
       });
 

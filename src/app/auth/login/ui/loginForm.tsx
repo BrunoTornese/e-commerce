@@ -1,6 +1,6 @@
 "use client";
 
-import { authenticate } from "@/app/actions";
+import { authenticate } from "@/app/actions/auth/login";
 import clsx from "clsx";
 import { useEffect } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -11,7 +11,6 @@ export const LoginForm = () => {
 
   useEffect(() => {
     if (state === "Success") {
-      // Use the window.location.replace object to reload the page
       window.location.replace("/");
     }
   }, [state]);

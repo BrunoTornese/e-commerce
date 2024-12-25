@@ -15,8 +15,8 @@ const TermsAndServices = () => {
           <h2 className="text-xl font-semibold mb-3">1. Acceptance of Terms</h2>
           <p className="text-gray-600">
             By using our services, you acknowledge and accept all the terms
-            outlined in this agreement. If you don’t agree... well, we still
-            hope you’ll stick around. It’s lonely without you!
+            outlined in this agreement. If you don&apos;t agree... well, we
+            still hope you&apos;ll stick around. It&apos;s lonely without you!
           </p>
         </section>
 
@@ -25,7 +25,7 @@ const TermsAndServices = () => {
           <p className="text-gray-600">
             Our services are intended for lawful purposes only. Please refrain
             from using our platform to plan a world domination scheme. (Unless
-            you’re sharing the cookies.)
+            you&apos;re sharing the cookies.)
           </p>
         </section>
 
@@ -34,18 +34,18 @@ const TermsAndServices = () => {
           <p className="text-gray-600">
             We value your privacy and are committed to protecting your personal
             data. However, we do store some cookies (the digital kind,
-            unfortunately). If you’re looking for chocolate chip cookies, try
-            your kitchen instead!
+            unfortunately). If you&apos;re looking for chocolate chip cookies,
+            try your kitchen instead!
           </p>
         </section>
 
         <footer className="mt-10 text-center text-gray-500">
           <p className="mb-5">
-            Now that you've wasted your time reading this, why not get back to
-            what really matters? Seriously, is anyone actually reading this?
-            What a waste of time—just go back and shop already! Oh, and don't
-            worry, we’d only sell your info to the highest bidder. Priorities,
-            right?
+            Now that you&apos;ve wasted your time reading this, why not get back
+            to what really matters? Seriously, is anyone actually reading this?
+            What a waste of time—just go back and shop already! Oh, and
+            don&apos;t worry, we&apos;d only sell your info to the highest
+            bidder. Priorities, right?
           </p>
           <Link href="/">
             <button className="bg-gray-800 hover:bg-blue-800 text-white py-2 px-4 rounded-lg">

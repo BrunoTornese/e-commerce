@@ -1,7 +1,7 @@
 "use client";
 
-import { ProductImage } from "@/components";
 import { useCartStore } from "@/store";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -16,7 +16,7 @@ export const ProductInCart = () => {
       router.replace("/");
     }
     setloaded(true);
-  }, []);
+  }, [productsInCart.length, router]);
 
   if (!loaded) {
     return (
@@ -39,8 +39,8 @@ export const ProductInCart = () => {
     <>
       {productsInCart.map((product) => (
         <div key={`${product.slug}-${product.size}`} className="flex mb-5 ">
-          <ProductImage
-            src={product.image}
+          <Image
+            src={`/products/${product.image}`}
             width={100}
             height={100}
             style={{
