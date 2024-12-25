@@ -1,14 +1,18 @@
 "use client";
 
 import { createUpdateProduct } from "@/app/actions";
-import { Category, Product, ProductImage } from "@/interfaces";
+import { ProductImage } from "@/components";
+import {
+  Category,
+  Product,
+  ProductImage as ProductWithImage,
+} from "@/interfaces";
 import clsx from "clsx";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface Props {
-  product: Partial<Product> & { ProductImage?: ProductImage[] };
+  product: Partial<Product> & { ProductImage?: ProductWithImage[] };
   categories: Category[];
 }
 
@@ -95,7 +99,7 @@ export const ProductForm = ({ product, categories }: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid px-5 mb-16 grid-cols-1 sm:px-0 sm:grid-cols-2 gap-3"
+      className="grid px-5 mb-16 grid-cols-1 sm:grid-cols-2 gap-3"
     >
       <div className="w-full">
         <div className="flex flex-col mb-2">
@@ -171,20 +175,19 @@ export const ProductForm = ({ product, categories }: Props) => {
             ))}
           </select>
         </div>
-
-        <button className="btn-primary w-full">Save</button>
       </div>
 
-      <div className="flex flex-col mb-2">
-        <span>Stock</span>
-        <input
-          type="number"
-          className="p-2 border rounded-md bg-gray-200"
-          {...register("inStock", { required: true, min: 0 })}
-        />
-      </div>
       <div className="w-full">
-        <div className="flex flex-col">
+        <div className="flex flex-col mb-2">
+          <span>Stock</span>
+          <input
+            type="number"
+            className="p-2 border rounded-md bg-gray-200"
+            {...register("inStock", { required: true, min: 0 })}
+          />
+        </div>
+
+        <div className="flex flex-col mb-2">
           <span>Size</span>
           <div className="flex flex-wrap">
             {sizes.map((size) => (
@@ -202,39 +205,43 @@ export const ProductForm = ({ product, categories }: Props) => {
               </div>
             ))}
           </div>
-
-          <div className="flex flex-col mb-2">
-            <span>Image</span>
-            <input
-              type="file"
-              {...register("images")}
-              multiple
-              className="p-2 border rounded-md bg-gray-200"
-              accept="image/png, image/jpeg, image/avif"
-            />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {product.ProductImage?.map((image) => (
-              <div key={image.id}>
-                <Image
-                  alt={product.title ?? ""}
-                  src={`/products/${image.url}`}
-                  width={300}
-                  height={300}
-                  className="rounded shadow-md"
-                  priority
-                />
-                <button
-                  type="button"
-                  onClick={() => console.log(image.id, image.url)}
-                  className="btn-danger rounded-b-xl w-full mt-2"
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-          </div>
         </div>
+
+        <div className="flex flex-col mb-2">
+          <span>Images</span>
+          <input
+            type="file"
+            {...register("images")}
+            multiple
+            className="p-2 border rounded-md bg-gray-200"
+            accept="image/png, image/jpeg, image/avif"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {product.ProductImage?.map((image) => (
+            <div key={image.id}>
+              <ProductImage
+                alt={product.title ?? ""}
+                src={image.url}
+                width={300}
+                height={300}
+                className="rounded shadow-md"
+              />
+              <button
+                type="button"
+                onClick={() => console.log(image.id, image.url)}
+                className="btn-danger rounded-b-xl w-full mt-2"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="w-full mt-4 lg:mt-0">
+        <button className="btn-primary w-full">Save</button>
       </div>
     </form>
   );
