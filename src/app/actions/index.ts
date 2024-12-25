@@ -16,3 +16,4 @@ export { changeRole } from "./users/changeRole";
 export { getCategorys } from "./category/getCategorys";
 export { createUpdateProduct } from "./products/createUpdateProduct";
 export { getProductBySlug } from "./products/getProductBySlug";
+export { deteleteImage } from "./products/DeleteImageProducs";

@@ -1,6 +1,6 @@
 "use client";
 
-import { createUpdateProduct } from "@/app/actions";
+import { createUpdateProduct, deteleteImage } from "@/app/actions";
 import { ProductImage } from "@/components";
 import {
   Category,
@@ -230,7 +230,7 @@ export const ProductForm = ({ product, categories }: Props) => {
               />
               <button
                 type="button"
-                onClick={() => console.log(image.id, image.url)}
+                onClick={() => deteleteImage(image.id, image.url)}
                 className="btn-danger rounded-b-xl w-full mt-2"
               >
                 Remove
