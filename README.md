@@ -63,26 +63,29 @@ role: user
 
 # Dependencies (Production):
 
-@prisma/client
+"@prisma/client",
+"clsx",
+"next",
+"react",
+"react-dom",
+"react-icons",
+"swiper",
+"zustand",
+"next-auth",
+"bcryptjs",
+"react-hook-form",
+"zod"
 
-clsx
+# Dependencies (Development):
 
-next
-
-react
-
-react-icons
-
-swiper
-
-zustand
-
-next-auth
-
-bcryptjs
-
-react-dom
-
-react-hook-form
-
-zod
+"@types/bcryptjs",
+"@types/node",
+"@types/react",
+"@types/react-dom",
+"eslint",
+"eslint-config-next",
+"postcss",
+"prisma",
+"tailwindcss",
+"ts-node",
+"typescript"

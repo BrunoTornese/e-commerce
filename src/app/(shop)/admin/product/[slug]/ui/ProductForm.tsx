@@ -4,6 +4,7 @@ import { createUpdateProduct } from "@/app/actions";
 import { Category, Product, ProductImage } from "@/interfaces";
 import clsx from "clsx";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface Props {
@@ -25,9 +26,11 @@ interface FormInputs {
   tags: string;
   image: string;
   categoryId: string;
+  images?: FileList;
 }
 
 export const ProductForm = ({ product, categories }: Props) => {
+  const router = useRouter();
   const {
     handleSubmit,
     register,
@@ -40,6 +43,7 @@ export const ProductForm = ({ product, categories }: Props) => {
       ...product,
       tags: product.tags?.join(", "),
       sizes: product.size ?? [],
+      images: undefined,
     },
   });
 
@@ -54,7 +58,7 @@ export const ProductForm = ({ product, categories }: Props) => {
   const onSubmit = async (data: FormInputs) => {
     const formData = new FormData();
 
-    const { ...productToSave } = data;
+    const { images, ...productToSave } = data;
 
     if (product.id) {
       formData.append("id", product.id ?? "");
@@ -70,7 +74,22 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
 
-    await createUpdateProduct(formData);
+    if (images) {
+      for (let i = 0; i < images.length; i++) {
+        formData.append("images", images[i]);
+      }
+    }
+
+    const { ok, product: updatedProduct } = await createUpdateProduct(formData);
+
+    if (!ok) {
+      alert("An error occurred");
+      return;
+    }
+
+    if (updatedProduct) {
+      router.replace(`/admin/product/${updatedProduct.slug}`);
+    }
   };
 
   return (
@@ -188,9 +207,10 @@ export const ProductForm = ({ product, categories }: Props) => {
             <span>Image</span>
             <input
               type="file"
+              {...register("images")}
               multiple
               className="p-2 border rounded-md bg-gray-200"
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/avif"
             />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

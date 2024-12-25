@@ -1,3 +1,4 @@
+import { ProductImage } from "./product/ProductImage/ProductImage";
 export { TopMenu } from "./ui/top-menu/topMenu";
 export { PageNotFound } from "./ui/not-found/pageNotFound";
 export { Title } from "./ui/title/Title";
@@ -14,3 +15,4 @@ export { StockLabel } from "./product/stock-label/stockLabel";
 export { Providers } from "./providers/providers";
 export { PayPalButton } from "./paypal/PayPalButton";
 export { OrderStatus } from "./orders/orderStatus";
+export { ProductImage } from "./product/ProductImage/ProductImage";

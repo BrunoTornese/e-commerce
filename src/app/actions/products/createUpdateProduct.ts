@@ -1,11 +1,11 @@
 "use server";
 
-import { Product } from "@/interfaces";
 import prisma from "@/lib/prisma";
-import { Gender, Size } from "@prisma/client";
-import cloudinary from "cloudinary";
 import { revalidatePath } from "next/cache";
+import { Gender, Product, Size } from "@prisma/client";
 import { z } from "zod";
+import { v2 as cloudinary } from "cloudinary";
+cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
 const productSchema = z.object({
   id: z.string().uuid().optional().nullable(),
@@ -21,23 +21,36 @@ const productSchema = z.object({
     .min(0)
     .transform((val) => Number(val.toFixed(0))),
   categoryId: z.string().uuid(),
-  sizes: z.coerce.string().transform((val) => val.split(",")),
+  size: z.coerce.string().transform((val) => val.split(",")),
   tags: z.string(),
   gender: z.nativeEnum(Gender),
 });
 
 export const createUpdateProduct = async (formData: FormData) => {
   const data = Object.fromEntries(formData);
+
   const productParsed = productSchema.safeParse(data);
 
   if (!productParsed.success) {
-    console.log(productParsed.error);
     return { ok: false };
   }
 
   const product = productParsed.data;
+
+  // Processing the slug
   product.slug = product.slug.toLowerCase().replace(/ /g, "-").trim();
 
+  // Processing the 'size' field and ensuring it's a valid array
+  let sizes: string[] = [];
+  if (product.size) {
+    sizes = product.size.map((size: string) => size.trim());
+  }
+
+  // Validating the sizes
+  const validSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
+  sizes = sizes.filter((size: string) => validSizes.includes(size));
+
+  // Destructuring the data, excluding 'id'
   const { id, ...rest } = product;
 
   try {
@@ -48,12 +61,13 @@ export const createUpdateProduct = async (formData: FormData) => {
         .map((tag) => tag.trim().toLowerCase());
 
       if (id) {
+        // Updating existing product
         product = await prisma.product.update({
           where: { id },
           data: {
             ...rest,
             size: {
-              set: rest.sizes as Size[],
+              set: sizes as Size[], // Using processed sizes
             },
             tags: {
               set: tagsArray,
@@ -61,11 +75,12 @@ export const createUpdateProduct = async (formData: FormData) => {
           },
         });
       } else {
+        // Creating a new product
         product = await prisma.product.create({
           data: {
             ...rest,
             size: {
-              set: rest.sizes as Size[],
+              set: sizes as Size[], // Using processed sizes
             },
             tags: {
               set: tagsArray,
@@ -75,11 +90,13 @@ export const createUpdateProduct = async (formData: FormData) => {
       }
 
       if (formData.getAll("images")) {
+        // Handling image upload
         const images = await uploadImages(formData.getAll("images") as File[]);
         if (!images) {
-          throw new Error("Error at upload images, Rollback transaction");
+          throw new Error("Image upload failed, rolling back");
         }
 
+        // Creating image records in Prisma
         await prisma.productImage.createMany({
           data: images.map((image) => ({
             url: image!,
@@ -104,7 +121,7 @@ export const createUpdateProduct = async (formData: FormData) => {
   } catch (error) {
     return {
       ok: false,
-      message: "Error at create or update product",
+      message: "Check the code, update/create failed",
     };
   }
 };
@@ -113,13 +130,14 @@ const uploadImages = async (images: File[]) => {
   try {
     const uploadPromises = images.map(async (image) => {
       try {
+        // Converting the image to base64
         const buffer = await image.arrayBuffer();
         const base64Image = Buffer.from(buffer).toString("base64");
-        return cloudinary.v2.uploader
+        // Uploading the image to Cloudinary
+        return cloudinary.uploader
           .upload(`data:image/png;base64,${base64Image}`)
           .then((r) => r.secure_url);
       } catch (error) {
-        console.log(error);
         return null;
       }
     });
@@ -127,7 +145,6 @@ const uploadImages = async (images: File[]) => {
     const uploadedImages = await Promise.all(uploadPromises);
     return uploadedImages;
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
