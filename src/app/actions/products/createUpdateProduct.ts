@@ -29,7 +29,6 @@ const productSchema = z.object({
 
 export const createUpdateProduct = async (formData: FormData) => {
   const data = Object.fromEntries(formData);
-
   const productParsed = productSchema.safeParse(data);
 
   if (!productParsed.success) {
@@ -37,21 +36,17 @@ export const createUpdateProduct = async (formData: FormData) => {
   }
 
   const product = productParsed.data;
-
-  // Processing the slug
   product.slug = product.slug.toLowerCase().replace(/ /g, "-").trim();
 
-  // Processing the 'size' field and ensuring it's a valid array
-  let sizes: string[] = [];
-  if (product.size) {
-    sizes = product.size.map((size: string) => size.trim());
+  let sizes: Size[] = [];
+  if (typeof data.sizes === "string") {
+    sizes = data.sizes
+      .split(",")
+      .map((size: string) => size.trim())
+      .filter((size: string) => Object.values(Size).includes(size as Size))
+      .map((size: string) => size as Size);
   }
 
-  // Validating the sizes
-  const validSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
-  sizes = sizes.filter((size: string) => validSizes.includes(size));
-
-  // Destructuring the data, excluding 'id'
   const { id, ...rest } = product;
 
   try {
@@ -62,13 +57,12 @@ export const createUpdateProduct = async (formData: FormData) => {
         .map((tag) => tag.trim().toLowerCase());
 
       if (id) {
-        // Updating existing product
         product = await prisma.product.update({
           where: { id },
           data: {
             ...rest,
             size: {
-              set: sizes as Size[], // Using processed sizes
+              set: sizes,
             },
             tags: {
               set: tagsArray,
@@ -76,12 +70,11 @@ export const createUpdateProduct = async (formData: FormData) => {
           },
         });
       } else {
-        // Creating a new product
         product = await prisma.product.create({
           data: {
             ...rest,
             size: {
-              set: sizes as Size[], // Using processed sizes
+              set: sizes,
             },
             tags: {
               set: tagsArray,
@@ -91,13 +84,10 @@ export const createUpdateProduct = async (formData: FormData) => {
       }
 
       if (formData.getAll("images")) {
-        // Handling image upload
         const images = await uploadImages(formData.getAll("images") as File[]);
         if (!images) {
           throw new Error("Image upload failed, rolling back");
         }
-
-        // Creating image records in Prisma
         await prisma.productImage.createMany({
           data: images.map((image) => ({
             url: image!,
@@ -120,6 +110,7 @@ export const createUpdateProduct = async (formData: FormData) => {
       product: prismaTx.product,
     };
   } catch (error) {
+    console.error("Error during product creation or update:", error);
     return {
       ok: false,
       message: "Check the code, update/create failed",
@@ -129,17 +120,10 @@ export const createUpdateProduct = async (formData: FormData) => {
 
 const uploadImages = async (images: File[]) => {
   try {
-    console.log("Starting image upload process...");
-
     const uploadPromises = images.map(async (image) => {
       try {
-        console.log(`Uploading image: ${image.name}`);
-
-        // Converting the image to base64
         const buffer = await image.arrayBuffer();
         const base64Image = Buffer.from(buffer).toString("base64");
-
-        // Uploading the image to Cloudinary
         const uploadResponse = await cloudinary.uploader.upload(
           `data:image/png;base64,${base64Image}`
         );
