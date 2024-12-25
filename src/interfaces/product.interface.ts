@@ -1,14 +1,13 @@
 export interface Product {
   id: string;
   description: string;
-  images: string[];
+  images?: string[];
   inStock: number;
   price: number;
   size: Sizes[];
   slug: string;
   tags: string[];
   title: string;
-  //TODO: type: Type;
   gender: Category;
 }
 

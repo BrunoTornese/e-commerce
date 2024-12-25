@@ -1,5 +1,4 @@
 export { getPaginatedProductsWithImages } from "./products/product-pagination";
-export { getProductBySlug } from "./products/getProductBySlug";
 export { login } from "./auth/login";
 export { logout } from "./auth/logout";
 export { registerUser } from "./auth/register";
@@ -16,3 +15,4 @@ export { getPaginatedUsers } from "./users/GetPaginatedUsers";
 export { changeRole } from "./users/changeRole";
 export { getCategorys } from "./category/getCategorys";
 export { createUpdateProduct } from "./products/createUpdateProduct";
+export { getProductBySlug } from "./products/getProductBySlug";

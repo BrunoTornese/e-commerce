@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 interface Props {
-  product: Product & { ProductImage?: ProductImage[] };
+  product: Partial<Product> & { ProductImage?: ProductImage[] };
   categories: Category[];
 }
 
@@ -38,7 +38,7 @@ export const ProductForm = ({ product, categories }: Props) => {
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
-      tags: product.tags.join(", "),
+      tags: product.tags?.join(", "),
       sizes: product.size ?? [],
     },
   });
@@ -56,7 +56,10 @@ export const ProductForm = ({ product, categories }: Props) => {
 
     const { ...productToSave } = data;
 
-    formData.append("id", product.id ?? "");
+    if (product.id) {
+      formData.append("id", product.id ?? "");
+    }
+
     formData.append("title", productToSave.title);
     formData.append("slug", productToSave.slug);
     formData.append("description", productToSave.description);
@@ -67,8 +70,7 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
 
-    const { ok } = await createUpdateProduct(formData);
-    console.log(ok);
+    await createUpdateProduct(formData);
   };
 
   return (
@@ -154,6 +156,14 @@ export const ProductForm = ({ product, categories }: Props) => {
         <button className="btn-primary w-full">Save</button>
       </div>
 
+      <div className="flex flex-col mb-2">
+        <span>Stock</span>
+        <input
+          type="number"
+          className="p-2 border rounded-md bg-gray-200"
+          {...register("inStock", { required: true, min: 0 })}
+        />
+      </div>
       <div className="w-full">
         <div className="flex flex-col">
           <span>Size</span>
