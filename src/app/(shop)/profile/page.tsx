@@ -1,5 +1,6 @@
 import { auth } from "@/auth.config";
 import { Title } from "@/components";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function ProfilePage() {
@@ -42,9 +43,12 @@ export default async function ProfilePage() {
           </p>
         </div>
         <div className="mt-6 flex justify-center">
-          <button className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600">
-            Edit Profile
-          </button>
+          <Link
+            href="/"
+            className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600"
+          >
+            Back to Shop
+          </Link>
         </div>
       </div>
     </div>
