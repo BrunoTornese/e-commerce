@@ -25,7 +25,7 @@ export const AddToCart = ({ product }: Props) => {
       size: size,
       quantity: quantity,
       title: product.title,
-      image: product.images ? product.images[0] : '',
+      image: product.images ? product.images[0] : "",
     };
     addProductToCart(cartProduct);
     setPosted(false);
@@ -36,23 +36,18 @@ export const AddToCart = ({ product }: Props) => {
   return (
     <>
       <StockLabel slug={product.slug} />
-
       <p className="text-lg mb-5">${product.price}</p>
-
       {posted && !size && (
         <span className="mt-2 text-red-500 fade-in">
           You must select a size!
         </span>
       )}
-
       <SizeSelector
         selectedSize={size}
         availableSizes={product.size}
         onSizeChange={setSize}
       />
-
       <QuantitySelector quantity={quantity} onQuantityChange={setQuantity} />
-
       <button
         className={`btn-primary my-5 ${
           product.inStock
@@ -64,6 +59,20 @@ export const AddToCart = ({ product }: Props) => {
       >
         {product.inStock ? "Add to cart" : "Out of Stock"}
       </button>
+
+      <div className="pb-2 text-black">
+        <strong>Category:</strong>
+        <div className="mt-2 flex flex-wrap gap-2">
+          {product.tags.map((tag, index) => (
+            <span
+              key={index}
+              className="inline-block bg-gray-200 text-gray-800 px-3 py-1 text-sm font-medium rounded-full border border-gray-400 hover:bg-gray-300 transition duration-300"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
     </>
   );
 };
