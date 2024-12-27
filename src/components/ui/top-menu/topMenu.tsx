@@ -3,7 +3,7 @@
 import { titleFont } from "@/config/fonts";
 import { useCartStore, useUiStore } from "@/store";
 import Link from "next/link";
-import { IoCartOutline, IoSearchOutline, IoMenu } from "react-icons/io5";
+import { IoCartOutline, IoMenu } from "react-icons/io5";
 import { useEffect, useState } from "react";
 
 export const TopMenu = () => {
@@ -67,10 +67,6 @@ export const TopMenu = () => {
           </Link>
         </div>
         <div className="flex items-center space-x-2">
-          <Link href="/search" aria-label="Search">
-            <IoSearchOutline className="w-5 h-5" />
-          </Link>
-
           <Link href={"/cart"} aria-label="Cart">
             <div className="relative">
               {loaded && totalItemsInCart > 0 && (
