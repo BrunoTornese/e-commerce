@@ -73,7 +73,7 @@ export default async function OrdersPage({ searchParams }: Props) {
                   scope="col"
                   className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                 >
-                  Tags
+                  Category
                 </th>
               </tr>
             </thead>
@@ -166,7 +166,7 @@ export default async function OrdersPage({ searchParams }: Props) {
                   <strong>Sizes:</strong> {product.size.join(", ")}
                 </div>
                 <div>
-                  <strong>Tags:</strong> {product.tags.join(", ")}{" "}
+                  <strong>Category:</strong> {product.tags.join(", ")}{" "}
                 </div>
               </div>
             </div>
