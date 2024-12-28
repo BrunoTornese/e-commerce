@@ -7,12 +7,14 @@ interface PaginationOptions {
   page?: number;
   take?: number;
   gender?: Gender;
+  tags: string[];
 }
 
 export const getPaginatedProductsWithImages = async ({
   page = 1,
   take = 12,
   gender,
+  tags = [],
 }: PaginationOptions) => {
   if (isNaN(Number(page))) page = 1;
   if (page < 1) page = 1;
@@ -20,6 +22,16 @@ export const getPaginatedProductsWithImages = async ({
   if (take < 1) take = 12;
 
   try {
+    const whereConditions: any = {
+      gender: gender,
+    };
+
+    if (tags.length > 0) {
+      whereConditions.tags = {
+        hasSome: tags,
+      };
+    }
+
     const products = await prisma.product.findMany({
       take: take,
       skip: (page - 1) * take,
@@ -31,15 +43,11 @@ export const getPaginatedProductsWithImages = async ({
           },
         },
       },
-      where: {
-        gender: gender,
-      },
+      where: whereConditions,
     });
 
     const totalCount = await prisma.product.count({
-      where: {
-        gender: gender,
-      },
+      where: whereConditions,
     });
     const totalPages = Math.ceil(totalCount / take);
 
@@ -52,6 +60,6 @@ export const getPaginatedProductsWithImages = async ({
       })),
     };
   } catch (error) {
-    throw new Error("Error at get products");
+    throw new Error("Error al obtener los productos");
   }
 };
