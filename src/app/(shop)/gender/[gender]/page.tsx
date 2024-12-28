@@ -22,6 +22,7 @@ export default async function GenderPage({ params, searchParams }: Props) {
     await getPaginatedProductsWithImages({
       page,
       gender: gender as Gender,
+      tags: [],
     });
 
   if (products.length === 0) {
