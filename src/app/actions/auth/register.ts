@@ -24,6 +24,17 @@ export const registerUser = async (
       };
     }
 
+    const existingUser = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+    });
+
+    if (existingUser) {
+      return {
+        ok: false,
+        message: "Email already in use",
+      };
+    }
+
     const user = await prisma.user.create({
       data: {
         name: name,
