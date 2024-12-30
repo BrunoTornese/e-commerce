@@ -15,33 +15,46 @@ export default async function ProductBySlugPage({ params }: Props) {
   const { id } = params;
   const { ok, order } = await getOrderById(id);
 
-  if (!ok) {
+  if (!ok || !order) {
     redirect("/");
   }
 
-  const addres = order!.OrderAddress;
+  const {
+    OrderAddress: address,
+    OrderItem: items,
+    isPaid,
+    itemsInCart,
+    subTotal,
+    tax,
+    total,
+    id: orderId,
+    createdAt,
+    paidAt,
+  } = order;
 
   return (
     <div className="flex justify-center items-center mb-72 px-5 sm:px-10">
       <div className="flex flex-col w-full max-w-4xl">
         <Title title={`Order ${id}`} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10">
+          {/* Product List */}
           <div className="flex flex-col mt-5">
-            <OrderStatus isPaid={order!.isPaid} />
-            {order!.OrderItem.map((item) => (
+            <OrderStatus isPaid={isPaid} />
+            {items.map((item) => (
               <div
-                key={item.product.slug + "-" + item.size}
+                key={`${item.product.slug}-${item.size}`}
                 className="flex flex-col sm:flex-row items-center mb-5"
               >
-                <Image
-                  src={`/products/${item.product.ProductImage[0].url}`}
-                  width={100}
-                  height={100}
-                  alt={item.product.title}
-                  className="mb-3 sm:mb-0 sm:mr-5 rounded w-full sm:w-auto"
-                  priority
-                />
-
+                {item.product.ProductImage[0]?.url && (
+                  <Image
+                    src={`/products/${item.product.ProductImage[0].url}`}
+                    width={100}
+                    height={100}
+                    alt={item.product.title}
+                    className="mb-3 sm:mb-0 sm:mr-5 rounded w-full sm:w-auto"
+                    priority
+                  />
+                )}
                 <div className="flex flex-col flex-grow text-center sm:text-left">
                   <p className="font-semibold">{item.product.title}</p>
                   <p className="text-gray-700">
@@ -59,15 +72,15 @@ export default async function ProductBySlugPage({ params }: Props) {
             <h2 className="text-xl sm:text-2xl mb-3">Delivery Address</h2>
             <div className="mb-5">
               <p className="text-lg sm:text-xl">
-                {addres!.firstName} {addres!.lastName}
+                {address?.firstName} {address?.lastName}
               </p>
-              <p>{addres!.address}</p>
-              {addres!.address2 && <p>{addres!.address2}</p>}
-              <p>{addres!.postalCode}</p>
+              <p>{address?.address}</p>
+              {address?.address2 && <p>{address.address2}</p>}
+              <p>{address?.postalCode}</p>
               <p>
-                {addres!.city}, {addres!.countryId}
+                {address?.city}, {address?.countryId}
               </p>
-              <p>{addres!.phone}</p>
+              <p>{address?.phone}</p>
             </div>
             <div className="w-full h-0.5 rounded bg-gray-300 mb-5 sm:mb-10" />
 
@@ -75,36 +88,46 @@ export default async function ProductBySlugPage({ params }: Props) {
               <div className="flex justify-between">
                 <span>Products</span>
                 <span className="text-right">
-                  {order?.itemsInCart === 1
-                    ? "1 Item"
-                    : `${order?.itemsInCart} Items`}
+                  {itemsInCart === 1 ? "1 Item" : `${itemsInCart} Items`}
                 </span>
               </div>
-
               <div className="flex justify-between">
                 <span>Subtotal price</span>
-                <span className="text-right">
-                  {CurrencyFormat(order!.subTotal)}
-                </span>
+                <span className="text-right">{CurrencyFormat(subTotal)}</span>
               </div>
-
               <div className="flex justify-between">
                 <span>Taxes (15%)</span>
-                <span className="text-right">{CurrencyFormat(order!.tax)}</span>
+                <span className="text-right">{CurrencyFormat(tax)}</span>
               </div>
-
               <div className="flex justify-between mt-5">
                 <span className="text-xl sm:text-2xl">Total:</span>
                 <span className="text-right text-xl sm:text-2xl mt-1.5">
-                  {CurrencyFormat(order!.total)}
+                  {CurrencyFormat(total)}
                 </span>
               </div>
             </div>
-            {order?.isPaid ? (
-              <OrderStatus isPaid={order!.isPaid} />
-            ) : (
-              <PayPalButton amount={order!.total} orderId={order!.id} />
-            )}
+
+            <div className="mt-5">
+              <h3 className="text-lg font-semibold">Order Information</h3>
+              <p>
+                <strong>Order Date:</strong>{" "}
+                {new Date(createdAt).toLocaleString("en-US")}
+              </p>
+              {isPaid && (
+                <p>
+                  <strong>Paid On:</strong>{" "}
+                  {new Date(paidAt!).toLocaleString("en-US")}
+                </p>
+              )}
+            </div>
+
+            <div className="mt-5">
+              {isPaid ? (
+                <OrderStatus isPaid={isPaid} />
+              ) : (
+                <PayPalButton amount={total} orderId={orderId} />
+              )}
+            </div>
           </div>
         </div>
       </div>
