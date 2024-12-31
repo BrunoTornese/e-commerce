@@ -11,16 +11,22 @@ export default async function OrdersPage() {
   }
 
   const totalUsersCount = totalUsers ?? 0;
-
   const usersPerPage = 10;
-  const totalPages = Math.ceil(totalUsersCount / usersPerPage);
+  const totalPages =
+    totalUsersCount > 0 ? Math.ceil(totalUsersCount / usersPerPage) : 1;
+
   return (
     <div>
       <Title title="All Users" />
 
       <div className="mb-10">
-        <UseTable users={users || []} />
-        <Pagination totalPages={totalPages} />
+        {users && users.length > 0 ? (
+          <UseTable users={users} />
+        ) : (
+          <p>No users available</p>
+        )}
+
+        {totalPages > 1 && <Pagination totalPages={totalPages} />}
       </div>
     </div>
   );

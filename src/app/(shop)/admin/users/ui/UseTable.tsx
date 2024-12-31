@@ -3,82 +3,101 @@
 import { changeRole, deleteUser } from "@/app/actions";
 import type { User } from "@/interfaces";
 import { FaTrash } from "react-icons/fa";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 interface Props {
   users: User[];
 }
 
 export const UseTable = ({ users }: Props) => {
+  const { data: session } = useSession();
   const router = useRouter();
+  const [userList, setUserList] = useState<User[]>(users);
 
   useEffect(() => {
-    console.log("Datos de usuarios:", users);
+    setUserList(users);
   }, [users]);
 
   const handleDelete = async (userId: string) => {
-    console.log("Eliminando usuario con ID:", userId);
-    await deleteUser(userId);
-    console.log("Usuario eliminado, recargando página...");
-    router.refresh();
+    try {
+      await deleteUser(userId);
+      setUserList(userList.filter((user) => user.id !== userId));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  const handleRoleChange = async (userId: string, newRole: string) => {
+    try {
+      await changeRole(userId, newRole);
+      setUserList((prevState) =>
+        prevState.map((user) =>
+          user.id === userId ? { ...user, role: newRole } : user
+        )
+      );
+    } catch (error) {
+      console.error("Error changing role:", error);
+    }
   };
 
   return (
     <div className="space-y-4 sm:space-y-0 sm:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {users?.length ? (
-        users.map((user) => (
-          <div
-            key={user.email}
-            className="bg-white p-6 border border-gray-200 rounded-lg shadow-sm flex flex-col"
-          >
-            <div className="mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">
-                {user.name}
-              </h2>
-              <p className="text-sm text-gray-600">{user.email}</p>
-            </div>
+      {userList.length > 0 ? (
+        userList.map((user) => {
+          const isOwnAccount = session?.user?.email === user.email;
 
-            <div className="flex flex-col space-y-2">
-              <label
-                htmlFor={`role-${user.id}`}
-                className="text-sm text-gray-700"
-              >
-                Rol
-              </label>
-              <select
-                id={`role-${user.id}`}
-                value={user.role}
-                onChange={(e) => {
-                  console.log(
-                    `Cambiando rol para el usuario ID ${user.id} a ${e.target.value}`
-                  );
-                  changeRole(user.id, e.target.value);
-                }}
-                className="p-2 border border-gray-300 rounded-md"
-              >
-                <option value="admin">Administrador</option>
-                <option value="user">Usuario</option>
-              </select>
-            </div>
-
-            <button
-              onClick={() => handleDelete(user.id)}
-              className="mt-4 text-red-500 hover:text-red-700 flex items-center space-x-2"
-              aria-label="Eliminar usuario"
+          return (
+            <div
+              key={user.email}
+              className="bg-white p-6 border border-gray-200 rounded-lg shadow-sm flex flex-col"
             >
-              <FaTrash size={20} />
-              <span className="text-sm">Eliminar</span>
-            </button>
-          </div>
-        ))
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  {user.name}
+                </h2>
+                <p className="text-sm text-gray-600">{user.email}</p>
+              </div>
+
+              <div className="flex flex-col space-y-2">
+                <label
+                  htmlFor={`role-${user.id}`}
+                  className="text-sm text-gray-700"
+                >
+                  Role
+                </label>
+                <select
+                  id={`role-${user.id}`}
+                  value={user.role}
+                  onChange={(e) =>
+                    !isOwnAccount && handleRoleChange(user.id, e.target.value)
+                  }
+                  disabled={isOwnAccount}
+                  className="p-2 border border-gray-300 rounded-md"
+                >
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
+                </select>
+              </div>
+
+              <button
+                onClick={() => !isOwnAccount && handleDelete(user.id)}
+                disabled={isOwnAccount}
+                className="mt-4 text-red-500 hover:text-red-700 flex items-center space-x-2"
+                aria-label="Delete user"
+              >
+                <FaTrash size={20} />
+                <span className="text-sm">Delete</span>
+              </button>
+            </div>
+          );
+        })
       ) : (
         <div className="col-span-full px-6 py-4 text-center">
           <div className="flex flex-col items-center">
             <div className="animate-pulse w-16 h-16 bg-gray-200 rounded-full mb-4"></div>
-            <p className="text-gray-500 text-sm mb-2">
-              ¡No se encontraron usuarios!
-            </p>
+            <p className="text-gray-500 text-sm mb-2">No users found!</p>
           </div>
         </div>
       )}

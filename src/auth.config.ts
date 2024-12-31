@@ -39,7 +39,7 @@ export const authConfig: NextAuthConfig = {
         }
 
         const { email, password } = parsedCredentials.data;
-        // Search email in database
+
         const user = await prisma.user.findUnique({
           where: {
             email: email,
@@ -49,12 +49,11 @@ export const authConfig: NextAuthConfig = {
         if (!user) {
           return null;
         }
-        // Check password
+
         if (!bcryptjs.compareSync(password, user.password)) {
           return null;
         }
 
-        // Return user
         const { password: _, ...rest } = user;
 
         return rest;
@@ -63,8 +62,8 @@ export const authConfig: NextAuthConfig = {
   ],
 
   session: {
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-    updateAge: 24 * 60 * 60, // 24 hrs
+    maxAge: 30 * 24 * 60 * 60,
+    updateAge: 24 * 60 * 60,
   },
 };
 
