@@ -197,7 +197,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                 className={clsx(
                   "p-2 border cursor-pointer rounded-md mr-2 mb-2 w-14 transition-all text-center",
                   {
-                    "bg-blue-500 text-white": getValues("sizes").includes(size),
+                    "bg-blue-800 text-white": getValues("sizes").includes(size),
                   }
                 )}
               >

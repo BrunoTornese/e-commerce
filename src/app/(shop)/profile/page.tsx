@@ -45,7 +45,7 @@ export default async function ProfilePage() {
         <div className="mt-6 flex justify-center">
           <Link
             href="/"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600"
+            className="px-4 py-2 bg-blue-800 text-white rounded-md shadow hover:bg-blue-600"
           >
             Back to Shop
           </Link>

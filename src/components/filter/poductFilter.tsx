@@ -1,57 +1,58 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { Product } from "@/interfaces";
+import { TagFilter } from "./TagFilter";
+
 import { ProductGrid } from "../products/product-grid/ProductGrid";
+import { GenderFilter } from "./GenderFilterr";
 
 interface Props {
   products: Product[];
   tags: string[];
   selectedTags: string[];
+  genders: string[];
+  selectedGender: string;
 }
 
-export const ProductFilter = ({ products, tags, selectedTags }: Props) => {
+export const ProductFilter = ({
+  products,
+  tags,
+  selectedTags,
+  genders,
+  selectedGender,
+}: Props) => {
   const [currentSelectedTags, setCurrentSelectedTags] =
     useState<string[]>(selectedTags);
-  const router = useRouter();
+  const [selectedGenderState, setSelectedGenderState] =
+    useState<string>(selectedGender);
 
   useEffect(() => {
     setCurrentSelectedTags(selectedTags);
   }, [selectedTags]);
 
-  const handleTagClick = (tag: string) => {
-    const updatedTags = currentSelectedTags.includes(tag)
-      ? currentSelectedTags.filter((t) => t !== tag)
-      : [...currentSelectedTags, tag];
+  const handleTagChange = (updatedTags: string[]) => {
     setCurrentSelectedTags(updatedTags);
+  };
 
-    const queryParams = new URLSearchParams(window.location.search);
-    if (updatedTags.length > 0) {
-      queryParams.set("tags", updatedTags.join(","));
-    } else {
-      queryParams.delete("tags");
-    }
-    router.push(`${window.location.pathname}?${queryParams.toString()}`);
+  const handleGenderChange = (gender: string) => {
+    setSelectedGenderState(gender);
   };
 
   return (
     <div>
-      <div className="flex flex-wrap gap-3 mb-6">
-        {tags.map((tag) => (
-          <button
-            key={tag}
-            onClick={() => handleTagClick(tag)}
-            className={`${
-              currentSelectedTags.includes(tag)
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-800"
-            } py-2 px-4 rounded-full text-sm font-medium hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200`}
-          >
-            {tag}
-          </button>
-        ))}
-      </div>
+      <GenderFilter
+        genders={genders}
+        selectedGender={selectedGenderState}
+        onGenderChange={handleGenderChange}
+      />
+
+      <TagFilter
+        tags={tags}
+        selectedTags={currentSelectedTags}
+        onTagChange={handleTagChange}
+      />
+
       <ProductGrid products={products} />
     </div>
   );

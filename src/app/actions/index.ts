@@ -19,3 +19,4 @@ export { getProductBySlug } from "./products/getProductBySlug";
 export { deteleteImage } from "./products/DeleteImageProducs";
 export { deleteUser } from "./users/deleteUser";
 export { getTags } from "./products/getTags";
+export { getGenders } from "./products/getGender";

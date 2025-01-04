@@ -22,9 +22,11 @@ export const getPaginatedProductsWithImages = async ({
   if (take < 1) take = 12;
 
   try {
-    const whereConditions: any = {
-      gender: gender,
-    };
+    const whereConditions: any = {};
+
+    if (gender) {
+      whereConditions.gender = gender;
+    }
 
     if (tags.length > 0) {
       whereConditions.tags = {
@@ -60,6 +62,6 @@ export const getPaginatedProductsWithImages = async ({
       })),
     };
   } catch (error) {
-    throw new Error("Error al obtener los productos");
+    throw new Error("Error at get Products");
   }
 };
