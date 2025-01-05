@@ -13,6 +13,11 @@ export const QuantitySelector = ({
   stock,
   onQuantityChange,
 }: Props) => {
+  if (typeof stock !== "number") {
+    console.error("Stock debe ser un número válido.");
+    return null;
+  }
+
   const handleQuantityChange = (value: number) => {
     if (quantity + value < 1 || quantity + value > stock) return;
 

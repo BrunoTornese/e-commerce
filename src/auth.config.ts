@@ -65,6 +65,8 @@ export const authConfig: NextAuthConfig = {
     maxAge: 30 * 24 * 60 * 60,
     updateAge: 24 * 60 * 60,
   },
+
+  trustHost: true,
 };
 
 export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);
