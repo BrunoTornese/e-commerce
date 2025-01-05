@@ -4,9 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    "https://teslo-shop-h81v8ze8c-brunotorneses-projects.vercel.app/"
-  ),
+  metadataBase: new URL("https://teslo-shop-theta-one.vercel.app/"),
   title: {
     template: "%s - Teslo | Shop",
     default: "Home - Teslo | Shop",
