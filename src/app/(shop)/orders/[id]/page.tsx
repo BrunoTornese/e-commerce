@@ -125,7 +125,22 @@ export default async function ProductBySlugPage({ params }: Props) {
               {isPaid ? (
                 <OrderStatus isPaid={isPaid} />
               ) : (
-                <PayPalButton amount={total} orderId={orderId} />
+                <>
+                  <PayPalButton amount={total} orderId={orderId} />
+                  <div className="mt-5 bg-yellow-100 p-5 border-l-4 border-yellow-600 text-center text-sm text-gray-800">
+                    <p className="font-semibold">
+                      If you want, you can pay with these PayPal Sandbox
+                      accounts:
+                    </p>
+                    <p>
+                      Email:
+                      <strong> sb-x0aao30890133@personal.example.com</strong>
+                    </p>
+                    <p>
+                      Password: <strong>12345678</strong>
+                    </p>
+                  </div>
+                </>
               )}
             </div>
           </div>
