@@ -30,10 +30,6 @@ export default async function Home({ searchParams }: Props) {
       gender: selectedGender,
     });
 
-  if (products.length === 0) {
-    redirect("/");
-  }
-
   const { ok, tags = [] } = await getTags();
   const { ok: genderOk, genders = [] } = await getGenders();
 
@@ -52,7 +48,11 @@ export default async function Home({ searchParams }: Props) {
         genders={genders}
         selectedGender={selectedGender}
       />
-      <Pagination totalPages={totalPages} />
+      {products.length === 0 ? (
+        <div>No products found! Please try different filters.</div>
+      ) : (
+        <Pagination totalPages={totalPages} />
+      )}
     </>
   );
 }
