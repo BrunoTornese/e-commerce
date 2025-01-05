@@ -1,5 +1,6 @@
 import { auth } from "@/auth.config";
 import { Title } from "@/components";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -17,7 +18,7 @@ export default async function ProfilePage() {
       <Title title="Profile" />
       <div className="max-w-sm w-full bg-white rounded-lg shadow-lg border border-gray-200 p-6">
         {image ? (
-          <img
+          <Image
             src={image}
             alt={`${name}'s profile`}
             className="w-24 h-24 rounded-full mx-auto"

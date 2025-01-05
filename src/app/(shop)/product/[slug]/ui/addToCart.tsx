@@ -19,6 +19,7 @@ export const AddToCart = ({ product }: Props) => {
     setPosted(true);
     if (!size) return;
     const cartProduct: CartProduct = {
+      stock: product.inStock,
       id: product.id,
       price: product.price,
       slug: product.slug,

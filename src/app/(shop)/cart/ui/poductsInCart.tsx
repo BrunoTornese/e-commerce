@@ -62,6 +62,7 @@ export const ProductInCart = () => {
             <p>${product.price}</p>
             <QuantitySelector
               quantity={product.quantity}
+              stock={product.stock}
               onQuantityChange={(quiantity) =>
                 updateProductQuiantity(product, quiantity)
               }

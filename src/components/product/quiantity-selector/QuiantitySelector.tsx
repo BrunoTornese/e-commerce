@@ -26,6 +26,7 @@ export const QuantitySelector = ({
         <button
           onClick={() => handleQuantityChange(-1)}
           className="flex items-center"
+          disabled={quantity <= 1}
         >
           <IoRemoveCircleOutline size={30} />
         </button>
@@ -35,17 +36,16 @@ export const QuantitySelector = ({
         </span>
 
         <button
-          onClick={() => handleQuantityChange(+1)}
+          onClick={() => handleQuantityChange(1)}
           className="flex items-center"
+          disabled={quantity >= stock}
         >
           <IoAddCircleOutline size={30} />
         </button>
       </div>
       <p
-        className={`text-sm mt-2 ${
-          quantity >= stock
-            ? "text-red-500 font-semibold"
-            : "text-blue-500 font-semibold"
+        className={`text-sm mt-2 font-semibold ${
+          quantity >= stock ? "text-red-500" : "text-green-500"
         }`}
       >
         {quantity >= stock

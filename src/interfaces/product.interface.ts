@@ -12,6 +12,7 @@ export interface Product {
 }
 
 export interface CartProduct {
+  stock: number;
   id: string;
   price: number;
   slug: string;
