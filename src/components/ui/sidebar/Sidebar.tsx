@@ -1,10 +1,11 @@
 "use client";
 
-import { logout } from "@/app/actions";
+import { signOut } from "next-auth/react";
 import { useUiStore } from "@/store";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { IoMdPersonAdd } from "react-icons/io";
 import {
   IoCloseOutline,
@@ -19,9 +20,10 @@ import {
 export const Sidebar = () => {
   const isSideMenuOpen = useUiStore((state) => state.isSidebarOpen);
   const closeMenu = useUiStore((state) => state.closeSideMenu);
-  const { data: session } = useSession();
-  const isAuthenticades = !!session?.user;
+  const { data: session, status } = useSession();
+  const isAuthenticades = status === "authenticated";
   const roleUser = session?.user?.role;
+  const router = useRouter();
 
   return (
     <div>
@@ -86,9 +88,10 @@ export const Sidebar = () => {
 
         {isAuthenticades && (
           <button
-            onClick={() => {
-              logout();
+            onClick={async () => {
+              await signOut({ redirect: false });
               closeMenu();
+              router.push("/");
             }}
             className="flex w-full items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
           >
