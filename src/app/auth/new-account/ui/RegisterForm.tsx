@@ -3,7 +3,7 @@
 import { login, registerUser } from "@/app/actions";
 import clsx from "clsx";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -21,6 +21,7 @@ const RegisterForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormInputs>();
+  const router = useRouter();
 
   const comparePasswords = (password: string, repeatPassword: string) => {
     return password === repeatPassword || "Passwords do not match";
@@ -42,8 +43,7 @@ const RegisterForm = () => {
       return;
     }
     await login(email.toLowerCase(), password);
-    // Use the window.location.replace object to reload the page
-    window.location.replace("/");
+    router.push("/");
   };
 
   return (
@@ -98,7 +98,6 @@ const RegisterForm = () => {
 
       <button className="btn-primary">Create account</button>
 
-      {/* divisor line */}
       <div className="flex items-center my-5">
         <div className="flex-1 border-t border-gray-900"></div>
         <div className="px-2 text-gray-800">Or</div>

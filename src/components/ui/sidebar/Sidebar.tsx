@@ -16,136 +16,146 @@ import {
   IoShirtOutline,
   IoTicketOutline,
 } from "react-icons/io5";
+import { motion } from "framer-motion";
+
+interface SidebarItemProps {
+  href?: string;
+  icon: React.ComponentType<{ size: number }>;
+  label: string;
+  onClick?: () => void;
+  isButton?: boolean;
+}
+
+const SidebarItem: React.FC<SidebarItemProps> = ({
+  href,
+  icon: Icon,
+  label,
+  onClick,
+  isButton = false,
+}) => {
+  if (isButton) {
+    return (
+      <button
+        onClick={onClick}
+        className="flex w-full items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
+      >
+        <Icon size={30} />
+        <span className="ml-3 text-xl">{label}</span>
+      </button>
+    );
+  }
+
+  return (
+    <Link
+      href={href || "#"}
+      onClick={onClick}
+      className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
+    >
+      <Icon size={30} />
+      <span className="ml-3 text-xl">{label}</span>
+    </Link>
+  );
+};
 
 export const Sidebar = () => {
   const isSideMenuOpen = useUiStore((state) => state.isSidebarOpen);
   const closeMenu = useUiStore((state) => state.closeSideMenu);
   const { data: session, status } = useSession();
-  const isAuthenticades = status === "authenticated";
+  const isAuthenticated = status === "authenticated";
   const roleUser = session?.user?.role;
   const router = useRouter();
 
   return (
     <div>
       {isSideMenuOpen && (
-        <div className="fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30" />
+        <div
+          className="fixed top-0 left-0 w-screen h-screen z-10 bg-black bg-opacity-30 backdrop-blur-sm"
+          onClick={closeMenu}
+          role="presentation"
+        />
       )}
 
-      {isSideMenuOpen && (
-        <div className="fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm" />
-      )}
-
-      <nav
-        className={clsx(
-          "fixed p-5 right-0 top-0 h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
-          {
-            "translate-x-full": !isSideMenuOpen,
-            "w-80": isSideMenuOpen,
-            "md:w-96": isSideMenuOpen,
-            "w-64": !isSideMenuOpen,
-            "md:w-72": !isSideMenuOpen,
-          }
-        )}
+      <motion.nav
+        initial={{ x: "100%" }}
+        animate={{ x: isSideMenuOpen ? "0%" : "100%" }}
+        transition={{ duration: 0.3 }}
+        className="fixed p-5 right-0 top-0 h-screen bg-white z-20 shadow-2xl w-80 md:w-96"
       >
-        <IoCloseOutline
-          size={30}
+        <button
+          aria-label="Close menu"
           className="absolute top-5 right-5 cursor-pointer"
           onClick={closeMenu}
-        />
+        >
+          <IoCloseOutline size={30} />
+        </button>
 
-        {isAuthenticades && (
-          <Link
-            href="/profile"
-            onClick={closeMenu}
-            className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-          >
-            <IoPersonOutline size={30} />
-            <span className="ml-3 text-xl">Your Profile</span>
-          </Link>
-        )}
-
-        {!isAuthenticades && (
-          <Link
-            href="/auth/new-account"
-            onClick={closeMenu}
-            className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-          >
-            <IoMdPersonAdd size={30} />
-            <span className="ml-3 text-xl">Create Account</span>
-          </Link>
-        )}
-
-        {isAuthenticades && (
-          <Link
-            href="/orders"
-            className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-            onClick={closeMenu}
-          >
-            <IoTicketOutline size={30} />
-            <span className="ml-3 text-xl">Your Orders</span>
-          </Link>
-        )}
-
-        {isAuthenticades && (
-          <button
-            onClick={async () => {
-              await signOut({ redirect: false });
-              closeMenu();
-              router.push("/");
-            }}
-            className="flex w-full items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-          >
-            <IoLogOutOutline size={30} />
-            <span className="ml-3 text-xl">Logout</span>
-          </button>
-        )}
-
-        {!isAuthenticades && (
-          <Link
-            href="/auth/login"
-            onClick={closeMenu}
-            className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-          >
-            <IoLogInOutline size={30} />
-            <span className="ml-3 text-xl">Login</span>
-          </Link>
+        {isAuthenticated ? (
+          <>
+            <SidebarItem
+              href="/profile"
+              icon={IoPersonOutline}
+              label="Your Profile"
+              onClick={closeMenu}
+            />
+            <SidebarItem
+              href="/orders"
+              icon={IoTicketOutline}
+              label="Your Orders"
+              onClick={closeMenu}
+            />
+            <SidebarItem
+              isButton
+              onClick={async () => {
+                await signOut({ redirect: false });
+                closeMenu();
+                router.push("/");
+              }}
+              icon={IoLogOutOutline}
+              label="Logout"
+            />
+          </>
+        ) : (
+          <>
+            <SidebarItem
+              href="/auth/new-account"
+              icon={IoMdPersonAdd}
+              label="Create Account"
+              onClick={closeMenu}
+            />
+            <SidebarItem
+              href="/auth/login"
+              icon={IoLogInOutline}
+              label="Login"
+              onClick={closeMenu}
+            />
+          </>
         )}
 
         <div className="w-full h-px bg-gray-400 my-10" />
 
         {roleUser === "admin" && (
-          <Link
-            href="/admin/products"
-            onClick={closeMenu}
-            className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-          >
-            <IoShirtOutline size={30} />
-            <span className="ml-3 text-xl">Products</span>
-          </Link>
+          <>
+            <SidebarItem
+              href="/admin/products"
+              icon={IoShirtOutline}
+              label="Products"
+              onClick={closeMenu}
+            />
+            <SidebarItem
+              href="/admin/orders"
+              icon={IoTicketOutline}
+              label="Orders System"
+              onClick={closeMenu}
+            />
+            <SidebarItem
+              href="/admin/users"
+              icon={IoPeopleOutline}
+              label="Users"
+              onClick={closeMenu}
+            />
+          </>
         )}
-
-        {roleUser === "admin" && (
-          <Link
-            href="/admin/orders"
-            onClick={closeMenu}
-            className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-          >
-            <IoTicketOutline size={30} />
-            <span className="ml-3 text-xl">Orders System</span>
-          </Link>
-        )}
-
-        {roleUser === "admin" && (
-          <Link
-            href="/admin/users"
-            onClick={closeMenu}
-            className="flex items-center mt-10 p-2 hover:bg-gray-300 rounded transition-all"
-          >
-            <IoPeopleOutline size={30} />
-            <span className="ml-3 text-xl">Users</span>
-          </Link>
-        )}
-      </nav>
+      </motion.nav>
     </div>
   );
 };
