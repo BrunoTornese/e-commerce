@@ -37,7 +37,6 @@ export default async function ProductBySlugPage({ params }: Props) {
       <div className="flex flex-col w-full max-w-4xl">
         <Title title={`Order ${id}`} />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10">
-          {/* Product List */}
           <div className="flex flex-col mt-5">
             <OrderStatus isPaid={isPaid} />
             {items.map((item) => (

@@ -1,7 +1,6 @@
 export const revalidate = 60;
 
 import { Pagination, Title } from "@/components";
-import { redirect } from "next/navigation";
 import {
   getPaginatedProductsWithImages,
   getTags,
