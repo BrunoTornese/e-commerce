@@ -48,6 +48,11 @@ export const getPaginatedProductsWithImages = async ({
       where: whereConditions,
     });
 
+    products.forEach((product) => {
+      const imageUrls = product.ProductImage.map((image) => image.url);
+      console.log(`Product Name: ${product.title} - Images: ${imageUrls}`);
+    });
+
     const totalCount = await prisma.product.count({
       where: whereConditions,
     });
@@ -62,6 +67,7 @@ export const getPaginatedProductsWithImages = async ({
       })),
     };
   } catch (error) {
+    console.error("Error fetching products:", error);
     throw new Error("Error at get Products");
   }
 };

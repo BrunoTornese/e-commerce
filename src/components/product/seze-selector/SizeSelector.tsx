@@ -12,6 +12,10 @@ export const SizeSelector = ({
   availableSizes,
   onSizeChange,
 }: Props) => {
+  if (availableSizes.length === 0) {
+    return null;
+  }
+
   return (
     <div className="my-5">
       <h3 className="font-bold mb-4">Sizes available</h3>

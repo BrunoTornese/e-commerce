@@ -1,6 +1,10 @@
 "use client";
 
-import { createUpdateProduct, deteleteImage } from "@/app/actions";
+import {
+  createUpdateProduct,
+  deleteProduct,
+  deteleteImage,
+} from "@/app/actions";
 import { ProductImage } from "@/components";
 import {
   Category,
@@ -93,6 +97,27 @@ export const ProductForm = ({ product, categories }: Props) => {
 
     if (updatedProduct) {
       router.replace(`/admin/product/${updatedProduct.slug}`);
+    }
+  };
+
+  const handleDeleteProduct = async () => {
+    const confirmation = confirm(
+      "Are you sure you want to delete this product?"
+    );
+    if (!confirmation) return;
+
+    try {
+      const { ok } = await deleteProduct(product.id ?? "");
+
+      if (ok) {
+        alert("Product deleted successfully!");
+        router.push("/admin/products");
+      } else {
+        alert("An error occurred during deletion");
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert("An error occurred during deletion");
     }
   };
 
@@ -241,7 +266,18 @@ export const ProductForm = ({ product, categories }: Props) => {
       </div>
 
       <div className="w-full mt-4 lg:mt-0">
-        <button className="btn-primary w-full">Save</button>
+        <button className="bg-blue-500 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-blue-800">
+          Save
+        </button>
+      </div>
+      <div className="w-full mt-4 flex justify-end">
+        <button
+          type="button"
+          onClick={handleDeleteProduct}
+          className="bg-red-500 text-white py-2 px-4 rounded-md text-lg font-semibold hover:bg-red-900"
+        >
+          <span>Delete Product</span>
+        </button>
       </div>
     </form>
   );
