@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Product } from "@/interfaces";
 import { TagFilter } from "./TagFilter";
-
 import { ProductGrid } from "../products/product-grid/ProductGrid";
 import { GenderFilter } from "./GenderFilterr";
 

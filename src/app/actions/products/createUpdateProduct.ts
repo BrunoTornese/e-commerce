@@ -32,6 +32,7 @@ export const createUpdateProduct = async (formData: FormData) => {
   const productParsed = productSchema.safeParse(data);
 
   if (!productParsed.success) {
+    console.error("Validation failed:", productParsed.error);
     return { ok: false };
   }
 
@@ -83,17 +84,18 @@ export const createUpdateProduct = async (formData: FormData) => {
         });
       }
 
-      if (formData.getAll("images")) {
+      if (formData.getAll("images").length > 0) {
         const images = await uploadImages(formData.getAll("images") as File[]);
-        if (!images) {
+        if (images && images.length > 0) {
+          await prisma.productImage.createMany({
+            data: images.map((image) => ({
+              url: image!,
+              productId: product.id,
+            })),
+          });
+        } else {
           throw new Error("Image upload failed, rolling back");
         }
-        await prisma.productImage.createMany({
-          data: images.map((image) => ({
-            url: image!,
-            productId: product.id,
-          })),
-        });
       }
 
       return {
@@ -127,7 +129,6 @@ const uploadImages = async (images: File[]) => {
         const uploadResponse = await cloudinary.uploader.upload(
           `data:image/png;base64,${base64Image}`
         );
-
         return uploadResponse.secure_url;
       } catch (error) {
         console.error(`Failed to upload image: ${image.name}`, error);
@@ -137,8 +138,9 @@ const uploadImages = async (images: File[]) => {
 
     const uploadedImages = await Promise.all(uploadPromises);
 
-    return uploadedImages;
+    return uploadedImages.filter((url) => url !== null) as string[];
   } catch (error) {
-    return null;
+    console.error("Error uploading images:", error);
+    return [];
   }
 };
