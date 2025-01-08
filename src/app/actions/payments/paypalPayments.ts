@@ -45,7 +45,7 @@ export const paypalCheckPayment = async (TransactionIdId: string) => {
       ok: true,
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       ok: false,
       message: "Error in realizing the pay",
@@ -83,7 +83,7 @@ const getPayPalBearerToken = async (): Promise<string | null> => {
     }).then((r) => r.json());
     return result.access_token;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };
@@ -109,7 +109,7 @@ const verifyPayPalPayment = async (
     }).then((r) => r.json());
     return resp;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return null;
   }
 };

@@ -13,7 +13,7 @@ export const setUserAddress = async (address: Address, userId: string) => {
       message: "The address was saved",
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       ok: false,
       message: "Error at save the user address",

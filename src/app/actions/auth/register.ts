@@ -53,7 +53,7 @@ export const registerUser = async (
       user: user,
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       ok: false,
       message: "Error creating user",

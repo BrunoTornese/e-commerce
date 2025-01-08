@@ -27,7 +27,7 @@ export const login = async (email: string, password: string) => {
     });
     return { ok: true, message: "Success" };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return { ok: false, message: "Error on authentication" };
   }
 };

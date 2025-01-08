@@ -26,7 +26,7 @@ export const setTransactionId = async (
       ok: true,
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       ok: false,
       message: "Error setting transaction id",

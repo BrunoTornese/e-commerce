@@ -56,7 +56,7 @@ export const getOrderById = async (id: string) => {
       order: order,
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       ok: false,
       message: `Order not found`,

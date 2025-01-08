@@ -12,7 +12,7 @@ export const getCategorys = async () => {
 
     return categories;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return [];
   }
 };
