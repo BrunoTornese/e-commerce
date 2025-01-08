@@ -107,6 +107,11 @@ const RegisterForm = () => {
       <Link href="/auth/login" className="btn-secondary text-center">
         Login
       </Link>
+
+      <p className="mt-5 text-center text-lg text-black-900">
+        <strong>Did you know?</strong> You can choose between an admin or a user
+        account in the <strong>Login Form</strong>.
+      </p>
     </form>
   );
 };
