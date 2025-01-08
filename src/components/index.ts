@@ -16,3 +16,8 @@ export { Providers } from "./providers/providers";
 export { PayPalButton } from "./paypal/PayPalButton";
 export { OrderStatus } from "./orders/orderStatus";
 export { ProductImage } from "./product/ProductImage/ProductImage";
+export {
+  showErrorAlert,
+  showSuccessAlert,
+  showConfirmAlert,
+} from "./alerts/Alerts";

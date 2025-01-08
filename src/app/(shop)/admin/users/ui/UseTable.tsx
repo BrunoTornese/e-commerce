@@ -6,6 +6,7 @@ import { FaTrash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { showErrorAlert, showSuccessAlert } from "@/components";
 
 interface Props {
   users: User[];
@@ -20,12 +21,14 @@ export const UseTable = ({ users }: Props) => {
     setUserList(users);
   }, [users]);
 
-  const handleDelete = async (userId: string) => {
+  const handleDelete = async (userId: string): Promise<boolean> => {
     try {
       await deleteUser(userId);
       setUserList(userList.filter((user) => user.id !== userId));
+      return true;
     } catch (error) {
       console.error("Error deleting user:", error);
+      return false;
     }
   };
 
@@ -82,7 +85,22 @@ export const UseTable = ({ users }: Props) => {
               </div>
 
               <button
-                onClick={() => !isOwnAccount && handleDelete(user.id)}
+                onClick={async () => {
+                  if (!isOwnAccount) {
+                    try {
+                      const isDeleted = await handleDelete(user.id);
+                      if (isDeleted) {
+                        showSuccessAlert("User successfully deleted!");
+                      } else {
+                        showErrorAlert("Error: User could not be deleted.");
+                      }
+                    } catch (error) {
+                      showErrorAlert(
+                        "An error occurred while deleting the user."
+                      );
+                    }
+                  }
+                }}
                 disabled={isOwnAccount}
                 className="mt-4 text-red-500 hover:text-red-700 flex items-center space-x-2"
                 aria-label="Delete user"
