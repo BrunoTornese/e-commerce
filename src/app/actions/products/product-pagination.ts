@@ -34,6 +34,16 @@ export const getPaginatedProductsWithImages = async ({
       };
     }
 
+    const totalCount = await prisma.product.count({
+      where: whereConditions,
+    });
+    const totalPages = Math.ceil(totalCount / take);
+
+    const isInvalidPage = page > totalPages && totalPages > 0;
+    if (isInvalidPage) {
+      page = 1;
+    }
+
     const products = await prisma.product.findMany({
       take: take,
       skip: (page - 1) * take,
@@ -48,11 +58,6 @@ export const getPaginatedProductsWithImages = async ({
       where: whereConditions,
     });
 
-    const totalCount = await prisma.product.count({
-      where: whereConditions,
-    });
-    const totalPages = Math.ceil(totalCount / take);
-
     return {
       currentPage: page,
       totalPages: totalPages,
@@ -60,6 +65,7 @@ export const getPaginatedProductsWithImages = async ({
         ...product,
         images: product.ProductImage.map((image) => image.url),
       })),
+      redirectToPage1: isInvalidPage, 
     };
   } catch (error) {
     console.error("Error fetching products:", error);
