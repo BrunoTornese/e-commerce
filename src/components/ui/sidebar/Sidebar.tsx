@@ -16,6 +16,7 @@ import {
   IoTicketOutline,
 } from "react-icons/io5";
 import { motion } from "framer-motion";
+import { FaChartLine } from "react-icons/fa";
 
 interface SidebarItemProps {
   href?: string;
@@ -130,7 +131,7 @@ export const Sidebar = () => {
           </>
         )}
 
-        <div className="w-full h-px bg-gray-400 my-10" />
+        <div className="w-full h-px bg-gray-600 my-10" />
 
         {roleUser === "admin" && (
           <>
@@ -147,9 +148,9 @@ export const Sidebar = () => {
               onClick={closeMenu}
             />
             <SidebarItem
-              href="/admin/users"
-              icon={IoPeopleOutline}
-              label="Users"
+              href="/admin/financials"
+              icon={FaChartLine} 
+              label="Financials"
               onClick={closeMenu}
             />
           </>

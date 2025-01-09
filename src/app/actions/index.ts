@@ -21,3 +21,7 @@ export { deleteUser } from "./users/deleteUser";
 export { getTags } from "./products/getTags";
 export { getGenders } from "./products/getGender";
 export { deleteProduct } from "./products/deleteProduct";
+export { getOrders } from "./dashboard/Financials";
+export { getTotalSales } from "./dashboard/Financials";
+export { getTotalExpenses } from "./dashboard/Financials";
+export { createExpense } from "./dashboard/Financials";
