@@ -166,7 +166,7 @@ export default async function OrdersPage({ searchParams }: Props) {
                   <strong>Sizes:</strong> {product.size.join(", ")}
                 </div>
                 <div>
-                  <strong>:</strong> {product.tags.join(", ")}{" "}
+                  <strong>Tags:</strong> {product.tags.join(", ")}
                 </div>
               </div>
             </div>
