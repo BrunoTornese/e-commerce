@@ -1,7 +1,5 @@
 <div align='center'>
 
-<img src=https://media.licdn.com/dms/image/v2/D4D22AQGxSO6ljxFQyg/feedshare-shrink_800/B4DZP.5XXWG0Ak-/0/1735148271917?e=1739404800&v=beta&t=dpvEJHZVvaYkK_Y6JfTtxUtbCdU3-Kv6BcNatXFgiqo alt="logo" width=800 height=600 />
-
 <h1>E-commerce using Next.js</h1>
 <p>A full-fledged e-commerce website built using Next.js, Prisma, and various modern technologies for fast and efficient online shopping.</p>
 
