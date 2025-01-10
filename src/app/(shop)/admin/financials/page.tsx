@@ -49,7 +49,9 @@ export default async function Dashboard() {
         <div className="bg-blue-100 shadow-xl rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-lg font-semibold text-blue-700">Orders</p>
+              <p className="text-lg font-semibold text-blue-700">
+                Complete Orders
+              </p>
               <p className="text-3xl font-bold text-blue-800">{ordersTotal}</p>
             </div>
             <FaBox size={40} className="text-blue-500" />
