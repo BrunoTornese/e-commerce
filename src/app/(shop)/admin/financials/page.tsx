@@ -31,14 +31,13 @@ export default async function Dashboard() {
 
   const netIncome = totalSales - totalExpenses;
 
-  // Usar directamente los valores obtenidos sin duplicar
-  const salesData = [totalSales]; // Solo un dato para las ventas
-  const expensesData = [totalExpenses]; // Solo un dato para los gastos
-  const netIncomeData = [netIncome]; // Solo un dato para el ingreso neto
-  const ordersData = [ordersTotal]; // Solo un dato para las órdenes
+  const salesData = [totalSales];
+  const expensesData = [totalExpenses];
+  const netIncomeData = [netIncome];
+  const ordersData = [ordersTotal];
 
   return (
-    <main className="p-6 min-h-screen bg-gradient-to-t from-white to-blue-100">
+    <div className="p-6 min-h-screen bg-gradient-to-t from-white to-blue-100">
       <header className="mb-8 text-center">
         <h1 className="text-4xl font-bold text-gray-900 tracking-wide uppercase">
           Financial Dashboard
@@ -46,7 +45,7 @@ export default async function Dashboard() {
         <p className="text-xl text-gray-600 mt-2">Overview of your finances</p>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <div className="bg-blue-100 shadow-xl rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
           <div className="flex items-center justify-between">
             <div>
@@ -100,6 +99,6 @@ export default async function Dashboard() {
           ordersData={ordersData}
         />
       </div>
-    </main>
+    </div>
   );
 }
