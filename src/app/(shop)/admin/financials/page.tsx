@@ -31,10 +31,11 @@ export default async function Dashboard() {
 
   const netIncome = totalSales - totalExpenses;
 
-  const salesData = [totalSales, netIncome, totalExpenses];
-  const expensesData = [totalExpenses, netIncome, totalSales];
-  const netIncomeData = [netIncome, totalSales, totalExpenses];
-  const labels = ["Total Sales", "Net Income", "Total Expenses"];
+  // Usar directamente los valores obtenidos sin duplicar
+  const salesData = [totalSales]; // Solo un dato para las ventas
+  const expensesData = [totalExpenses]; // Solo un dato para los gastos
+  const netIncomeData = [netIncome]; // Solo un dato para el ingreso neto
+  const ordersData = [ordersTotal]; // Solo un dato para las órdenes
 
   return (
     <main className="p-6 min-h-screen bg-gradient-to-t from-white to-blue-100">
@@ -96,7 +97,7 @@ export default async function Dashboard() {
           salesData={salesData}
           expensesData={expensesData}
           netIncomeData={netIncomeData}
-          labels={labels}
+          ordersData={ordersData}
         />
       </div>
     </main>
