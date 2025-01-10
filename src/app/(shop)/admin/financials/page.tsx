@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth.config";
+import { FinancialChart } from "@/components";
 
 export default async function Dashboard() {
   let ordersTotal = 0,
@@ -30,46 +31,73 @@ export default async function Dashboard() {
 
   const netIncome = totalSales - totalExpenses;
 
+  const salesData = [totalSales, netIncome, totalExpenses];
+  const expensesData = [totalExpenses, netIncome, totalSales];
+  const netIncomeData = [netIncome, totalSales, totalExpenses];
+  const labels = ["Total Sales", "Net Income", "Total Expenses"];
+
   return (
-    <main className="p-6 min-h-screen">
-      <header className="mb-6">
-        <h1 className="text-3xl font-bold text-center text-gray-800">
-          Finances
+    <main className="p-6 min-h-screen bg-gradient-to-t from-white to-blue-100">
+      <header className="mb-8 text-center">
+        <h1 className="text-4xl font-bold text-gray-900 tracking-wide uppercase">
+          Financial Dashboard
         </h1>
+        <p className="text-xl text-gray-600 mt-2">Overview of your finances</p>
       </header>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-blue-100 shadow-lg rounded-lg p-6 flex items-center justify-between">
-          <div>
-            <p className="text-lg font-semibold text-blue-800">Orders</p>
-            <p className="text-2xl text-blue-900 font-bold">{ordersTotal}</p>
+        <div className="bg-blue-100 shadow-xl rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-lg font-semibold text-blue-700">Orders</p>
+              <p className="text-3xl font-bold text-blue-800">{ordersTotal}</p>
+            </div>
+            <FaBox size={40} className="text-blue-500" />
           </div>
-          <FaBox size={32} className="text-blue-500" />
         </div>
 
-        <div className="bg-yellow-100 shadow-lg rounded-lg p-6 flex items-center justify-between">
-          <div>
-            <p className="text-lg font-semibold text-yellow-800">Total Sales</p>
-            <p className="text-2xl text-yellow-900 font-bold">{totalSales}</p>
+        <div className="bg-yellow-100 shadow-xl rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-lg font-semibold text-yellow-700">
+                Total Sales
+              </p>
+              <p className="text-3xl font-bold text-yellow-800">{totalSales}</p>
+            </div>
+            <FaDollarSign size={40} className="text-yellow-500" />
           </div>
-          <FaDollarSign size={32} className="text-yellow-500" />
         </div>
 
-        <div className="bg-red-100 shadow-lg rounded-lg p-6 flex items-center justify-between">
-          <div>
-            <p className="text-lg font-semibold text-red-800">Total Expenses</p>
-            <p className="text-2xl text-red-900 font-bold">{totalExpenses}</p>
+        <div className="bg-red-100 shadow-xl rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-lg font-semibold text-red-700">
+                Total Expenses
+              </p>
+              <p className="text-3xl font-bold text-red-800">{totalExpenses}</p>
+            </div>
+            <FaMoneyBillWave size={40} className="text-red-500" />
           </div>
-          <FaMoneyBillWave size={32} className="text-red-500" />
         </div>
 
-        <div className="bg-green-100 shadow-lg rounded-lg p-6 flex items-center justify-between">
-          <div>
-            <p className="text-lg font-semibold text-green-800">Net Income</p>
-            <p className="text-2xl text-green-900 font-bold">{netIncome}</p>
+        <div className="bg-green-100 shadow-xl rounded-xl p-6 transform hover:scale-105 transition-transform duration-300 ease-in-out">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-lg font-semibold text-green-700">Net Income</p>
+              <p className="text-3xl font-bold text-green-800">{netIncome}</p>
+            </div>
+            <FaChartLine size={40} className="text-green-500" />
           </div>
-          <FaChartLine size={32} className="text-green-500" />
         </div>
+      </div>
+
+      <div className="mt-8 bg-white shadow-xl rounded-xl p-6">
+        <FinancialChart
+          salesData={salesData}
+          expensesData={expensesData}
+          netIncomeData={netIncomeData}
+          labels={labels}
+        />
       </div>
     </main>
   );

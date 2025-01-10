@@ -1,4 +1,3 @@
-import { ProductImage } from "./product/ProductImage/ProductImage";
 export { TopMenu } from "./ui/top-menu/topMenu";
 export { PageNotFound } from "./ui/not-found/pageNotFound";
 export { Title } from "./ui/title/Title";
@@ -21,3 +20,5 @@ export {
   showSuccessAlert,
   showConfirmAlert,
 } from "./alerts/Alerts";
+
+export { default as FinancialChart } from "./grafic/graficDashboard";
