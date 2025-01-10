@@ -147,11 +147,3 @@ model OrderAddress {
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   String  @unique
 }
-
-model Expense {
-  id          String   @id @default(uuid())
-  name        String
-  amount      Float
-  description String?
-  date        DateTime @default(now())
-}
