@@ -89,7 +89,6 @@ model UserAddress {
   phone      String
   city       String
 
-  
   country   Country @relation(fields: [countryId], references: [id])
   countryId String
 
@@ -109,7 +108,6 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  
   user          User          @relation(fields: [userId], references: [id])
   userId        String
   OrderItem     OrderItem[]
@@ -123,7 +121,6 @@ model OrderItem {
   price    Float
   size     Size
 
-  
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   String
   product   Product @relation(fields: [productId], references: [id])
@@ -141,7 +138,6 @@ model OrderAddress {
   phone           String
   rememberAddress Boolean
 
-  
   country   Country @relation(fields: [countryId], references: [id])
   countryId String
   order     Order   @relation(fields: [orderId], references: [id])
