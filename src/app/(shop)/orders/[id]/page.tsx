@@ -19,6 +19,18 @@ export default async function ProductBySlugPage({ params }: Props) {
     redirect("/");
   }
 
+  const isCloudinaryImage = (imageUrl: string) => {
+    return imageUrl.startsWith("https://res.cloudinary.com/");
+  };
+
+  const getImageSrc = (image: string) => {
+    if (isCloudinaryImage(image)) {
+      return image;
+    } else {
+      return `/products/${image}`;
+    }
+  };
+
   const {
     OrderAddress: address,
     OrderItem: items,
@@ -46,7 +58,7 @@ export default async function ProductBySlugPage({ params }: Props) {
               >
                 {item.product.ProductImage[0]?.url && (
                   <Image
-                    src={`/products/${item.product.ProductImage[0].url}`}
+                    src={getImageSrc(`${item.product.ProductImage[0].url}`)}
                     width={100}
                     height={100}
                     alt={item.product.title}
