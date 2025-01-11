@@ -8,8 +8,7 @@
     "start": "next start",
     "prisma": "prisma",
     "lint": "next lint",
-    "postinstall": "prisma generate",
-    "prisma:deploy": "npx prisma migrate deploy && prisma generate",
+    "postinstall": "prisma migrate deploy && prisma generate",
     "seed": "ts-node src/seed/seed-database.ts"
   },
   "dependencies": {
