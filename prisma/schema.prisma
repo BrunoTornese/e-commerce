@@ -142,4 +142,5 @@ model OrderAddress {
   countryId String
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   String  @unique
+  userId    String?
 }
