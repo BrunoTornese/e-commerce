@@ -7,7 +7,7 @@ import prisma from "@/lib/prisma";
 interface ProductToOrder {
   productId: string;
   quantity: number;
-  size: Sizes;
+  size: Sizes | "N/A";
 }
 
 export const placeOrder = async (
@@ -79,7 +79,6 @@ export const placeOrder = async (
           throw new Error(`${product.title} product out of stock, sorry 😢`);
         }
       });
-
       const order = await tx.order.create({
         data: {
           userId: userId,
@@ -90,14 +89,17 @@ export const placeOrder = async (
 
           OrderItem: {
             createMany: {
-              data: productId.map((p) => ({
-                quantity: p.quantity,
-                size: p.size,
-                productId: p.productId,
-                price:
-                  products.find((product) => product.id === p.productId)
-                    ?.price ?? 0,
-              })),
+              data: productId.map((p) => {
+                const validSize = p.size === "N/A" ? "N_A" : p.size;
+                return {
+                  quantity: p.quantity,
+                  size: validSize,
+                  productId: p.productId,
+                  price:
+                    products.find((product) => product.id === p.productId)
+                      ?.price ?? 0,
+                };
+              }),
             },
           },
         },
@@ -109,7 +111,7 @@ export const placeOrder = async (
           ...restAddress,
           countryId: country,
           orderId: order.id,
-          rememberAddress: false, 
+          rememberAddress: false,
         },
       });
 

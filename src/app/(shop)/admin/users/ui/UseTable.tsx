@@ -58,7 +58,8 @@ export const UseTable = ({ users }: Props) => {
             >
               <div className="mb-4">
                 <h2 className="text-lg font-semibold text-gray-900">
-                  {user.name}
+                  {user.name} <br />
+                  {user.id}
                 </h2>
                 <p className="text-sm text-gray-600">{user.email}</p>
               </div>

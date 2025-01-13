@@ -28,7 +28,6 @@ export const PlaceOrder = () => {
 
   const onPlaceOrder = async () => {
     setPlacingOrder(true);
-
     const productsToOrder = cart.map((item) => ({
       productId: item.id,
       quantity: item.quantity,
@@ -40,6 +39,7 @@ export const PlaceOrder = () => {
     if (!resp.ok) {
       setPlacingOrder(false);
       setErrorMessage(resp.message);
+
       return;
     }
     cleaCart();
@@ -109,7 +109,7 @@ export const PlaceOrder = () => {
       </div>
       <div className="w-full h-0.5 rounded bg-gray-300 mb-10" />
       <div className="flex justify-between">
-        <span>No products</span>
+        <span>Products</span>
         <span className="text-right">
           {itemsInCart === 1 ? "1 Item" : `${itemsInCart} Items`}
         </span>

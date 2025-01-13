@@ -15,19 +15,30 @@ export const AddToCart = ({ product }: Props) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [posted, setPosted] = useState<boolean>(false);
 
+  const noSizeCategories = ["hats", "shoes"];
+
+  const isNoSizeRequired = noSizeCategories.some((category) =>
+    product.tags.includes(category)
+  );
+
   const addToCart = () => {
     setPosted(true);
-    if (!size) return;
+
+    if (!isNoSizeRequired && !size) {
+      return;
+    }
+
     const cartProduct: CartProduct = {
       stock: product.inStock,
       id: product.id,
       price: product.price,
       slug: product.slug,
-      size: size,
+      size: isNoSizeRequired ? "N/A" : size ?? "N/A",
       quantity: quantity,
       title: product.title,
       image: product.images ? product.images[0] : "",
     };
+
     addProductToCart(cartProduct);
     setPosted(false);
     setSize(undefined);
@@ -38,16 +49,18 @@ export const AddToCart = ({ product }: Props) => {
     <>
       <StockLabel slug={product.slug} />
       <p className="text-lg mb-5">${product.price}</p>
-      {posted && !size && (
+      {posted && !isNoSizeRequired && !size && (
         <span className="mt-2 text-red-500 fade-in">
           You must select a size!
         </span>
       )}
-      <SizeSelector
-        selectedSize={size}
-        availableSizes={product.size}
-        onSizeChange={setSize}
-      />
+      {!isNoSizeRequired && (
+        <SizeSelector
+          selectedSize={size}
+          availableSizes={product.size}
+          onSizeChange={setSize}
+        />
+      )}
       <QuantitySelector
         quantity={quantity}
         stock={product.inStock}

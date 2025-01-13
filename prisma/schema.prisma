@@ -15,6 +15,7 @@ enum Size {
   XL
   XXL
   XXXL
+  N_A
 }
 
 enum Gender {
