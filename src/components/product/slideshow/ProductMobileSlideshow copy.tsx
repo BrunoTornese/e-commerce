@@ -24,7 +24,7 @@ export const ProductMobileSlideshow = ({ images, title, classname }: Props) => {
         }}
         pagination
         autoplay={{
-          delay: 2000,
+          delay: 4000,
         }}
         modules={[FreeMode, Autoplay, Pagination]}
         className="mySwiper2"

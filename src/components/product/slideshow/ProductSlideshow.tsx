@@ -19,6 +19,12 @@ interface Props {
 
 export const ProductSlideshow = ({ images, title, classname }: Props) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperObject>();
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  const handleThumbnailClick = (index: number) => {
+    setActiveIndex(index);
+    thumbsSwiper?.slideTo(index);
+  };
 
   return (
     <div className={classname}>
@@ -26,15 +32,16 @@ export const ProductSlideshow = ({ images, title, classname }: Props) => {
         spaceBetween={10}
         navigation={true}
         autoplay={{
-          delay: 2000,
+          delay: 4000,
         }}
         thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroy ? thumbsSwiper : null,
         }}
         modules={[FreeMode, Navigation, Thumbs, Autoplay]}
         className="mySwiper2"
+        initialSlide={activeIndex}
       >
-        {images.map((image) => (
+        {images.map((image, index) => (
           <SwiperSlide key={image}>
             <ProductImage
               width={1024}
@@ -46,6 +53,7 @@ export const ProductSlideshow = ({ images, title, classname }: Props) => {
           </SwiperSlide>
         ))}
       </Swiper>
+
       <Swiper
         onSwiper={setThumbsSwiper}
         spaceBetween={10}
@@ -54,19 +62,7 @@ export const ProductSlideshow = ({ images, title, classname }: Props) => {
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
-      >
-        {images.map((image) => (
-          <SwiperSlide key={image}>
-            <ProductImage
-              width={300}
-              height={300}
-              src={image}
-              alt={title}
-              className="rounded-lg object-fill"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      ></Swiper>
     </div>
   );
 };
