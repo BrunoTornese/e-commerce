@@ -149,8 +149,14 @@ export const Sidebar = () => {
             />
             <SidebarItem
               href="/admin/financials"
-              icon={FaChartLine} 
+              icon={FaChartLine}
               label="Financials"
+              onClick={closeMenu}
+            />
+            <SidebarItem
+              href="/admin/users"
+              icon={IoPeopleOutline}
+              label="Users"
               onClick={closeMenu}
             />
           </>
