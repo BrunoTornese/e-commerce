@@ -83,16 +83,17 @@ export default async function ProductBySlugPage({ params }: Props) {
             <h2 className="text-xl sm:text-2xl mb-3">Delivery Address</h2>
             <div className="mb-5">
               <p className="text-lg sm:text-xl">
-                {address?.firstName} {address?.lastName}
+                {address?.[0]?.firstName} {address?.[0]?.lastName}
               </p>
-              <p>{address?.address}</p>
-              {address?.address2 && <p>{address.address2}</p>}
-              <p>{address?.postalCode}</p>
+              <p>{address?.[0]?.address}</p>
+              {address?.[0]?.address2 && <p>{address[0].address2}</p>}
+              <p>{address?.[0]?.postalCode}</p>
               <p>
-                {address?.city}, {address?.countryId}
+                {address?.[0]?.city}, {address?.[0]?.countryId}
               </p>
-              <p>{address?.phone}</p>
+              <p>{address?.[0]?.phone}</p>
             </div>
+
             <div className="w-full h-0.5 rounded bg-gray-300 mb-5 sm:mb-10" />
 
             <div className="space-y-2">

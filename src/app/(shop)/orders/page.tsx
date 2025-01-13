@@ -56,7 +56,7 @@ export default async function OrdersPage() {
                     {order.id}
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                    {order.OrderAddress?.firstName}
+                    {order?.OrderAddress?.[0]?.firstName}
                   </td>
                   <td className="flex items-center text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     <IoCardOutline
@@ -113,7 +113,7 @@ export default async function OrdersPage() {
                 </div>
                 <div className="mb-2">
                   <span className="font-semibold">Name:</span>{" "}
-                  {order.OrderAddress?.firstName}
+                  {order.OrderAddress?.[0]?.firstName}
                 </div>
                 <div className="mb-2 flex items-center">
                   <IoCardOutline
