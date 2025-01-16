@@ -71,7 +71,13 @@ export default async function ProductBySlugPage({ params }: Props) {
       </div>
 
       <div className="flex items-center space-x-3 mt-4">
-        <FavoriteButton initialState={false} />
+        {session?.user?.id ? (
+          <FavoriteButton userId={session?.user?.id} productId={product.id} />
+        ) : (
+          <button className="text-gray-500 text-xl" disabled>
+            <span>You need an account to add to favorites</span>
+          </button>
+        )}
       </div>
 
       <div className="col-span-1 w-full px-5 mt-6">
