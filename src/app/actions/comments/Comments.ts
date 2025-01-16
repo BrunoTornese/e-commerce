@@ -10,6 +10,7 @@ export async function CreateComment(comment: Comment) {
         content: comment.content,
         productId: comment.productId,
         userId: comment.userId,
+        userName: comment.userName,
       },
     });
 
