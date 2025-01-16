@@ -44,7 +44,7 @@ export const Comments = ({ comments = [], currentUserId }: CommentsProps) => {
   const isAdmin = session?.user?.role === "admin";
 
   return (
-    <div className="p-8 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-2xl shadow-2xl space-y-8">
+    <div className="p-8 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-2xl shadow-2xl space-y-8 overflow-x-hidden">
       {comments === null || comments === undefined ? (
         <div className="text-center text-gray-500">
           <p>No comments available yet.</p>

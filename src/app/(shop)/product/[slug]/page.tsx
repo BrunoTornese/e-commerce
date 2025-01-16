@@ -46,11 +46,15 @@ export default async function ProductBySlugPage({ params }: Props) {
   }
 
   const comments = await GetCommentsBySlug(slug);
+  const formattedComments = comments?.map((comment) => ({
+    ...comment,
+    createdAt: comment.createdAt.toISOString(),
+  }));
 
   const session = await auth();
 
   return (
-    <div className="mt-5 mb-20 grid grid-cols-1 gap-4">
+    <div className="mt-5 mb-20 grid grid-cols-1 gap-4 overflow-x-hidden">
       <div className="col-span-1 w-full">
         <ProductMobileSlideshow
           title={product.title}
@@ -81,7 +85,10 @@ export default async function ProductBySlugPage({ params }: Props) {
       </div>
 
       <div className="w-full space-y-4">
-        <Comments comments={comments} currentUserId={session?.user?.id} />
+        <Comments
+          comments={formattedComments}
+          currentUserId={session?.user?.id}
+        />
       </div>
     </div>
   );

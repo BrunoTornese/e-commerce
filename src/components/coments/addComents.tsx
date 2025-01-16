@@ -52,7 +52,7 @@ export const AddComment = ({ productId }: { productId: string }) => {
   };
 
   return (
-    <div className="mt-8 max-w-4xl mx-auto bg-gradient-to-br from-gray-100 to-gray-300 rounded-2xl shadow-2xl space-y-8">
+    <div className="mt-8 max-w-4xl mx-auto bg-gradient-to-br from-gray-100 to-gray-300 rounded-2xl shadow-2xl space-y-8 overflow-x-hidden">
       <h4 className="text-4xl font-bold text-gray-900 mb-6 tracking-tight text-center">
         Give your opinion on the product
       </h4>
