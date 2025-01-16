@@ -5,6 +5,17 @@ import { Comment } from "@/interfaces";
 
 export async function CreateComment(comment: Comment) {
   try {
+    const productExists = await prisma.product.findUnique({
+      where: {
+        id: comment.productId,
+      },
+    });
+
+    if (!productExists) {
+      console.error(`Product with ID ${comment.productId} not found`);
+      throw new Error("Product not found");
+    }
+
     const newComment = await prisma.comment.create({
       data: {
         content: comment.content,

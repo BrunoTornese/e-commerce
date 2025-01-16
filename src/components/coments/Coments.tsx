@@ -3,11 +3,8 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { DeleteComment } from "@/app/actions";
-import {
-  showConfirmAlert,
-  showErrorAlert,
-  showSuccessAlert,
-} from "../alerts/Alerts";
+import { showErrorAlert, showSuccessAlert } from "../alerts/Alerts";
+import { useRouter } from "next/navigation";
 
 interface Comment {
   id: string;
@@ -25,19 +22,15 @@ export const Comments = ({ comments = [], currentUserId }: CommentsProps) => {
   const { data: session } = useSession();
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleDelete = async (commentId: string) => {
     try {
-      const result = showConfirmAlert(
-        "Are you sure you want to delete this comment?"
-      );
-      if (!result) return;
-
       setIsDeleting(true);
       setError(null);
 
       await DeleteComment(commentId);
-
+      router.refresh();
       showSuccessAlert("Comment deleted successfully.");
     } catch (error) {
       console.error("Error deleting the comment:", error);
@@ -48,9 +41,8 @@ export const Comments = ({ comments = [], currentUserId }: CommentsProps) => {
   };
 
   const isAdmin = session?.user?.role === "admin";
-
   return (
-    <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg shadow-lg space-y-6">
+    <div className="p-8 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-2xl shadow-2xl space-y-8">
       {comments === null || comments === undefined ? (
         <div className="text-center text-gray-500">
           <p>No comments available yet.</p>
@@ -63,10 +55,10 @@ export const Comments = ({ comments = [], currentUserId }: CommentsProps) => {
         comments.map((comment) => (
           <div
             key={comment.id}
-            className="p-4 bg-white rounded-lg border border-gray-300 shadow-md hover:shadow-lg transition-shadow duration-300"
+            className="p-6 bg-white rounded-xl border-2 border-gray-400 shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
           >
-            <div className="flex justify-between">
-              <h3 className="font-semibold text-base text-gray-800">
+            <div className="flex justify-between items-center">
+              <h3 className="font-semibold text-xl text-gray-800 tracking-tight">
                 {comment.userName}
               </h3>
 
@@ -74,18 +66,19 @@ export const Comments = ({ comments = [], currentUserId }: CommentsProps) => {
                 <button
                   onClick={() => handleDelete(comment.id)}
                   disabled={isDeleting}
-                  className="text-red-500 hover:text-red-600"
+                  className="text-red-500 hover:text-red-600 transition-all duration-200 ease-in-out transform hover:scale-105"
                 >
                   {isDeleting ? "Deleting..." : "Delete"}
                 </button>
               )}
             </div>
 
-            <p className="mt-2 text-gray-600">{comment.content}</p>
+            <p className="mt-3 text-gray-700">{comment.content}</p>
           </div>
         ))
       )}
-      {error && <p className="text-red-500">{error}</p>}
+
+      {error && <p className="text-red-400 text-sm mt-4">{error}</p>}
     </div>
   );
 };

@@ -11,16 +11,12 @@ import { GetCommentsBySlug, getProductBySlug } from "@/app/actions";
 import { Metadata, ResolvingMetadata } from "next";
 import { AddToCart } from "./ui/addToCart";
 import { auth } from "@/auth.config";
+import { AddComment } from "@/components/coments/addComents";
 
 interface Props {
   params: {
     slug: string;
   };
-}
-
-interface CommentsProps {
-  comments: Comment[] | null | undefined;
-  currentUserId?: string | undefined;
 }
 
 export async function generateMetadata(
@@ -54,8 +50,8 @@ export default async function ProductBySlugPage({ params }: Props) {
   const session = await auth();
 
   return (
-    <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3 ">
-      <div className="col-span-1 md:col-span-2 ">
+    <div className="mt-5 mb-20 grid grid-cols-1 gap-4">
+      <div className="col-span-1 w-full">
         <ProductMobileSlideshow
           title={product.title}
           images={product.images}
@@ -69,8 +65,8 @@ export default async function ProductBySlugPage({ params }: Props) {
         />
       </div>
 
-      <div className="col-span-1 px-5">
-        <h1 className={` ${titleFont.className} antialiased font-bold text-xl`}>
+      <div className="col-span-1 w-full px-5">
+        <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>
           {product.title}
         </h1>
 
@@ -80,7 +76,13 @@ export default async function ProductBySlugPage({ params }: Props) {
         <p className="font-light">{product.description}</p>
       </div>
 
-      <Comments comments={comments} currentUserId={session?.user?.id} />
+      <div className="w-full space-y-4">
+        <AddComment productId={product.id} />
+      </div>
+
+      <div className="w-full space-y-4">
+        <Comments comments={comments} currentUserId={session?.user?.id} />
+      </div>
     </div>
   );
 }
