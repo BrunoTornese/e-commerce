@@ -2,6 +2,7 @@ export const revalidate = 604800; //7 días
 
 import {
   Comments,
+  FavoriteButton,
   ProductMobileSlideshow,
   ProductSlideshow,
 } from "@/components";
@@ -54,7 +55,7 @@ export default async function ProductBySlugPage({ params }: Props) {
   const session = await auth();
 
   return (
-    <div className="mt-5 mb-20 grid grid-cols-1 gap-4 overflow-x-hidden">
+    <div className="mt-5 mb-20 grid grid-cols-1 gap-6 overflow-x-hidden px-5">
       <div className="col-span-1 w-full">
         <ProductMobileSlideshow
           title={product.title}
@@ -69,22 +70,30 @@ export default async function ProductBySlugPage({ params }: Props) {
         />
       </div>
 
-      <div className="col-span-1 w-full px-5">
-        <h1 className={`${titleFont.className} antialiased font-bold text-xl`}>
+      <div className="flex items-center space-x-3 mt-4">
+        <FavoriteButton initialState={false} />
+      </div>
+
+      <div className="col-span-1 w-full px-5 mt-6">
+        <h1
+          className={`${titleFont.className} text-2xl font-bold text-gray-800`}
+        >
           {product.title}
         </h1>
 
         <AddToCart product={product} />
 
-        <h3 className="font-bold text-sm">Description</h3>
-        <p className="font-light">{product.description}</p>
+        <div className="mt-4">
+          <h3 className="font-semibold text-sm text-gray-700">Description</h3>
+          <p className="font-light text-gray-600">{product.description}</p>
+        </div>
       </div>
 
-      <div className="w-full space-y-4">
+      <div className="w-full space-y-4 mt-6">
         <AddComment productId={product.id} />
       </div>
 
-      <div className="w-full space-y-4">
+      <div className="w-full space-y-4 mt-6">
         <Comments
           comments={formattedComments}
           currentUserId={session?.user?.id}

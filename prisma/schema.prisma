@@ -51,6 +51,7 @@ model Product {
   ProductImage ProductImage[]
   OrderItem    OrderItem[]
   comments     Comment[]
+  Favorite     Favorite[]
 
   @@index([gender])
 }
@@ -73,6 +74,7 @@ model User {
   address       UserAddress?
   Order         Order[]
   comments      Comment[]
+  Favorite      Favorite[]
 }
 
 model Country {
@@ -161,4 +163,15 @@ model Comment {
   user     User   @relation(fields: [userId], references: [id])
   userId   String
   userName String
+}
+
+model Favorite {
+  id        String @id @default(uuid())
+  userId    String
+  productId String
+
+  user    User    @relation(fields: [userId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([userId, productId])
 }
