@@ -1,16 +1,26 @@
 export const revalidate = 604800; //7 días
 
-import { ProductMobileSlideshow, ProductSlideshow } from "@/components";
+import {
+  Comments,
+  ProductMobileSlideshow,
+  ProductSlideshow,
+} from "@/components";
 import { titleFont } from "@/config/fonts";
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/app/actions";
+import { GetCommentsBySlug, getProductBySlug } from "@/app/actions";
 import { Metadata, ResolvingMetadata } from "next";
 import { AddToCart } from "./ui/addToCart";
+import { auth } from "@/auth.config";
 
 interface Props {
   params: {
     slug: string;
   };
+}
+
+interface CommentsProps {
+  comments: Comment[] | null | undefined;
+  currentUserId?: string | undefined;
 }
 
 export async function generateMetadata(
@@ -39,6 +49,10 @@ export default async function ProductBySlugPage({ params }: Props) {
     notFound();
   }
 
+  const comments = await GetCommentsBySlug(slug);
+
+  const session = await auth();
+
   return (
     <div className="mt-5 mb-20 grid grid-cols-1 md:grid-cols-3 gap-3 ">
       <div className="col-span-1 md:col-span-2 ">
@@ -65,6 +79,8 @@ export default async function ProductBySlugPage({ params }: Props) {
         <h3 className="font-bold text-sm">Description</h3>
         <p className="font-light">{product.description}</p>
       </div>
+
+      <Comments comments={comments} currentUserId={session?.user?.id} />
     </div>
   );
 }

@@ -22,3 +22,4 @@ export {
 } from "./alerts/Alerts";
 
 export { default as FinancialChart } from "./grafic/graficDashboard";
+export { Comments } from "./coments/Coments";

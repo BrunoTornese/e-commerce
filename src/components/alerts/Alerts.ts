@@ -16,19 +16,13 @@ export const showErrorAlert = (message: string) => {
   });
 };
 
-export const showConfirmAlert = (message: string) => {
-  Swal.fire({
+export const showConfirmAlert = (message: string): Promise<boolean> => {
+  return Swal.fire({
     title: "Are you sure?",
     text: message,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes",
     cancelButtonText: "No",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire("The operation was successful!");
-    } else {
-      Swal.fire("The operation was cancelled!");
-    }
-  });
+  }).then((result) => result.isConfirmed);
 };

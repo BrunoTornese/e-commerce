@@ -5,3 +5,4 @@ export * from "./paypal";
 export * from "./userInterface";
 export * from "./categoryInterface";
 export * from "./productImageInterface";
+export * from "./commentsInterface";
