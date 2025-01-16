@@ -11,6 +11,7 @@ interface Comment {
   content: string;
   userName: string;
   userId: string;
+  createdAt: string;
 }
 
 interface CommentsProps {
@@ -41,6 +42,7 @@ export const Comments = ({ comments = [], currentUserId }: CommentsProps) => {
   };
 
   const isAdmin = session?.user?.role === "admin";
+
   return (
     <div className="p-8 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-2xl shadow-2xl space-y-8">
       {comments === null || comments === undefined ? (
@@ -62,18 +64,24 @@ export const Comments = ({ comments = [], currentUserId }: CommentsProps) => {
                 {comment.userName}
               </h3>
 
-              {(currentUserId === comment.userId || isAdmin) && (
-                <button
-                  onClick={() => handleDelete(comment.id)}
-                  disabled={isDeleting}
-                  className="text-red-500 hover:text-red-600 transition-all duration-200 ease-in-out transform hover:scale-105"
-                >
-                  {isDeleting ? "Deleting..." : "Delete"}
-                </button>
-              )}
+              <span className="text-sm text-gray-500">
+                {comment.createdAt
+                  ? new Date(comment.createdAt).toLocaleDateString()
+                  : "No date available"}
+              </span>
             </div>
 
             <p className="mt-3 text-gray-700">{comment.content}</p>
+
+            {(currentUserId === comment.userId || isAdmin) && (
+              <button
+                onClick={() => handleDelete(comment.id)}
+                disabled={isDeleting}
+                className="mt-3 text-red-500 hover:text-red-600 transition-all duration-200 ease-in-out transform hover:scale-105"
+              >
+                {isDeleting ? "Deleting..." : "Delete"}
+              </button>
+            )}
           </div>
         ))
       )}
