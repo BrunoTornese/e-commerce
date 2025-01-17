@@ -54,3 +54,30 @@ export async function toggleFavorite(userId: string, productId: string) {
     throw new Error("Failed to toggle favorite");
   }
 }
+
+export async function getFavorites(userId: string) {
+  try {
+    const favorites = await prisma.favorite.findMany({
+      where: { userId },
+      include: {
+        product: {
+          include: {
+            ProductImage: true,
+          },
+        },
+      },
+    });
+
+    return favorites.map((fav) => {
+      const product = fav.product;
+
+      return {
+        ...product,
+        images: product.ProductImage.map((image) => image.url),
+      };
+    });
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    throw new Error("Failed to fetch favorites");
+  }
+}
