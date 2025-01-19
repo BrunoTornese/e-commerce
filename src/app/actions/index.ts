@@ -28,3 +28,4 @@ export { CreateComment } from "./comments/Comments";
 export { DeleteComment } from "./comments/Comments";
 export { GetCommentsBySlug } from "./comments/Comments";
 export { getFavorites } from "./favorites/Favorites";
+export { updateUserProfile } from "./Profie/EditUser";
