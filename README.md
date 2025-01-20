@@ -3,7 +3,7 @@
 <h1>E-commerce using Next.js</h1>
 <p>A full-fledged e-commerce website built using Next.js, Prisma, and various modern technologies for fast and efficient online shopping.</p>
 
-<h4> <a href=https://teslo-shop-ebon.vercel.app/>View Demo</a> <span> · </span> <a href="https://github.com/BrunoTornese/e-commerce/blob/master/README.md"> Documentation </a> <span> · </span> <a href="https://github.com/BrunoTornese/e-commerce/issues"> Report Bug </a> <span> · </span> <a href="https://github.com/BrunoTornese/e-commerce/issues"> Request Feature </a> </h4>
+<h4> <a href=https://teslo-shop-six-orpin.vercel.app//>View Demo</a> <span> · </span> <a href="https://github.com/BrunoTornese/e-commerce/blob/master/README.md"> Documentation </a> <span> · </span> <a href="https://github.com/BrunoTornese/e-commerce/issues"> Report Bug </a> <span> · </span> <a href="https://github.com/BrunoTornese/e-commerce/issues"> Request Feature </a> </h4>
 
 </div>
 
