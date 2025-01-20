@@ -1,57 +1,40 @@
 "use server";
 
+import { auth } from "@/auth.config";
 import prisma from "@/lib/prisma";
 import bcryptjs from "bcryptjs";
 
-export const updateUserProfile = async (
-  id: string,
-  name: string,
-  email: string,
-  currentPassword: string,
-  newPassword: string,
-  repeatNewPassword: string
-) => {
+export const updateUserProfile = async (userData: {
+  name: string;
+  email: string;
+  currentPassword: string;
+  newPassword?: string;
+}) => {
   try {
-    if (
-      !name ||
-      !email ||
-      !currentPassword ||
-      !newPassword ||
-      !repeatNewPassword
-    ) {
-      return {
-        ok: false,
-        message: "Invalid Credentials",
-      };
+    const { name, email, currentPassword, newPassword } = userData;
+    const session = await auth();
+
+    if (!session || !session.user?.id) {
+      return { ok: false, message: "User not authenticated" };
     }
 
-    if (newPassword !== repeatNewPassword) {
-      return {
-        ok: false,
-        message: "New passwords do not match",
-      };
-    }
+    const userId = session.user.id;
 
     const existingUser = await prisma.user.findUnique({
-      where: { id },
+      where: { id: userId },
     });
 
     if (!existingUser) {
-      return {
-        ok: false,
-        message: "User not found",
-      };
+      return { ok: false, message: "User not found" };
     }
 
-    const passwordMatch = await bcryptjs.compare(
+    const isCurrentPasswordCorrect = bcryptjs.compareSync(
       currentPassword,
       existingUser.password
     );
-    if (!passwordMatch) {
-      return {
-        ok: false,
-        message: "Current password is incorrect",
-      };
+
+    if (!isCurrentPasswordCorrect) {
+      return { ok: false, message: "Current password is incorrect" };
     }
 
     const updateData: { name: string; email: string; password?: string } = {
@@ -64,7 +47,7 @@ export const updateUserProfile = async (
     }
 
     const updatedUser = await prisma.user.update({
-      where: { id },
+      where: { id: userId },
       data: updateData,
       select: {
         id: true,
@@ -79,10 +62,7 @@ export const updateUserProfile = async (
       user: updatedUser,
     };
   } catch (error) {
-    console.error(error);
-    return {
-      ok: false,
-      message: "Error updating profile",
-    };
+    console.error("Error updating profile:", error);
+    return { ok: false, message: "Error updating profile" };
   }
 };

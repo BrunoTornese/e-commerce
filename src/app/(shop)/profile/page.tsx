@@ -63,6 +63,14 @@ export default async function ProfilePage() {
             Back to Shop
           </Link>
         </div>
+        <div className="mt-6 flex justify-center">
+          <Link
+            href="/profile/edit"
+            className="px-4 py-2 bg-green-800 text-white rounded-md shadow hover:bg-green-600"
+          >
+            Edit Profile
+          </Link>
+        </div>
       </div>
 
       <div className="mt-12 w-full px-4 sm:px-6 md:px-8">
