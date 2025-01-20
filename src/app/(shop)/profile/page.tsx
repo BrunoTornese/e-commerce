@@ -13,7 +13,11 @@ export default async function ProfilePage() {
     redirect("/auth/login");
   }
 
-  const { name, email, emailVerified, role, image } = session.user;
+  const { name, email, emailVerified, role, image, id } = session.user;
+
+  const isBlockedUser =
+    email === "Teslo@gmail.com" ||
+    id === "16aa1e78-8f3b-46a6-b114-0c84d203c353";
 
   const favorites = await getFavorites(session.user.id);
 
@@ -63,13 +67,20 @@ export default async function ProfilePage() {
             Back to Shop
           </Link>
         </div>
+
         <div className="mt-6 flex justify-center">
-          <Link
-            href="/profile/edit"
-            className="px-4 py-2 bg-green-800 text-white rounded-md shadow hover:bg-green-600"
-          >
-            Edit Profile
-          </Link>
+          {isBlockedUser ? (
+            <p className="text-red-500 font-semibold">
+              Admin profile is not available for edit.
+            </p>
+          ) : (
+            <Link
+              href="/profile/edit"
+              className="px-4 py-2 bg-green-800 text-white rounded-md shadow hover:bg-green-600"
+            >
+              Edit Profile
+            </Link>
+          )}
         </div>
       </div>
 

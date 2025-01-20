@@ -27,7 +27,7 @@ export const ProfileForm = ({ user, updateUser }: ProfileFormProps) => {
   const [currentPasswordError, setCurrentPasswordError] = useState<
     string | null
   >(null);
-  const [newPasswordError, setNewPasswordError] = useState<string | null>(null);
+
   const [repeatNewPasswordError, setRepeatNewPasswordError] = useState<
     string | null
   >(null);
@@ -35,7 +35,6 @@ export const ProfileForm = ({ user, updateUser }: ProfileFormProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    // Reset errors if passwords match
     if (newPassword && repeatNewPassword && newPassword !== repeatNewPassword) {
       setRepeatNewPasswordError("Passwords do not match");
     } else {
@@ -48,7 +47,6 @@ export const ProfileForm = ({ user, updateUser }: ProfileFormProps) => {
 
     let valid = true;
 
-    // Validate current password
     if (!currentPassword) {
       setCurrentPasswordError("Current password is required");
       valid = false;
@@ -56,7 +54,6 @@ export const ProfileForm = ({ user, updateUser }: ProfileFormProps) => {
       setCurrentPasswordError(null);
     }
 
-    // Validate new password
     if (newPassword && newPassword !== repeatNewPassword) {
       setRepeatNewPasswordError("Passwords do not match");
       valid = false;
@@ -72,7 +69,7 @@ export const ProfileForm = ({ user, updateUser }: ProfileFormProps) => {
         name,
         email,
         currentPassword,
-        newPassword: newPassword || undefined, // Send newPassword only if not empty
+        newPassword: newPassword || undefined,
       };
 
       const response = await updateUser(updatedData);

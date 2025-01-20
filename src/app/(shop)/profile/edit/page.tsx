@@ -1,12 +1,20 @@
 import { ProfileForm } from "@/components";
 import { updateUserProfile } from "@/app/actions";
 import { auth } from "@/auth.config";
+import { redirect } from "next/navigation";
 
 const ProfilePage = async () => {
   const session = await auth();
 
+  if (
+    session?.user?.email === "Teslo@gmail.com" ||
+    session?.user?.id === "16aa1e78-8f3b-46a6-b114-0c84d203c353"
+  ) {
+    redirect("/profile");
+  }
+
   if (!session?.user?.id) {
-    return <div>Redirecting to login...</div>;
+    redirect("/login");
   }
 
   const user = {
