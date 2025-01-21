@@ -1,10 +1,10 @@
-import { ShoeSizes } from "@/interfaces";
+import { ShoeSize } from "@/interfaces";
 import clsx from "clsx";
 
 interface Props {
-  selectedSize?: ShoeSizes;
-  availableSizes: ShoeSizes[];
-  onSizeChange: (shoeSize: ShoeSizes) => void;
+  selectedSize?: ShoeSize;
+  availableSizes: ShoeSize[];
+  onSizeChange: (shoeSize: ShoeSize) => void;
 }
 
 export const SizeShoesSelector = ({

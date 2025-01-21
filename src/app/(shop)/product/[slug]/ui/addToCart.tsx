@@ -6,7 +6,7 @@ import {
   StockLabel,
   SizeShoesSelector,
 } from "@/components";
-import { CartProduct, Product, ShoeSizes, Sizes } from "@/interfaces";
+import { CartProduct, Product, ShoeSize, Sizes } from "@/interfaces";
 import { useCartStore } from "@/store";
 import { useState } from "react";
 
@@ -17,7 +17,7 @@ interface Props {
 export const AddToCart = ({ product }: Props) => {
   const addProductToCart = useCartStore((state) => state.addProductToCart);
   const [size, setSize] = useState<Sizes | undefined>();
-  const [shoeSize, setShoeSize] = useState<ShoeSizes | undefined>();
+  const [shoeSize, setShoeSize] = useState<ShoeSize | undefined>();
   const [quantity, setQuantity] = useState<number>(1);
   const [posted, setPosted] = useState<boolean>(false);
 
