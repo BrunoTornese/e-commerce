@@ -30,6 +30,10 @@ export const ProductInCart = () => {
     }
   };
 
+  const formatSize = (size: string) => {
+    return size.replace(/_/g, ".");
+  };
+
   if (!loaded) {
     return (
       <div>
@@ -72,9 +76,9 @@ export const ProductInCart = () => {
             <p>
               Size:{" "}
               {product.size && product.size !== "N/A"
-                ? product.size
+                ? formatSize(product.size)
                 : product.shoeSize && product.shoeSize !== "N/A"
-                ? product.shoeSize
+                ? formatSize(product.shoeSize)
                 : "N/A"}
             </p>
 

@@ -39,18 +39,14 @@ export const ProductInCart = () => {
     return imageUrl.startsWith("https://res.cloudinary.com/");
   };
 
-  const getImageSrc = (image: string) => {
-    if (isCloudinaryImage(image)) {
-      return image;
-    } else {
-      return `/products/${image}`;
-    }
+  const formatSize = (size: string) => {
+    return size.replace(/_/g, ".");
   };
 
   return (
     <>
       {productsInCart.map((product) => (
-        <div key={`${product.slug}-${product.size}`} className="flex mb-5 ">
+        <div key={`${product.slug}-${product.size}`} className="flex mb-5">
           <ProductImage
             src={product.image}
             width={100}
@@ -64,7 +60,12 @@ export const ProductInCart = () => {
           />
           <div>
             <span>
-              {product.size} - {product.title} ({product.quantity})
+              {product.size && product.size !== "N/A"
+                ? formatSize(product.size)
+                : product.shoeSize && product.shoeSize !== "N/A"
+                ? formatSize(product.shoeSize)
+                : "N/A"}{" "}
+              - {product.title} ({product.quantity})
             </span>
 
             <p className="font-bold">${product.price * product.quantity}</p>
