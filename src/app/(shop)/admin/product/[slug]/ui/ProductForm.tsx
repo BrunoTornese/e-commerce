@@ -22,6 +22,34 @@ interface Props {
 
 const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
+const shoeSizes = [
+  "EU_36",
+  "EU_36_5",
+  "EU_37",
+  "EU_37_5",
+  "EU_38",
+  "EU_38_5",
+  "EU_39",
+  "EU_39_5",
+  "EU_40",
+  "EU_40_5",
+  "EU_41",
+  "EU_41_5",
+  "EU_42",
+  "EU_42_5",
+  "EU_43",
+  "EU_43_5",
+  "EU_44",
+  "EU_44_5",
+  "EU_45",
+  "EU_45_5",
+  "EU_46",
+  "EU_46_5",
+  "EU_47",
+  "EU_47_5",
+  "N_A",
+];
+
 interface FormInputs {
   title: string;
   slug: string;
@@ -31,6 +59,7 @@ interface FormInputs {
   category: string;
   inStock: number;
   sizes: string[];
+  shoeSizes: string[];
   tags: string;
   image: string;
   categoryId: string;
@@ -39,6 +68,7 @@ interface FormInputs {
 
 export const ProductForm = ({ product, categories }: Props) => {
   const router = useRouter();
+
   const {
     handleSubmit,
     register,
@@ -51,16 +81,24 @@ export const ProductForm = ({ product, categories }: Props) => {
       ...product,
       tags: product.tags?.join(", "),
       sizes: product.size ?? [],
+      shoeSizes: product.shoeSize ?? [],
       images: undefined,
     },
   });
 
   watch("sizes");
+  watch("shoeSizes");
 
   const onSizeChanged = (size: string) => {
     const sizes = new Set(getValues("sizes"));
     sizes.has(size) ? sizes.delete(size) : sizes.add(size);
     setValue("sizes", Array.from(sizes));
+  };
+
+  const onShoeSizeChanged = (size: string) => {
+    const shoeSizes = new Set(getValues("shoeSizes"));
+    shoeSizes.has(size) ? shoeSizes.delete(size) : shoeSizes.add(size);
+    setValue("shoeSizes", Array.from(shoeSizes));
   };
 
   const onSubmit = async (data: FormInputs) => {
@@ -78,6 +116,7 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("price", productToSave.price.toString());
     formData.append("inStock", productToSave.inStock.toString());
     formData.append("sizes", productToSave.sizes.toString());
+    formData.append("shoeSizes", productToSave.shoeSizes.toString());
     formData.append("tags", productToSave.tags);
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
@@ -229,6 +268,34 @@ export const ProductForm = ({ product, categories }: Props) => {
                 <span>{size}</span>
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col mb-2">
+          <span>Shoe Sizes</span>
+          <div className="flex flex-wrap">
+            {product.shoeSize && product.shoeSize.length > 0 ? (
+              shoeSizes.map((shoeSize) => {
+                const formattedShoeSize = shoeSize.replace(/_/g, ".");
+                return (
+                  <div
+                    key={`shoeSize-${shoeSize}`}
+                    onClick={() => onShoeSizeChanged(shoeSize)}
+                    className={clsx(
+                      "p-2 border cursor-pointer rounded-md mr-2 mb-2 w-14 h-14 flex items-center justify-center transition-all text-center",
+                      {
+                        "bg-blue-800 text-white":
+                          getValues("shoeSizes").includes(shoeSize),
+                      }
+                    )}
+                  >
+                    <span className="text-sm">{formattedShoeSize}</span>
+                  </div>
+                );
+              })
+            ) : (
+              <p>No shoe sizes available</p> // Mensaje si no hay tamaños disponibles
+            )}
           </div>
         </div>
 

@@ -2,7 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { Gender, Product, Size } from "@prisma/client";
+import { Gender, Product, ShoeSize, Size } from "@prisma/client";
 import { z } from "zod";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -23,12 +23,14 @@ const productSchema = z.object({
     .transform((val) => Number(val.toFixed(0))),
   categoryId: z.string().uuid(),
   size: z.coerce.string().transform((val) => val.split(",")),
+  shoeSize: z.coerce.string().transform((val) => val.split(",")),
   tags: z.string(),
   gender: z.nativeEnum(Gender),
 });
 
 export const createUpdateProduct = async (formData: FormData) => {
   const data = Object.fromEntries(formData);
+
   const productParsed = productSchema.safeParse(data);
 
   if (!productParsed.success) {
@@ -48,6 +50,17 @@ export const createUpdateProduct = async (formData: FormData) => {
       .map((size: string) => size as Size);
   }
 
+  let shoeSizes: ShoeSize[] = [];
+  if (typeof data.shoeSizes === "string") {
+    shoeSizes = data.shoeSizes
+      .split(",")
+      .map((size: string) => size.trim())
+      .filter((size: string) =>
+        Object.values(ShoeSize).includes(size as ShoeSize)
+      )
+      .map((size: string) => size as ShoeSize);
+  }
+
   const { id, ...rest } = product;
 
   try {
@@ -65,6 +78,9 @@ export const createUpdateProduct = async (formData: FormData) => {
             size: {
               set: sizes,
             },
+            shoeSize: {
+              set: shoeSizes,
+            },
             tags: {
               set: tagsArray,
             },
@@ -76,6 +92,9 @@ export const createUpdateProduct = async (formData: FormData) => {
             ...rest,
             size: {
               set: sizes,
+            },
+            shoeSize: {
+              set: shoeSizes,
             },
             tags: {
               set: tagsArray,
@@ -119,7 +138,6 @@ export const createUpdateProduct = async (formData: FormData) => {
     };
   }
 };
-
 const uploadImages = async (images: File[]) => {
   try {
     const uploadPromises = images.map(async (image) => {
