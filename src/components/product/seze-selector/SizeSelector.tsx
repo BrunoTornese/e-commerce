@@ -25,9 +25,17 @@ export const SizeSelector = ({
           <button
             key={size}
             onClick={() => onSizeChange(size)}
-            className={clsx("mx-2 hover:underline text-lg", {
-              underline: size === selectedSize,
-            })}
+            className={clsx(
+              "p-3 border-2 cursor-pointer rounded-lg mr-3 mb-3 w-20 h-16 flex items-center justify-center transition-all text-center text-sm font-semibold",
+              {
+                "bg-blue-800 text-white border-blue-600": size === selectedSize,
+                "bg-gray-200 text-gray-800 border-gray-400":
+                  size !== selectedSize,
+                "hover:bg-blue-600 hover:border-blue-500 hover:text-white":
+                  size !== selectedSize,
+                "focus:ring-2 focus:ring-blue-500": true,
+              }
+            )}
           >
             {size}
           </button>

@@ -5,6 +5,12 @@ import { deteleteImage } from "./DeleteImageProducs";
 
 export const deleteProduct = async (id: string) => {
   try {
+    await prisma.favorite.deleteMany({
+      where: {
+        productId: id,
+      },
+    });
+
     const productImages = await prisma.productImage.findMany({
       where: {
         productId: id,

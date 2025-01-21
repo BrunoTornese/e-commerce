@@ -25,3 +25,4 @@ export { default as FinancialChart } from "./grafic/graficDashboard";
 export { Comments } from "./coments/Coments";
 export { FavoriteButton } from "./favorites/Favorites";
 export { ProfileForm } from "./editProfile/ProfileForm";
+export { SizeShoesSelector } from "./product/seze-selector/footwearSelector";

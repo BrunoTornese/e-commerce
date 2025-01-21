@@ -4,8 +4,7 @@ import { QuantitySelector } from "@/components";
 import { useCartStore } from "@/store";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const ProductInCart = () => {
   const [loaded, setloaded] = useState(false);
@@ -51,7 +50,7 @@ export const ProductInCart = () => {
   return (
     <>
       {productsInCart.map((product) => (
-        <div key={`${product.slug}-${product.size}`} className="flex mb-5 ">
+        <div key={`${product.slug}-${product.size}`} className="flex mb-5">
           <Image
             src={getImageSrc(product.image)}
             width={100}
@@ -65,18 +64,26 @@ export const ProductInCart = () => {
           />
           <div>
             <Link
-              className="hover:underline cursor-pointer "
+              className="hover:underline cursor-pointer"
               href={`/product/${product.slug}`}
             >
               <p>{product.title}</p>
             </Link>
-            Size: {product.size}
+            <p>
+              Size:{" "}
+              {product.size && product.size !== "N/A"
+                ? product.size
+                : product.shoeSize && product.shoeSize !== "N/A"
+                ? product.shoeSize
+                : "N/A"}
+            </p>
+
             <p>${product.price}</p>
             <QuantitySelector
               quantity={product.quantity}
               stock={product.stock}
-              onQuantityChange={(quiantity) =>
-                updateProductQuiantity(product, quiantity)
+              onQuantityChange={(quantity) =>
+                updateProductQuiantity(product, quantity)
               }
             />
             <button

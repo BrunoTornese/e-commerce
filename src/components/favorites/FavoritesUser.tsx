@@ -33,7 +33,7 @@ export default function FavoritesList({ favorites }: FavoritesListProps) {
                 />
               ) : (
                 <div className="bg-gray-200 flex items-center justify-center w-full h-full text-gray-400 text-lg">
-                  <img
+                  <Image
                     src="/imgs/placeholder.jpg"
                     alt="No image"
                     className="object-cover w-full h-full"

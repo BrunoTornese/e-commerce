@@ -2,6 +2,7 @@ import { getCategorys, getProductBySlug } from "@/app/actions";
 import { Title } from "@/components";
 import { redirect } from "next/navigation";
 import { ProductForm } from "./ui/ProductForm";
+import { ShoeSizes } from "@/interfaces/product.interface";
 
 interface Props {
   params: {
@@ -26,7 +27,7 @@ export default async function ProductPage({ params }: Props) {
   return (
     <>
       <Title title={title} />
-      <ProductForm product={product ?? {}} categories={categories} />
+      <ProductForm product={product ? { ...product, shoeSize: product.shoeSize as unknown as ShoeSizes[] } : {}} categories={categories} />
     </>
   );
 }

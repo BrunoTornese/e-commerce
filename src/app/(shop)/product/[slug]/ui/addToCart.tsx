@@ -1,7 +1,12 @@
 "use client";
 
-import { QuantitySelector, SizeSelector, StockLabel } from "@/components";
-import { CartProduct, Product, Sizes } from "@/interfaces";
+import {
+  QuantitySelector,
+  SizeSelector,
+  StockLabel,
+  SizeShoesSelector,
+} from "@/components";
+import { CartProduct, Product, ShoeSizes, Sizes } from "@/interfaces";
 import { useCartStore } from "@/store";
 import { useState } from "react";
 
@@ -12,19 +17,22 @@ interface Props {
 export const AddToCart = ({ product }: Props) => {
   const addProductToCart = useCartStore((state) => state.addProductToCart);
   const [size, setSize] = useState<Sizes | undefined>();
+  const [shoeSize, setShoeSize] = useState<ShoeSizes | undefined>();
   const [quantity, setQuantity] = useState<number>(1);
   const [posted, setPosted] = useState<boolean>(false);
 
-  const noSizeCategories = ["hats", "shoes"];
+  const noSizeCategories = ["hats"];
 
   const isNoSizeRequired = noSizeCategories.some((category) =>
     product.tags.includes(category)
   );
 
+  const hasShoeSize = product.shoeSize && product.shoeSize.length > 0;
+
   const addToCart = () => {
     setPosted(true);
 
-    if (!isNoSizeRequired && !size) {
+    if (!isNoSizeRequired && !size && !shoeSize) {
       return;
     }
 
@@ -34,6 +42,7 @@ export const AddToCart = ({ product }: Props) => {
       price: product.price,
       slug: product.slug,
       size: isNoSizeRequired ? "N/A" : size ?? "N/A",
+      shoeSize: isNoSizeRequired ? "N/A" : shoeSize ?? "N/A",
       quantity: quantity,
       title: product.title,
       image: product.images ? product.images[0] : "",
@@ -54,12 +63,24 @@ export const AddToCart = ({ product }: Props) => {
           You must select a size!
         </span>
       )}
+
       {!isNoSizeRequired && (
-        <SizeSelector
-          selectedSize={size}
-          availableSizes={product.size}
-          onSizeChange={setSize}
-        />
+        <>
+          {product.tags.includes("sneakers") ||
+          product.tags.includes("shoes") ? (
+            <SizeShoesSelector
+              selectedSize={shoeSize}
+              availableSizes={product.shoeSize}
+              onSizeChange={setShoeSize}
+            />
+          ) : (
+            <SizeSelector
+              selectedSize={size}
+              availableSizes={product.size}
+              onSizeChange={setSize}
+            />
+          )}
+        </>
       )}
       <QuantitySelector
         quantity={quantity}
