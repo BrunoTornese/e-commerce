@@ -274,28 +274,24 @@ export const ProductForm = ({ product, categories }: Props) => {
         <div className="flex flex-col mb-2">
           <span>Shoe Sizes</span>
           <div className="flex flex-wrap">
-            {product.shoeSize && product.shoeSize.length > 0 ? (
-              shoeSizes.map((shoeSize) => {
-                const formattedShoeSize = shoeSize.replace(/_/g, ".");
-                return (
-                  <div
-                    key={`shoeSize-${shoeSize}`}
-                    onClick={() => onShoeSizeChanged(shoeSize)}
-                    className={clsx(
-                      "p-2 border cursor-pointer rounded-md mr-2 mb-2 w-14 h-14 flex items-center justify-center transition-all text-center",
-                      {
-                        "bg-blue-800 text-white":
-                          getValues("shoeSizes").includes(shoeSize),
-                      }
-                    )}
-                  >
-                    <span className="text-sm">{formattedShoeSize}</span>
-                  </div>
-                );
-              })
-            ) : (
-              <p>No shoe sizes available</p> // Mensaje si no hay tamaños disponibles
-            )}
+            {shoeSizes.map((shoeSize) => {
+              const formattedShoeSize = shoeSize.replace(/_/g, ".");
+              return (
+                <div
+                  key={`shoeSize-${shoeSize}`}
+                  onClick={() => onShoeSizeChanged(shoeSize)}
+                  className={clsx(
+                    "p-2 border cursor-pointer rounded-md mr-2 mb-2 w-14 h-14 flex items-center justify-center transition-all text-center",
+                    {
+                      "bg-blue-800 text-white":
+                        getValues("shoeSizes").includes(shoeSize),
+                    }
+                  )}
+                >
+                  <span className="text-sm">{formattedShoeSize}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
 
