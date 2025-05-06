@@ -1,7 +1,7 @@
 "use client";
 
 import { CreateComment } from "@/app/actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Comment } from "@/interfaces";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,14 @@ export const AddComment = ({ productId }: { productId: string }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const router = useRouter();
+
+  useEffect(() => {
+    if (session?.user) {
+      console.log("Usuario conectado:", session.user);
+    } else {
+      console.log("Usuario desconectado");
+    }
+  }, [session]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

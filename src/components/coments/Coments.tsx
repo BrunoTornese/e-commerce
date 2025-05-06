@@ -70,10 +70,8 @@ export const Comments = ({ comments = [], currentUserId }: CommentsProps) => {
                   : "No date available"}
               </span>
             </div>
-
-            <p className="mt-3 text-gray-700">{comment.content}</p>
-
-            {(currentUserId === comment.userId || isAdmin) && (
+            <p className="mt-3 text-gray-700">{comment.content}</p>{" "}
+            {session?.user && (currentUserId === comment.userId || isAdmin) && (
               <button
                 onClick={() => handleDelete(comment.id)}
                 disabled={isDeleting}
