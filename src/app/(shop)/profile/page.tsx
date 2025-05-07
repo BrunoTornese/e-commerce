@@ -16,8 +16,8 @@ export default async function ProfilePage() {
   const { name, email, emailVerified, role, image, id } = session.user;
 
   const isBlockedUser =
-    email === "Teslo@gmail.com" ||
-    id === "16aa1e78-8f3b-46a6-b114-0c84d203c353";
+    id === "16aa1e78-8f3b-46a6-b114-0c84d203c353" ||
+    id === "2fbfb14e-1a20-47c1-aee7-c4f1c0029344";
 
   const favorites = await getFavorites(session.user.id);
 
@@ -71,7 +71,7 @@ export default async function ProfilePage() {
         <div className="mt-6 flex justify-center">
           {isBlockedUser ? (
             <p className="text-red-500 font-semibold">
-              Admin profile is not available for edit.
+              Editing your profile is not permitted.
             </p>
           ) : (
             <Link
