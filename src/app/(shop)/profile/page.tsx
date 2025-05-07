@@ -19,7 +19,11 @@ export default async function ProfilePage() {
     id === "16aa1e78-8f3b-46a6-b114-0c84d203c353" ||
     id === "2fbfb14e-1a20-47c1-aee7-c4f1c0029344";
 
-  const favorites = await getFavorites(session.user.id);
+  const favoritesData = await getFavorites(session.user.id);
+  const favorites = favoritesData.map((favorite) => ({
+    ...favorite,
+    discountedPrice: favorite.price - (favorite.discount || 0),
+  }));
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-white-100 pt-12">

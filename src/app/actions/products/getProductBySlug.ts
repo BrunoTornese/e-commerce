@@ -15,8 +15,12 @@ export const getProductBySlug = async (slug: string) => {
 
     if (!product) return null;
 
+    const discountedPrice =
+      product.price - (product.price * product.discount) / 100;
+
     return {
       ...product,
+      discountedPrice,
       images: product.ProductImage.map((image) => image.url),
       ProductImage: product.ProductImage.map((image) => ({
         ...image,

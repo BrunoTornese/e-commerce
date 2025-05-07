@@ -18,12 +18,17 @@ export default async function GenderPage({ params, searchParams }: Props) {
   const { gender } = params;
 
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
-  const { products, currentPage, totalPages } =
+  const { products: rawProducts, currentPage, totalPages } =
     await getPaginatedProductsWithImages({
       page,
       gender: gender as Gender,
       tags: [],
     });
+
+  const products = rawProducts.map(product => ({
+    ...product,
+    discountedPrice: product.price - (product.discount || 0),
+  }));
 
   if (products.length === 0) {
     redirect(`/gender/${gender}`);

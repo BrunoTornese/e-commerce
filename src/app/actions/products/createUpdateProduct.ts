@@ -26,6 +26,7 @@ const productSchema = z.object({
   shoeSize: z.coerce.string().transform((val) => val.split(",")),
   tags: z.string(),
   gender: z.nativeEnum(Gender),
+  discount: z.coerce.number().min(0).max(100).optional(),
 });
 
 export const createUpdateProduct = async (formData: FormData) => {

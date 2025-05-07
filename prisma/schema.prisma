@@ -70,6 +70,7 @@ model Product {
   description  String
   inStock      Int
   price        Float          @default(0)
+  discount     Float          @default(0)
   size         Size[]         @default([])
   shoeSize     ShoeSize[]     @default([])
   slug         String         @unique

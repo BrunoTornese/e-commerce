@@ -21,12 +21,17 @@ export default async function Home({ searchParams }: Props) {
   const selectedTags = searchParams.tags ? searchParams.tags.split(",") : [];
   const selectedGender = (searchParams.gender as Gender) || "";
 
-  const { products, currentPage, totalPages, redirectToPage1 } =
+  const { products: rawProducts, currentPage, totalPages, redirectToPage1 } =
     await getPaginatedProductsWithImages({
       page,
       tags: selectedTags,
       gender: selectedGender,
     });
+
+  const products = rawProducts.map(product => ({
+    ...product,
+    discountedPrice: product.price - (product.discount || 0),
+  }));
 
   if (redirectToPage1) {
     const newParams = new URLSearchParams({

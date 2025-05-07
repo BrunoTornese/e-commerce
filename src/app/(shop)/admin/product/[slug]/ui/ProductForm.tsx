@@ -64,6 +64,7 @@ interface FormInputs {
   image: string;
   categoryId: string;
   images?: FileList;
+  discount: number;
 }
 
 export const ProductForm = ({ product, categories }: Props) => {
@@ -83,6 +84,7 @@ export const ProductForm = ({ product, categories }: Props) => {
       sizes: product.size ?? [],
       shoeSizes: product.shoeSize ?? [],
       images: undefined,
+      discount: product.discount ?? 0,
     },
   });
 
@@ -120,6 +122,7 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("tags", productToSave.tags);
     formData.append("categoryId", productToSave.categoryId);
     formData.append("gender", productToSave.gender);
+    formData.append("discount", productToSave.discount.toString());
 
     if (images) {
       for (let i = 0; i < images.length; i++) {
@@ -238,6 +241,15 @@ export const ProductForm = ({ product, categories }: Props) => {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="flex flex-col mb-2">
+          <span>Discount (%)</span>
+          <input
+            type="number"
+            className="p-2 border rounded-md bg-gray-200"
+            {...register("discount", { required: true, min: 0, max: 100 })}
+          />
         </div>
       </div>
 

@@ -22,7 +22,6 @@ export const AddToCart = ({ product }: Props) => {
   const [posted, setPosted] = useState<boolean>(false);
 
   const noSizeCategories = ["hats"];
-
   const isNoSizeRequired = noSizeCategories.some((category) =>
     product.tags.includes(category)
   );
@@ -39,7 +38,7 @@ export const AddToCart = ({ product }: Props) => {
     const cartProduct: CartProduct = {
       stock: product.inStock,
       id: product.id,
-      price: product.price,
+      price: product.discountedPrice ?? product.price,
       slug: product.slug,
       size: isNoSizeRequired ? "N/A" : size ?? "N/A",
       shoeSize: isNoSizeRequired ? "N/A" : shoeSize ?? "N/A",
@@ -57,7 +56,23 @@ export const AddToCart = ({ product }: Props) => {
   return (
     <>
       <StockLabel slug={product.slug} />
-      <p className="text-lg mb-5">${product.price}</p>
+      <p className="text-lg mb-5">
+        {product.discount && product.discount > 0 ? (
+          <>
+            <span className="line-through text-gray-500">
+              ${product.price.toFixed(2)}
+            </span>{" "}
+            <span className="text-red-500 font-bold">
+              ${product.discountedPrice?.toFixed(2)}
+            </span>{" "}
+            <span className="text-red-500 font-semibold">
+              (-{product.discount}%)
+            </span>
+          </>
+        ) : (
+          <span>${product.price.toFixed(2)}</span>
+        )}
+      </p>
       {posted && !isNoSizeRequired && !size && (
         <span className="mt-2 text-red-500 fade-in">
           You must select a size!

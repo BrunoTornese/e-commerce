@@ -22,6 +22,9 @@ export const ProductGridItem = ({ product }: Props) => {
     }
   };
 
+  const discountedPrice =
+    product.price - (product.price * (product.discount ?? 0)) / 100;
+
   return (
     <div className="rounded-md overflow-hidden fade-in group">
       <Link href={`/product/${product.slug}`}>
@@ -44,7 +47,19 @@ export const ProductGridItem = ({ product }: Props) => {
         </div>
         <div className="p-4 flex flex-col">
           <span className="hover:text-blue-700">{product.title}</span>
-          <span className="font-bold">{product.price} $</span>
+          <span className="font-bold text-gray-800">
+            {product.price.toFixed(2)} $
+          </span>
+          {(product.discount ?? 0) > 0 && (
+            <div className="text-red-500">
+              <span className="line-through text-gray-500">
+                {product.price.toFixed(2)} $
+              </span>{" "}
+              <span className="font-bold">
+                {discountedPrice.toFixed(2)} $ (-{product.discount}%)
+              </span>
+            </div>
+          )}
         </div>
       </Link>
     </div>

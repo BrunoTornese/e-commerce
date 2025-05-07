@@ -1,4 +1,5 @@
 export interface Product {
+  discountedPrice: number;
   id: string;
   description: string;
   images?: string[];
@@ -10,6 +11,7 @@ export interface Product {
   tags: string[];
   title: string;
   gender: Category;
+  discount?: number;
 }
 
 export interface CartProduct {
