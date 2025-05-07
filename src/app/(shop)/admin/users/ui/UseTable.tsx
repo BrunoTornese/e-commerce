@@ -4,7 +4,6 @@ import { changeRole, deleteUser } from "@/app/actions";
 import type { User } from "@/interfaces";
 import { FaTrash } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { showErrorAlert, showSuccessAlert } from "@/components";
 
@@ -14,7 +13,7 @@ interface Props {
 
 export const UseTable = ({ users }: Props) => {
   const { data: session } = useSession();
-  const router = useRouter();
+
   const [userList, setUserList] = useState<User[]>(users);
 
   useEffect(() => {
