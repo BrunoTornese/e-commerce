@@ -65,7 +65,7 @@ export const getPaginatedProductsWithImages = async ({
         ...product,
         images: product.ProductImage.map((image) => image.url),
       })),
-      redirectToPage1: isInvalidPage, 
+      redirectToPage1: isInvalidPage,
     };
   } catch (error) {
     console.error("Error fetching products:", error);
