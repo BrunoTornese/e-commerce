@@ -21,13 +21,8 @@ export const ProductSlideshow = ({ images, title, classname }: Props) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperObject>();
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const handleThumbnailClick = (index: number) => {
-    setActiveIndex(index);
-    thumbsSwiper?.slideTo(index);
-  };
-
   return (
-    <div className={classname}>
+    <div className={`max-w-3xl mx-auto ${classname}`}>
       <Swiper
         spaceBetween={10}
         navigation={true}
@@ -48,21 +43,11 @@ export const ProductSlideshow = ({ images, title, classname }: Props) => {
               height={800}
               src={image}
               alt={title}
-              className="rounded-lg object-fill"
+              className="rounded-lg object-contain w-full h-auto"
             />
           </SwiperSlide>
         ))}
       </Swiper>
-
-      <Swiper
-        onSwiper={setThumbsSwiper}
-        spaceBetween={10}
-        slidesPerView={4}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper"
-      ></Swiper>
     </div>
   );
 };
