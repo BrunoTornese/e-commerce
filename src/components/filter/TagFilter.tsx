@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   tags: string[];
@@ -10,6 +10,7 @@ interface Props {
 
 export const TagFilter = ({ tags, selectedTags, onTagChange }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleTagClick = (tag: string) => {
     const updatedTags = selectedTags.includes(tag)
@@ -17,13 +18,14 @@ export const TagFilter = ({ tags, selectedTags, onTagChange }: Props) => {
       : [...selectedTags, tag];
     onTagChange(updatedTags);
 
-    const queryParams = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(searchParams.toString());
     if (updatedTags.length > 0) {
-      queryParams.set("tags", updatedTags.join(","));
+      params.set("tags", updatedTags.join(","));
     } else {
-      queryParams.delete("tags");
+      params.delete("tags");
     }
-    router.push(`${window.location.pathname}?${queryParams.toString()}`);
+
+    router.push(`?${params.toString()}`);
   };
 
   return (

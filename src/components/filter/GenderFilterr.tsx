@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   genders: string[];
@@ -14,18 +14,19 @@ export const GenderFilter = ({
   onGenderChange,
 }: Props) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const handleGenderClick = (gender: string) => {
     const updatedGender = selectedGender === gender ? "" : gender;
     onGenderChange(updatedGender);
 
-    const queryParams = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(searchParams.toString());
     if (updatedGender) {
-      queryParams.set("gender", updatedGender);
+      params.set("gender", updatedGender);
     } else {
-      queryParams.delete("gender");
+      params.delete("gender");
     }
-    router.push(`${window.location.pathname}?${queryParams.toString()}`);
+    router.push(`?${params.toString()}`);
   };
 
   return (
