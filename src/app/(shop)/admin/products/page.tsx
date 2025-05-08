@@ -55,6 +55,12 @@ export default async function OrdersPage({ searchParams }: Props) {
                   scope="col"
                   className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                 >
+                  Discount
+                </th>
+                <th
+                  scope="col"
+                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                >
                   Gender
                 </th>
                 <th
@@ -102,22 +108,37 @@ export default async function OrdersPage({ searchParams }: Props) {
                       {product.title}
                     </Link>
                   </td>
-                  <td className="text-sm font-bold  text-gray-900 px-6 py-4 whitespace-nowrap">
+                  <td className="text-sm font-bold text-gray-900 px-6 py-4 whitespace-nowrap">
                     {CurrencyFormat(product.price)}
                   </td>
-
+                  <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                    {product.discount > 0 ? (
+                      <>
+                        <span className="text-red-500 font-bold">
+                          -{product.discount}%
+                        </span>{" "}
+                        <span className="text-red-500">
+                          ($
+                          {CurrencyFormat(
+                            product.price -
+                              (product.price * product.discount) / 100
+                          )}
+                          )
+                        </span>
+                      </>
+                    ) : (
+                      <span>No Discount</span>
+                    )}
+                  </td>
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     {product.gender}
                   </td>
-
                   <td className="text-sm text-gray-900 font-bold px-6 py-4 whitespace-nowrap">
                     {product.inStock}
                   </td>
-
                   <td className="text-sm text-gray-900 font-bold px-6 py-4 whitespace-nowrap">
                     {product.size.join(", ")}
                   </td>
-
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     {product.tags.join(", ")}
                   </td>
@@ -153,6 +174,15 @@ export default async function OrdersPage({ searchParams }: Props) {
                   <p className="text-sm text-gray-600">
                     {CurrencyFormat(product.price)}
                   </p>
+                  {product.discount > 0 && (
+                    <p className="text-sm text-red-500">
+                      -{product.discount}% (
+                      {CurrencyFormat(
+                        product.price - (product.price * product.discount) / 100
+                      )}
+                      )
+                    </p>
+                  )}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
