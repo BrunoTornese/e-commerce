@@ -3,22 +3,28 @@ export const revalidate = 0;
 import { getPaginatedProductsWithImages } from "@/app/actions";
 import { Pagination, ProductImage, Title } from "@/components";
 import { CurrencyFormat } from "@/utils";
-
 import Link from "next/link";
 
 interface Props {
   searchParams: {
     page?: string;
     sort?: "asc" | "desc";
+    discount?: "desc";
   };
 }
 
 export default async function OrdersPage({ searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const sortOrder = searchParams.sort === "desc" ? "desc" : "asc";
+  const discountOrder = searchParams.discount === "desc" ? "desc" : undefined;
 
   const { products, currentPage, totalPages } =
-    await getPaginatedProductsWithImages({ page, tags: [], sort: sortOrder });
+    await getPaginatedProductsWithImages({
+      page,
+      tags: [],
+      sort: sortOrder,
+      discount: discountOrder,
+    });
 
   const nextSortOrder = sortOrder === "asc" ? "desc" : "asc";
 
@@ -37,7 +43,7 @@ export default async function OrdersPage({ searchParams }: Props) {
         <Link href="/admin/product/new" className="btn-primary">
           New Product
         </Link>
-        {(searchParams.sort || searchParams.page) && (
+        {(searchParams.sort || searchParams.page || searchParams.discount) && (
           <Link
             href="/admin/products"
             className="btn-primary ml-4"
@@ -69,16 +75,44 @@ export default async function OrdersPage({ searchParams }: Props) {
                   scope="col"
                   className="text-sm font-medium text-gray-900 px-6 py-4 text-left cursor-pointer select-none"
                 >
-                  <Link href={getSortLink()}>
+                  <Link
+                    href={{
+                      pathname: "/admin/products",
+                      query: {
+                        ...searchParams,
+                        sort:
+                          searchParams.sort === nextSortOrder
+                            ? undefined
+                            : nextSortOrder,
+                        discount: undefined,
+                        page: 1,
+                      },
+                    }}
+                  >
                     Price
-                    {sortOrder === "asc" ? " ▲" : " ▼"}
+                    {searchParams.sort === "asc" && " ▲"}
+                    {searchParams.sort === "desc" && " ▼"}
                   </Link>
                 </th>
                 <th
                   scope="col"
-                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left cursor-pointer select-none"
                 >
-                  Discount
+                  <Link
+                    href={{
+                      pathname: "/admin/products",
+                      query: {
+                        ...searchParams,
+                        discount:
+                          searchParams.discount === "desc" ? undefined : "desc",
+                        sort: undefined, 
+                        page: 1,
+                      },
+                    }}
+                  >
+                    Discount
+                    {searchParams.discount === "desc" && <span> ▼</span>}
+                  </Link>
                 </th>
                 <th
                   scope="col"

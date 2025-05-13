@@ -9,6 +9,7 @@ interface PaginationOptions {
   gender?: Gender;
   tags: string[];
   sort?: "asc" | "desc";
+  discount?: "desc";
 }
 
 export const getPaginatedProductsWithImages = async ({
@@ -17,6 +18,7 @@ export const getPaginatedProductsWithImages = async ({
   gender,
   tags = [],
   sort = "asc",
+  discount,
 }: PaginationOptions) => {
   if (isNaN(Number(page))) page = 1;
   if (page < 1) page = 1;
@@ -46,6 +48,14 @@ export const getPaginatedProductsWithImages = async ({
       page = 1;
     }
 
+    const orderBy =
+      discount === "desc"
+        ? [
+            { discount: "desc" as const },
+            { price: sort === "desc" ? ("desc" as const) : ("asc" as const) },
+          ]
+        : { price: sort === "desc" ? ("desc" as const) : ("asc" as const) };
+
     const products = await prisma.product.findMany({
       take: take,
       skip: (page - 1) * take,
@@ -58,9 +68,7 @@ export const getPaginatedProductsWithImages = async ({
         },
       },
       where: whereConditions,
-      orderBy: {
-        price: sort === "desc" ? "desc" : "asc",
-      },
+      orderBy,
     });
 
     return {
