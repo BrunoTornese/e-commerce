@@ -8,6 +8,7 @@ interface PaginationOptions {
   take?: number;
   gender?: Gender;
   tags: string[];
+  sort?: "asc" | "desc";
 }
 
 export const getPaginatedProductsWithImages = async ({
@@ -15,6 +16,7 @@ export const getPaginatedProductsWithImages = async ({
   take = 12,
   gender,
   tags = [],
+  sort = "asc",
 }: PaginationOptions) => {
   if (isNaN(Number(page))) page = 1;
   if (page < 1) page = 1;
@@ -56,6 +58,9 @@ export const getPaginatedProductsWithImages = async ({
         },
       },
       where: whereConditions,
+      orderBy: {
+        price: sort === "desc" ? "desc" : "asc",
+      },
     });
 
     return {

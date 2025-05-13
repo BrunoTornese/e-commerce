@@ -9,23 +9,43 @@ import Link from "next/link";
 interface Props {
   searchParams: {
     page?: string;
+    sort?: "asc" | "desc";
   };
 }
 
 export default async function OrdersPage({ searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const sortOrder = searchParams.sort === "desc" ? "desc" : "asc";
 
   const { products, currentPage, totalPages } =
-    await getPaginatedProductsWithImages({ page, tags: [] });
+    await getPaginatedProductsWithImages({ page, tags: [], sort: sortOrder });
+
+  const nextSortOrder = sortOrder === "asc" ? "desc" : "asc";
+
+  const getSortLink = () => {
+    const params = new URLSearchParams();
+    params.set("page", page.toString());
+    params.set("sort", nextSortOrder);
+    return `?${params.toString()}`;
+  };
 
   return (
     <>
       <Title title="All Products" />
 
-      <div className="flex justify-end mb-5">
+      <div className="flex justify-between items-center mb-5">
         <Link href="/admin/product/new" className="btn-primary">
           New Product
         </Link>
+        {(searchParams.sort || searchParams.page) && (
+          <Link
+            href="/admin/products"
+            className="btn-primary ml-4"
+            prefetch={false}
+          >
+            Clear filters
+          </Link>
+        )}
       </div>
 
       <div className="mb-10">
@@ -47,9 +67,12 @@ export default async function OrdersPage({ searchParams }: Props) {
                 </th>
                 <th
                   scope="col"
-                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+                  className="text-sm font-medium text-gray-900 px-6 py-4 text-left cursor-pointer select-none"
                 >
-                  Price
+                  <Link href={getSortLink()}>
+                    Price
+                    {sortOrder === "asc" ? " ▲" : " ▼"}
+                  </Link>
                 </th>
                 <th
                   scope="col"
