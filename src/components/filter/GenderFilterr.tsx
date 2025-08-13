@@ -31,7 +31,7 @@ export const GenderFilter = ({
 
   return (
     <div className="mb-6">
-      <div className="text-sm font-medium text-gray-700 mb-3">
+      <div className="text-sm font-semibold text-gray-700 mb-4">
         Filter by Gender
       </div>
       <div className="flex flex-wrap gap-3">
@@ -39,11 +39,12 @@ export const GenderFilter = ({
           <button
             key={gender}
             onClick={() => handleGenderClick(gender)}
-            className={`${
-              selectedGender === gender
-                ? "bg-blue-800 text-white"
-                : "bg-gray-200 text-gray-800"
-            } py-2 px-4 rounded-full text-sm font-medium hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-800 focus:ring-opacity-50 transition-all duration-200`}
+            className={`py-2 px-5 rounded-full text-sm font-medium shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-800
+              ${
+                selectedGender === gender
+                  ? "bg-blue-800 text-white hover:bg-blue-700"
+                  : "bg-gray-200 text-gray-800 hover:bg-blue-500"
+              }`}
           >
             {gender.charAt(0).toUpperCase() + gender.slice(1)}
           </button>

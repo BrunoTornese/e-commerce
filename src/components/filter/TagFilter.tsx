@@ -30,7 +30,7 @@ export const TagFilter = ({ tags, selectedTags, onTagChange }: Props) => {
 
   return (
     <div className="mb-6">
-      <div className="text-sm font-medium text-gray-700 mb-3">
+      <div className="text-sm font-semibold text-gray-700 mb-4">
         Filter by Tags
       </div>
       <div className="flex flex-wrap gap-3">
@@ -38,11 +38,12 @@ export const TagFilter = ({ tags, selectedTags, onTagChange }: Props) => {
           <button
             key={tag}
             onClick={() => handleTagClick(tag)}
-            className={`${
-              selectedTags.includes(tag)
-                ? "bg-blue-800 text-white"
-                : "bg-gray-200 text-gray-800"
-            } py-2 px-4 rounded-full text-sm font-medium hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200`}
+            className={`py-2 px-5 rounded-full text-sm font-medium shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-800
+              ${
+                selectedTags.includes(tag)
+                  ? "bg-blue-800 text-white hover:bg-blue-700"
+                  : "bg-gray-200 text-gray-800 hover:bg-blue-500"
+              }`}
           >
             {tag}
           </button>

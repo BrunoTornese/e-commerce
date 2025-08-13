@@ -39,18 +39,22 @@ export const ProductFilter = ({
   };
 
   return (
-    <div>
-      <GenderFilter
-        genders={genders}
-        selectedGender={selectedGenderState}
-        onGenderChange={handleGenderChange}
-      />
+    <div className="space-y-6">
+      <div className="bg-white p-4 rounded-lg shadow-sm space-y-4 md:space-y-0 md:flex md:items-center md:gap-6">
+        <GenderFilter
+          genders={genders}
+          selectedGender={selectedGenderState}
+          onGenderChange={handleGenderChange}
+        />
 
-      <TagFilter
-        tags={tags}
-        selectedTags={currentSelectedTags}
-        onTagChange={handleTagChange}
-      />
+        <div className="flex-1 justify-end md:flex md:justify-end">
+          <TagFilter
+            tags={tags}
+            selectedTags={currentSelectedTags}
+            onTagChange={handleTagChange}
+          />
+        </div>
+      </div>
 
       <ProductGrid products={products} />
     </div>
