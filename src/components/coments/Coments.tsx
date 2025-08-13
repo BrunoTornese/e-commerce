@@ -44,38 +44,34 @@ export const Comments = ({ comments = [], currentUserId }: CommentsProps) => {
   const isAdmin = session?.user?.role === "admin";
 
   return (
-    <div className="p-8 bg-gradient-to-br from-indigo-200 to-indigo-300 rounded-2xl shadow-2xl space-y-8 overflow-x-hidden">
-      {comments === null || comments === undefined ? (
-        <div className="text-center text-gray-500">
-          <p>No comments available yet.</p>
-        </div>
-      ) : comments.length === 0 ? (
+    <div className="space-y-8">
+      {(comments ?? []).length === 0 ? (
         <div className="text-center text-gray-500">
           <p>No comments available yet.</p>
         </div>
       ) : (
-        comments.map((comment) => (
+        (comments ?? []).map((comment) => (
           <div
             key={comment.id}
-            className="p-6 bg-white rounded-xl border-2 border-gray-400 shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
+            className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
           >
-            <div className="flex justify-between items-center">
-              <h3 className="font-semibold text-xl text-gray-800 tracking-tight">
-                {comment.userName}
-              </h3>
-
-              <span className="text-sm text-gray-500">
-                {comment.createdAt
-                  ? new Date(comment.createdAt).toLocaleDateString()
-                  : "No date available"}
-              </span>
+            <div className="flex items-center space-x-4">
+              <div className="w-10 h-10 rounded-full bg-gray-300"></div>
+              <div>
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {comment.userName}
+                </h3>
+                <span className="text-sm text-gray-500">
+                  {new Date(comment.createdAt).toLocaleDateString()}
+                </span>
+              </div>
             </div>
-            <p className="mt-3 text-gray-700">{comment.content}</p>{" "}
+            <p className="mt-4 text-gray-700">{comment.content}</p>
             {session?.user && (currentUserId === comment.userId || isAdmin) && (
               <button
                 onClick={() => handleDelete(comment.id)}
                 disabled={isDeleting}
-                className="mt-3 text-red-500 hover:text-red-600 transition-all duration-200 ease-in-out transform hover:scale-105"
+                className="mt-3 text-red-500 hover:text-red-600 transition-all duration-200 ease-in-out"
               >
                 {isDeleting ? "Deleting..." : "Delete"}
               </button>
