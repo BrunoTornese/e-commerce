@@ -50,24 +50,22 @@ export default async function ProductBySlugPage({ params }: Props) {
   const session = await auth();
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center bg-gradient-to-b from-white to-gray-50 py-8 px-0 sm:px-6 overflow-x-hidden">
+    <div className="mt-3 w-full min-h-screen flex flex-col items-center bg-gradient-to-b from-white to-gray-50 py-8 px-0 sm:px-6 overflow-x-hidden">
       <div className="w-full max-w-6xl flex flex-col md:flex-row gap-10 bg-white rounded-3xl shadow-lg p-0 sm:p-6 border border-gray-100 overflow-hidden">
-        {/* Slideshow */}
         <div className="w-full md:w-1/2 flex justify-center items-start">
-          {/* Mobile */}
           <ProductMobileSlideshow
             title={product.title}
             images={product.images}
             classname="block md:hidden w-full"
           />
-          {/* Desktop */}
+
           <ProductSlideshow
             title={product.title}
             images={product.images}
             classname="hidden md:block w-full"
           />
         </div>
-        {/* Info */}
+
         <div className="w-full md:w-1/2 flex flex-col justify-between gap-6 p-4 sm:p-8">
           <div className="flex items-center space-x-3 mt-1 mb-3">
             {session?.user?.id ? (
